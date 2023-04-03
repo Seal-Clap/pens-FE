@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+
 struct ResisterView: View {
     @State var nameInput : String = ""
     @State var emailInput : String = ""
@@ -31,7 +32,7 @@ struct ResisterView: View {
                 //button
                 Section{
                     Button(action: {
-                        print("회원가입 버튼")
+                        register(email: emailInput, pwd: pwdInput, name: nameInput) //함수 호출
                     }, label: {
                         Text("회원가입")
                     })
@@ -39,6 +40,7 @@ struct ResisterView: View {
             }
         }.navigationTitle("Sign Up")
     }
+    
 }
 
 struct ResisterView_Previews: PreviewProvider {
