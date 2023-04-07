@@ -14,6 +14,8 @@
 		18A92A1B29BF0918009820F6 /* pens_Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18A92A1A29BF0918009820F6 /* pens_Tests.swift */; };
 		18A92A2529BF0918009820F6 /* pens_UITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18A92A2429BF0918009820F6 /* pens_UITests.swift */; };
 		18A92A2729BF0918009820F6 /* pens_UITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18A92A2629BF0918009820F6 /* pens_UITestsLaunchTests.swift */; };
+		BC95CFD429D6DFBC00AE3037 /* APIContants.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC95CFD329D6DFBC00AE3037 /* APIContants.swift */; };
+		BC95CFD829D6E81900AE3037 /* Register.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC95CFD729D6E81900AE3037 /* Register.swift */; };
 		BCE32D2B29CD7DC40096F899 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCE32D2A29CD7DC40096F899 /* LoginView.swift */; };
 		BCE32D2D29CD81000096F899 /* ResisterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCE32D2C29CD81000096F899 /* ResisterView.swift */; };
 /* End PBXBuildFile section */
@@ -46,6 +48,9 @@
 		18A92A2029BF0918009820F6 /* pens'UITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "pens'UITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		18A92A2429BF0918009820F6 /* pens_UITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = pens_UITests.swift; sourceTree = "<group>"; };
 		18A92A2629BF0918009820F6 /* pens_UITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = pens_UITestsLaunchTests.swift; sourceTree = "<group>"; };
+		BC95CFD329D6DFBC00AE3037 /* APIContants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIContants.swift; sourceTree = "<group>"; };
+		BC95CFD529D6E28A00AE3037 /* pens--Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "pens--Info.plist"; sourceTree = SOURCE_ROOT; };
+		BC95CFD729D6E81900AE3037 /* Register.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Register.swift; sourceTree = "<group>"; };
 		BCE32D2A29CD7DC40096F899 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		BCE32D2C29CD81000096F899 /* ResisterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResisterView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -98,6 +103,9 @@
 		18A92A0829BF0917009820F6 /* pens' */ = {
 			isa = PBXGroup;
 			children = (
+				BC95CFD629D6E80600AE3037 /* Method */,
+				BC95CFD529D6E28A00AE3037 /* pens--Info.plist */,
+				BC95CFD229D6DF8300AE3037 /* API */,
 				BCE32D2929CD7CFA0096F899 /* View */,
 				18A92A0929BF0917009820F6 /* pens_App.swift */,
 				18A92A0D29BF0918009820F6 /* Assets.xcassets */,
@@ -129,6 +137,22 @@
 				18A92A2629BF0918009820F6 /* pens_UITestsLaunchTests.swift */,
 			);
 			path = "pens'UITests";
+			sourceTree = "<group>";
+		};
+		BC95CFD229D6DF8300AE3037 /* API */ = {
+			isa = PBXGroup;
+			children = (
+				BC95CFD329D6DFBC00AE3037 /* APIContants.swift */,
+			);
+			path = API;
+			sourceTree = "<group>";
+		};
+		BC95CFD629D6E80600AE3037 /* Method */ = {
+			isa = PBXGroup;
+			children = (
+				BC95CFD729D6E81900AE3037 /* Register.swift */,
+			);
+			path = Method;
 			sourceTree = "<group>";
 		};
 		BCE32D2929CD7CFA0096F899 /* View */ = {
@@ -271,7 +295,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BC95CFD829D6E81900AE3037 /* Register.swift in Sources */,
 				BCE32D2B29CD7DC40096F899 /* LoginView.swift in Sources */,
+				BC95CFD429D6DFBC00AE3037 /* APIContants.swift in Sources */,
 				BCE32D2D29CD81000096F899 /* ResisterView.swift in Sources */,
 				18A92A0C29BF0917009820F6 /* ContentView.swift in Sources */,
 				18A92A0A29BF0917009820F6 /* pens_App.swift in Sources */,
@@ -436,6 +462,7 @@
 				DEVELOPMENT_TEAM = LV8N2952A2;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "pens--Info.plist";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -469,6 +496,7 @@
 				DEVELOPMENT_TEAM = LV8N2952A2;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "pens--Info.plist";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;

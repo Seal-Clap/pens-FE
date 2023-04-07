@@ -28,7 +28,7 @@ struct ContentView: View {
                     .padding()
                     .background(Color.black)
                     .foregroundColor(.white)
-                    .clipShape(RoundedRectangle(cornerRadius: 6))
+                    .clipShape(RoundedRectangle(cornerRadius: 12))
                     .frame(width: 250)
                 }).padding()
                 //singup
@@ -41,7 +41,7 @@ struct ContentView: View {
                     .padding()
                     .background(Color.gray)
                     .foregroundColor(.white)
-                    .clipShape(RoundedRectangle(cornerRadius: 6))
+                    .clipShape(RoundedRectangle(cornerRadius: 12))
                     .frame(width: 250)
                 })
             }
