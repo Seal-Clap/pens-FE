@@ -11,27 +11,39 @@ struct LoginView: View {
     
     @State var emailInput : String = ""
     @State var pwdInput : String = ""
-    
-    var body: some View {
-        VStack{
-            Form{
-                Section(header: Text("로그인 정보"), content:{
-                    //email
-                    TextField("email@email.com", text: $emailInput).keyboardType(.emailAddress).autocapitalization(.none)
-                    //password
-                    SecureField("password", text: $pwdInput).keyboardType(.default)
-                })
-                Section{
-                    Button(action: {
-                        print("로그인 버튼")
-                    }, label: {
-                        Text("로그인")
-                    })
-                }
-            }
-        }.navigationTitle("Sign In")
-    }
-}
+    @State private var showAlert = false
+       @State private var alertMessage = ""
+       
+       var body: some View {
+           VStack{
+               Form{
+                   Section(header: Text("로그인 정보"), content:{
+                       TextField("email@email.com", text: $emailInput).keyboardType(.emailAddress).autocapitalization(.none)
+                       SecureField("password", text: $pwdInput).keyboardType(.default)
+                   })
+                   Section{
+                       Button(action: {
+                           login(email: emailInput, password: pwdInput) { success, message in
+                               DispatchQueue.main.async {
+                                   if success {
+                                       print("로그인 성공")
+                                   } else {
+                                       self.alertMessage = message
+                                       self.showAlert = true
+                                   }
+                               }
+                           }
+                       }, label: {
+                           Text("로그인")
+                       }).alert(isPresented: $showAlert) {
+                           Alert(title: Text("로그인 실패"), message: Text(alertMessage), dismissButton: .default(Text("확인")))
+                       }
+                   }
+               }
+           }.navigationTitle("Sign In")
+       }
+   }
+
 #if DEBUG
 struct LoginView_Previews: PreviewProvider {
     static var previews: some View {
