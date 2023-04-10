@@ -14,6 +14,7 @@
 		18A92A1B29BF0918009820F6 /* pens_Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18A92A1A29BF0918009820F6 /* pens_Tests.swift */; };
 		18A92A2529BF0918009820F6 /* pens_UITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18A92A2429BF0918009820F6 /* pens_UITests.swift */; };
 		18A92A2729BF0918009820F6 /* pens_UITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18A92A2629BF0918009820F6 /* pens_UITestsLaunchTests.swift */; };
+		BC5B927E29E2CDFE00F52228 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC5B927D29E2CDFE00F52228 /* HomeView.swift */; };
 		BC95CFD429D6DFBC00AE3037 /* APIContants.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC95CFD329D6DFBC00AE3037 /* APIContants.swift */; };
 		BC95CFD829D6E81900AE3037 /* Register.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC95CFD729D6E81900AE3037 /* Register.swift */; };
 		BCE32D2B29CD7DC40096F899 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCE32D2A29CD7DC40096F899 /* LoginView.swift */; };
@@ -48,6 +49,7 @@
 		18A92A2029BF0918009820F6 /* pens'UITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "pens'UITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		18A92A2429BF0918009820F6 /* pens_UITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = pens_UITests.swift; sourceTree = "<group>"; };
 		18A92A2629BF0918009820F6 /* pens_UITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = pens_UITestsLaunchTests.swift; sourceTree = "<group>"; };
+		BC5B927D29E2CDFE00F52228 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 		BC95CFD329D6DFBC00AE3037 /* APIContants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIContants.swift; sourceTree = "<group>"; };
 		BC95CFD529D6E28A00AE3037 /* pens--Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "pens--Info.plist"; sourceTree = SOURCE_ROOT; };
 		BC95CFD729D6E81900AE3037 /* Register.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Register.swift; sourceTree = "<group>"; };
@@ -161,6 +163,7 @@
 				18A92A0B29BF0917009820F6 /* ContentView.swift */,
 				BCE32D2A29CD7DC40096F899 /* LoginView.swift */,
 				BCE32D2C29CD81000096F899 /* ResisterView.swift */,
+				BC5B927D29E2CDFE00F52228 /* HomeView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -296,6 +299,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				BC95CFD829D6E81900AE3037 /* Register.swift in Sources */,
+				BC5B927E29E2CDFE00F52228 /* HomeView.swift in Sources */,
 				BCE32D2B29CD7DC40096F899 /* LoginView.swift in Sources */,
 				BC95CFD429D6DFBC00AE3037 /* APIContants.swift in Sources */,
 				BCE32D2D29CD81000096F899 /* ResisterView.swift in Sources */,
