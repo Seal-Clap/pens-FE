@@ -19,6 +19,7 @@
 		BC95CFD829D6E81900AE3037 /* Register.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC95CFD729D6E81900AE3037 /* Register.swift */; };
 		BCE32D2B29CD7DC40096F899 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCE32D2A29CD7DC40096F899 /* LoginView.swift */; };
 		BCE32D2D29CD81000096F899 /* ResisterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCE32D2C29CD81000096F899 /* ResisterView.swift */; };
+		FD1C79CA29E397930055F52C /* Login.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD1C79C929E397930055F52C /* Login.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -55,6 +56,7 @@
 		BC95CFD729D6E81900AE3037 /* Register.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Register.swift; sourceTree = "<group>"; };
 		BCE32D2A29CD7DC40096F899 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		BCE32D2C29CD81000096F899 /* ResisterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResisterView.swift; sourceTree = "<group>"; };
+		FD1C79C929E397930055F52C /* Login.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Login.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -153,6 +155,7 @@
 			isa = PBXGroup;
 			children = (
 				BC95CFD729D6E81900AE3037 /* Register.swift */,
+				FD1C79C929E397930055F52C /* Login.swift */,
 			);
 			path = Method;
 			sourceTree = "<group>";
@@ -298,6 +301,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FD1C79CA29E397930055F52C /* Login.swift in Sources */,
 				BC95CFD829D6E81900AE3037 /* Register.swift in Sources */,
 				BC5B927E29E2CDFE00F52228 /* HomeView.swift in Sources */,
 				BCE32D2B29CD7DC40096F899 /* LoginView.swift in Sources */,
