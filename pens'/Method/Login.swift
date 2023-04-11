@@ -8,8 +8,8 @@
 import Foundation
 
 struct LoginRequest: Codable {
-    let email: String
-    let password: String
+    let userEmail: String
+    let userPassword: String
 }
 
 struct LoginResponse: Codable {
@@ -23,7 +23,7 @@ func login(email: String, password: String, completion: @escaping (Bool, String)
         return
     }
     
-    let loginData = LoginRequest(email: email, password: password)
+    let loginData = LoginRequest(userEmail: email, userPassword: password)
     guard let httpBody = try? JSONEncoder().encode(loginData) else {
         completion(false, "Error encoding data")
         return

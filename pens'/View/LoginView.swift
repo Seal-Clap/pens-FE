@@ -9,10 +9,12 @@ import SwiftUI
 
 struct LoginView: View {
     
+    @Binding var loginState: Bool
+    
     @State var emailInput : String = ""
     @State var pwdInput : String = ""
     @State private var showAlert = false
-       @State private var alertMessage = ""
+    @State private var alertMessage = ""
        
        var body: some View {
            VStack{
@@ -27,6 +29,7 @@ struct LoginView: View {
                                DispatchQueue.main.async {
                                    if success {
                                        print("로그인 성공")
+                                       loginState = true
                                    } else {
                                        self.alertMessage = message
                                        self.showAlert = true
@@ -46,8 +49,10 @@ struct LoginView: View {
 
 #if DEBUG
 struct LoginView_Previews: PreviewProvider {
+    @State static private var loginState: Bool = false
+    
     static var previews: some View {
-        LoginView()
+        LoginView(loginState: $loginState)
     }
 }
 #endif
