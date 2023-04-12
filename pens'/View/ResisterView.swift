@@ -32,7 +32,7 @@ struct ResisterView: View {
                 //button
                 Section{
                     Button(action: {
-                        register(email: emailInput, pwd: pwdInput, name: nameInput) //함수 호출
+                        register(email: emailInput, pwd: pwdInput, name: nameInput)//함수 호출
                     }, label: {
                         Text("회원가입")
                     })

@@ -40,5 +40,4 @@ func register(email: String, pwd: String, name: String){
             return
         }
     }.resume()
-    
 }
