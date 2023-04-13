@@ -15,8 +15,12 @@ struct HomeView: View {
                     .navigationSplitViewColumnWidth(400)
             }
             content: {
-                Color.gray
-                Text("Content").navigationSplitViewColumnWidth(150)
+                
+                List {
+                    Text("Group")
+                    Text("temp")
+                }
+                .navigationSplitViewColumnWidth(150)
             }
             detail: {
                 Text("Detail")
