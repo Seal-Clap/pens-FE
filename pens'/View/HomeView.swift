@@ -14,14 +14,14 @@ struct HomeView: View {
                     HStack{
                         Text("Group List").font(.title)
                         
-                    }.padding(.top, -50)
+                    }
                     Divider()
                     List {
                         HStack{
                             Image(systemName: "person.circle")
                                 .font(.system(size: 40))
                                 .padding(.leading)
-                            Text("사용자").font(.title3)
+                            Text("사용자").font(.title2)
                         }
                     }
                     .navigationSplitViewColumnWidth(150)
@@ -29,17 +29,23 @@ struct HomeView: View {
                 }
             }
             content: {
-                HStack{
+                VStack{
                     Text("그룹 이름")
                         .font(.title)
-                        .padding(.leading, 60)
-                    Spacer()
-                    Button(action: {}, label: {Text("초대")})
-                        .padding(.leading, -55)
-                }.padding(.top, -40)
+                        .padding(.leading)
+                    Button(action: {}) {
+                            Text("초대")
+                                .font(.title2)
+                                .padding()
+                                .foregroundColor(.white)
+                                .frame(width: 200, height: 50)
+                            }.background(RoundedRectangle(cornerRadius: 8).fill(Color.gray))
+                            .padding()
+                }
+                
+                Spacer()
                 VStack{
-                    Divider()
-                    Spacer()
+                    
                 }.navigationSplitViewColumnWidth(250)
             }
             detail: {
