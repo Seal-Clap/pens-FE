@@ -4,16 +4,16 @@
 //
 //  Created by 박상준 on 2023/04/09.
 //
-
 import SwiftUI
 
 struct HomeView: View {
+    @State private var showInviteGroupMember = false
+    @State private var showAddGroup = false
     var body: some View {
-            NavigationSplitView {
+            NavigationSplitView{
                 VStack{
                     HStack{
                         Text("Group List").font(.title)
-                        
                     }
                     Divider()
                     List {
@@ -25,7 +25,9 @@ struct HomeView: View {
                         }
                     }
                     .navigationSplitViewColumnWidth(150)
-                    Button(action: {}, label: {Text("사용자 추가").font(.title2)})
+                    Button(action: {
+                        showAddGroup = true
+                    }, label: {Text("그룹 추가").font(.title2)})
                 }
             }
             content: {
@@ -33,7 +35,9 @@ struct HomeView: View {
                     Text("그룹 이름")
                         .font(.title)
                         .padding(.leading)
-                    Button(action: {}) {
+                    Button(action: {
+                        showInviteGroupMember = true
+                    }) {
                             Text("초대")
                                 .font(.title2)
                                 .padding()
@@ -42,7 +46,6 @@ struct HomeView: View {
                             }.background(RoundedRectangle(cornerRadius: 8).fill(Color.gray))
                             .padding()
                 }
-                
                 Spacer()
                 VStack{
                     
@@ -50,10 +53,19 @@ struct HomeView: View {
             }
             detail: {
                 Text("Detail")
-            }
-    }
-}
+            }.overlay(
+                Group{
+                    if showInviteGroupMember{
+                        InviteGroupMemberView(isPresented:  $showInviteGroupMember)
+                    }
+                    if showAddGroup{
+                        AddGroupView(isPresented: $showAddGroup)
+                    }
+                }
+            )
 
+    }
+}
 struct HomeView_Previews: PreviewProvider {
     static var previews: some View {
         HomeView()

@@ -25,10 +25,13 @@ struct LoginView: View {
                    })
                    Section{
                        Button(action: {
-                           login(email: emailInput, password: pwdInput) { success, message in
+                           login(email: emailInput, password: pwdInput) { success, message, token in
                                DispatchQueue.main.async {
                                    if success {
-                                       print("로그인 성공")
+                                       if let token = token {
+                                           saveToken(token)
+                                           print("Token saved: \(token)")
+                                        }
                                        loginState = true
                                    } else {
                                        self.alertMessage = message
