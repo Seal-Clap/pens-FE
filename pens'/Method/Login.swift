@@ -12,10 +12,16 @@ struct LoginRequest: Codable {
     let userPassword: String
 }
 
+enum LoginError: String, Codable {
+    case invalidEmail = "INVALID_EMAIL"
+    case invalidPassword = "INVALID_PASSWORD"
+}
+
 struct LoginResponse: Codable {
     let success: Bool
     let message: String
     let token :  String?
+    let error: LoginError?
 }
 
 func login(email: String, password: String, completion: @escaping (Bool, String, String?) -> Void) {
@@ -45,6 +51,16 @@ func login(email: String, password: String, completion: @escaping (Bool, String,
             let loginResponse = try JSONDecoder().decode(LoginResponse.self, from: data)
             completion(loginResponse.success, loginResponse.message, loginResponse.token)
             print(loginResponse.message)
+            if let error = loginResponse.error {
+                switch error {
+                case .invalidEmail:
+                    completion(false, "등록된 이메일이 없습니다.", nil)
+                case .invalidPassword:
+                    completion(false, "이메일과 비밀번호가 일치하지 않습니다.", nil)
+                }
+            } else {
+                completion(loginResponse.success, loginResponse.message, loginResponse.token)
+            }
         } catch {
             completion(false, "Error decoding response", nil)
         }
