@@ -17,4 +17,7 @@ func saveToken(_ token: String) {
 func getToken() -> String? {
     return UserDefaults.standard.string(forKey: "userToken")
 }
+func loadToken() -> String? {
+    return UserDefaults.standard.string(forKey: "userToken")
+}
 

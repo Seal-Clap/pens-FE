@@ -6,7 +6,7 @@
 //
 
 import Foundation
-
+import SwiftUI
 
 struct LoginRequest: Codable {
     let userEmail: String
@@ -101,24 +101,25 @@ func tokenLogin(token: String, completion: @escaping (Bool, String) -> Void) {
     task.resume()
 }
 //토큰 확인 -> contentView에서 먼저 확인하여 토큰 로그인 여부 확인해야함
-func checkTokenAndLogin(loginState: Bool) {
+func checkTokenAndLogin(completion: @escaping (Bool?) -> Void){
     
     if let token = getToken() {
         tokenLogin(token: token) { success, message in
             if success {
                 // 토큰 로그인 성공 시 처리
                 print("토큰 로그인 성공: \(message)")
+                completion(true)
             } else {
                 // 토큰 로그인 실패 시 처리
                 print("토큰 로그인 실패: \(message)")
                 //로그인 state처리
-            
+                completion(false)
             }
         }
     } else {
         // 저장된 토큰이 없을 경우 로그인 화면 표시
         //로그인 state처리
-        
+        completion(false)
     }
 }
 
