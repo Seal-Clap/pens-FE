@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct AuthNavigationView: View {
-    @Binding var loginState: Bool
+    @Binding var loginState: Bool?
     
     var body: some View {
         NavigationView {
