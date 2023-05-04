@@ -24,6 +24,10 @@
 		BCE32D2B29CD7DC40096F899 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCE32D2A29CD7DC40096F899 /* LoginView.swift */; };
 		BCE32D2D29CD81000096F899 /* ResisterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCE32D2C29CD81000096F899 /* ResisterView.swift */; };
 		FD1C79CA29E397930055F52C /* Login.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD1C79C929E397930055F52C /* Login.swift */; };
+		FD290E682A001DF600CD2835 /* GroupCreate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD290E672A001DF600CD2835 /* GroupCreate.swift */; };
+		FD290E6A2A00306800CD2835 /* GroupUserDeleteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD290E692A00306800CD2835 /* GroupUserDeleteView.swift */; };
+		FD290E6C2A00344100CD2835 /* GroupDeleteUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD290E6B2A00344100CD2835 /* GroupDeleteUser.swift */; };
+		FD290E6E2A00364D00CD2835 /* GroupRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD290E6D2A00364D00CD2835 /* GroupRowView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -65,6 +69,10 @@
 		BCE32D2A29CD7DC40096F899 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		BCE32D2C29CD81000096F899 /* ResisterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResisterView.swift; sourceTree = "<group>"; };
 		FD1C79C929E397930055F52C /* Login.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Login.swift; sourceTree = "<group>"; };
+		FD290E672A001DF600CD2835 /* GroupCreate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupCreate.swift; sourceTree = "<group>"; };
+		FD290E692A00306800CD2835 /* GroupUserDeleteView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupUserDeleteView.swift; sourceTree = "<group>"; };
+		FD290E6B2A00344100CD2835 /* GroupDeleteUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupDeleteUser.swift; sourceTree = "<group>"; };
+		FD290E6D2A00364D00CD2835 /* GroupRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupRowView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -165,6 +173,8 @@
 				BC95CFD729D6E81900AE3037 /* Register.swift */,
 				FD1C79C929E397930055F52C /* Login.swift */,
 				BC74703729EBB7FD003C541C /* LoginToken.swift */,
+				FD290E672A001DF600CD2835 /* GroupCreate.swift */,
+				FD290E6B2A00344100CD2835 /* GroupDeleteUser.swift */,
 			);
 			path = Method;
 			sourceTree = "<group>";
@@ -179,6 +189,8 @@
 				05EE4B2629E545E50088B6AF /* AuthNavigationView.swift */,
 				BC74703B29EBC81F003C541C /* InviteGroupMemberView.swift */,
 				BC74703D29EBDA07003C541C /* AddGroupView.swift */,
+				FD290E692A00306800CD2835 /* GroupUserDeleteView.swift */,
+				FD290E6D2A00364D00CD2835 /* GroupRowView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -321,9 +333,13 @@
 				BCE32D2D29CD81000096F899 /* ResisterView.swift in Sources */,
 				BC74703E29EBDA07003C541C /* AddGroupView.swift in Sources */,
 				18A92A0C29BF0917009820F6 /* ContentView.swift in Sources */,
+				FD290E6A2A00306800CD2835 /* GroupUserDeleteView.swift in Sources */,
+				FD290E682A001DF600CD2835 /* GroupCreate.swift in Sources */,
 				18A92A0A29BF0917009820F6 /* pens_App.swift in Sources */,
 				05EE4B2729E545E50088B6AF /* AuthNavigationView.swift in Sources */,
 				BC74703829EBB7FD003C541C /* LoginToken.swift in Sources */,
+				FD290E6E2A00364D00CD2835 /* GroupRowView.swift in Sources */,
+				FD290E6C2A00344100CD2835 /* GroupDeleteUser.swift in Sources */,
 				BC74703C29EBC81F003C541C /* InviteGroupMemberView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

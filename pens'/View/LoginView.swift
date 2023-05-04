@@ -9,7 +9,7 @@ import SwiftUI
 
 struct LoginView: View {
     
-    @Binding var loginState: Bool
+    @Binding var loginState: Bool?
     
     @State var emailInput : String = ""
     @State var pwdInput : String = ""
@@ -63,7 +63,7 @@ struct LoginView: View {
 
 #if DEBUG
 struct LoginView_Previews: PreviewProvider {
-    @State static private var loginState: Bool = false
+    @State static private var loginState: Bool? = false
     
     static var previews: some View {
         LoginView(loginState: $loginState)

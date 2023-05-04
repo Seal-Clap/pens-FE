@@ -8,12 +8,15 @@
 import SwiftUI
 
 struct ContentView: View {
-    @State private var loginState = false
+    @State public var loginState: Bool? = loadToken() != nil ? true : false
     var body: some View {
-        if !loginState {
-            AuthNavigationView(loginState: $loginState)
-        }
-        else {
+        if loginState == false {
+            AuthNavigationView(loginState: $loginState).onAppear {
+                checkTokenAndLogin { result in
+                    loginState = result
+                }
+            }
+        } else if loginState == true {
             HomeView()
         }
     }
