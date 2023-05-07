@@ -13,7 +13,7 @@ struct APIContants{
     //login
     static let loginURL = baseURL + "/users/login"
     //register
-    static let registerURL = baseURL + "/register"
+    static let registerURL = baseURL + "/users/register"
     //login token
     static let tokenURL = baseURL + "/users/identity"
     //group create 그룹 생성

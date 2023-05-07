@@ -9,6 +9,8 @@ import SwiftUI
 
 struct AuthNavigationView: View {
     @Binding var loginState: Bool?
+    @State private var isRegistered = false
+    @State private var showAlert = false
     
     var body: some View {
         NavigationView {
@@ -34,7 +36,7 @@ struct AuthNavigationView: View {
                     .frame(width: 250)
                 }).padding()
                 // singup
-                NavigationLink(destination: ResisterView(), label: {
+                NavigationLink(destination: ResisterView(isRegistered: $isRegistered, showAlert: $showAlert), label: {
                     HStack {
                         Spacer()
                         Text("회원가입")

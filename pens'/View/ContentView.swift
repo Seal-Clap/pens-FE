@@ -17,7 +17,7 @@ struct ContentView: View {
                 }
             }
         } else if loginState == true {
-            HomeView()
+            HomeView(loginState: $loginState)
         }
     }
 }

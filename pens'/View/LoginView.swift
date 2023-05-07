@@ -8,9 +8,7 @@ import Foundation
 import SwiftUI
 
 struct LoginView: View {
-    
     @Binding var loginState: Bool?
-    
     @State var emailInput : String = ""
     @State var pwdInput : String = ""
     @State private var showAlert = false

@@ -21,6 +21,7 @@
 		BC74703E29EBDA07003C541C /* AddGroupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC74703D29EBDA07003C541C /* AddGroupView.swift */; };
 		BC95CFD429D6DFBC00AE3037 /* APIContants.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC95CFD329D6DFBC00AE3037 /* APIContants.swift */; };
 		BC95CFD829D6E81900AE3037 /* Register.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC95CFD729D6E81900AE3037 /* Register.swift */; };
+		BCC985832A0795DB002A17E3 /* InviteGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCC985822A0795DB002A17E3 /* InviteGroup.swift */; };
 		BCE32D2B29CD7DC40096F899 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCE32D2A29CD7DC40096F899 /* LoginView.swift */; };
 		BCE32D2D29CD81000096F899 /* ResisterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCE32D2C29CD81000096F899 /* ResisterView.swift */; };
 		FD1C79CA29E397930055F52C /* Login.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD1C79C929E397930055F52C /* Login.swift */; };
@@ -66,6 +67,7 @@
 		BC95CFD329D6DFBC00AE3037 /* APIContants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIContants.swift; sourceTree = "<group>"; };
 		BC95CFD529D6E28A00AE3037 /* pens--Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "pens--Info.plist"; sourceTree = SOURCE_ROOT; };
 		BC95CFD729D6E81900AE3037 /* Register.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Register.swift; sourceTree = "<group>"; };
+		BCC985822A0795DB002A17E3 /* InviteGroup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InviteGroup.swift; sourceTree = "<group>"; };
 		BCE32D2A29CD7DC40096F899 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		BCE32D2C29CD81000096F899 /* ResisterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResisterView.swift; sourceTree = "<group>"; };
 		FD1C79C929E397930055F52C /* Login.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Login.swift; sourceTree = "<group>"; };
@@ -175,6 +177,7 @@
 				BC74703729EBB7FD003C541C /* LoginToken.swift */,
 				FD290E672A001DF600CD2835 /* GroupCreate.swift */,
 				FD290E6B2A00344100CD2835 /* GroupDeleteUser.swift */,
+				BCC985822A0795DB002A17E3 /* InviteGroup.swift */,
 			);
 			path = Method;
 			sourceTree = "<group>";
@@ -340,6 +343,7 @@
 				BC74703829EBB7FD003C541C /* LoginToken.swift in Sources */,
 				FD290E6E2A00364D00CD2835 /* GroupRowView.swift in Sources */,
 				FD290E6C2A00344100CD2835 /* GroupDeleteUser.swift in Sources */,
+				BCC985832A0795DB002A17E3 /* InviteGroup.swift in Sources */,
 				BC74703C29EBC81F003C541C /* InviteGroupMemberView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

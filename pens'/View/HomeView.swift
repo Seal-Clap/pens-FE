@@ -8,6 +8,9 @@
 import SwiftUI
 
 struct HomeView: View {
+    //로그아웃 위해
+    @Binding var loginState: Bool?
+    //그룹
     @StateObject var leaveGroup = LeaveGroup()
     @State private var showInviteGroupMember = false
     @State private var showAddGroup = false
@@ -52,7 +55,26 @@ struct HomeView: View {
                 }
                 .background(RoundedRectangle(cornerRadius: 8).fill(Color.gray))
                 .padding()
-                Spacer()
+                Divider()
+                List{
+                    VStack{
+                        Text("그룹_멤버").font(.title)
+                    }
+                }
+                Divider()
+                Button(action: {
+                    //로그아웃
+                    deleteToken()
+                    loginState = false
+                }) {
+                    Text("로그아웃")
+                        .font(.title3)
+                        .padding()
+                        .foregroundColor(.white)
+                        .frame(width: 150, height: 50)
+                }
+                .background(RoundedRectangle(cornerRadius: 8).fill(Color.gray))
+                .padding()
             }
             Text("Detail")
         }.overlay(
@@ -86,7 +108,8 @@ struct HomeView: View {
 }
 
 struct HomeView_Previews: PreviewProvider {
+    @State static private var loginState: Bool? = true
     static var previews: some View {
-        HomeView().environmentObject(LeaveGroup())
+        HomeView(loginState: $loginState).environmentObject(LeaveGroup())
     }
 }
