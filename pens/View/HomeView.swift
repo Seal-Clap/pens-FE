@@ -18,6 +18,9 @@ struct HomeView: View {
     @State private var grouplist: [String] = []
     //
     @State private var selectedGroupName: String = "not selected"
+    //
+    @State private var userId: Int? = nil
+
 
     var body: some View {
         NavigationView {
@@ -40,6 +43,10 @@ struct HomeView: View {
                 }, label: { Text("그룹 추가").font(.title2) })
             }
             VStack {
+                Text("User ID: \(userId ?? 0)")
+                    .onAppear {
+                    userId = getUserId()
+                }
                 Text(selectedGroupName)
                     .font(.title)
                     .padding(.leading)

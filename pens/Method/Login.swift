@@ -53,6 +53,7 @@ func login(email: String, password: String, completion: @escaping (Bool, String,
             let loginResponse = try JSONDecoder().decode(LoginResponse.self, from: data)
             let userId = loginResponse.userId
             print("+++++++++++++++++++++++ userId : \(userId) ++++++++++++++++++++++++++++++")
+            saveUserId(userId)
             completion(loginResponse.success, loginResponse.message, loginResponse.token)
             print(loginResponse.message)
             

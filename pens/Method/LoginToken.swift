@@ -10,7 +10,12 @@ import Foundation
 struct UserIdResponse: Codable {
     let userId: Int
 }
-
+func saveUserId(_ userId : Int){
+    UserDefaults.standard.set(userId, forKey: "userId")
+}
+func getUserId () -> Int? {
+    return UserDefaults.standard.integer(forKey: "userId")
+}
 func saveToken(_ token: String) {
     UserDefaults.standard.set(token, forKey: "userToken")
 }
