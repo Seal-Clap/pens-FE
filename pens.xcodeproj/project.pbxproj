@@ -50,14 +50,14 @@
 
 /* Begin PBXFileReference section */
 		05EE4B2629E545E50088B6AF /* AuthNavigationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthNavigationView.swift; sourceTree = "<group>"; };
-		18A92A0629BF0917009820F6 /* pens'.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "pens'.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		18A92A0629BF0917009820F6 /* pens.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = pens.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		18A92A0929BF0917009820F6 /* pens_App.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = pens_App.swift; sourceTree = "<group>"; };
 		18A92A0B29BF0917009820F6 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		18A92A0D29BF0918009820F6 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		18A92A1029BF0918009820F6 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
-		18A92A1629BF0918009820F6 /* pens'Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "pens'Tests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		18A92A1629BF0918009820F6 /* pensTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = pensTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		18A92A1A29BF0918009820F6 /* pens_Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = pens_Tests.swift; sourceTree = "<group>"; };
-		18A92A2029BF0918009820F6 /* pens'UITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "pens'UITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		18A92A2029BF0918009820F6 /* pensUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = pensUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		18A92A2429BF0918009820F6 /* pens_UITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = pens_UITests.swift; sourceTree = "<group>"; };
 		18A92A2629BF0918009820F6 /* pens_UITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = pens_UITestsLaunchTests.swift; sourceTree = "<group>"; };
 		BC5B927D29E2CDFE00F52228 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
@@ -105,7 +105,7 @@
 		18A929FD29BF0917009820F6 = {
 			isa = PBXGroup;
 			children = (
-				18A92A0829BF0917009820F6 /* pens' */,
+				18A92A0829BF0917009820F6 /* pens */,
 				18A92A1929BF0918009820F6 /* pens'Tests */,
 				18A92A2329BF0918009820F6 /* pens'UITests */,
 				18A92A0729BF0917009820F6 /* Products */,
@@ -115,14 +115,14 @@
 		18A92A0729BF0917009820F6 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				18A92A0629BF0917009820F6 /* pens'.app */,
-				18A92A1629BF0918009820F6 /* pens'Tests.xctest */,
-				18A92A2029BF0918009820F6 /* pens'UITests.xctest */,
+				18A92A0629BF0917009820F6 /* pens.app */,
+				18A92A1629BF0918009820F6 /* pensTests.xctest */,
+				18A92A2029BF0918009820F6 /* pensUITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		18A92A0829BF0917009820F6 /* pens' */ = {
+		18A92A0829BF0917009820F6 /* pens */ = {
 			isa = PBXGroup;
 			children = (
 				BC95CFD629D6E80600AE3037 /* Method */,
@@ -133,7 +133,7 @@
 				18A92A0D29BF0918009820F6 /* Assets.xcassets */,
 				18A92A0F29BF0918009820F6 /* Preview Content */,
 			);
-			path = "pens'";
+			path = pens;
 			sourceTree = "<group>";
 		};
 		18A92A0F29BF0918009820F6 /* Preview Content */ = {
@@ -201,9 +201,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		18A92A0529BF0917009820F6 /* pens' */ = {
+		18A92A0529BF0917009820F6 /* pens */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 18A92A2A29BF0918009820F6 /* Build configuration list for PBXNativeTarget "pens'" */;
+			buildConfigurationList = 18A92A2A29BF0918009820F6 /* Build configuration list for PBXNativeTarget "pens" */;
 			buildPhases = (
 				18A92A0229BF0917009820F6 /* Sources */,
 				18A92A0329BF0917009820F6 /* Frameworks */,
@@ -213,14 +213,14 @@
 			);
 			dependencies = (
 			);
-			name = "pens'";
+			name = pens;
 			productName = "pens'";
-			productReference = 18A92A0629BF0917009820F6 /* pens'.app */;
+			productReference = 18A92A0629BF0917009820F6 /* pens.app */;
 			productType = "com.apple.product-type.application";
 		};
-		18A92A1529BF0918009820F6 /* pens'Tests */ = {
+		18A92A1529BF0918009820F6 /* pensTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 18A92A2D29BF0918009820F6 /* Build configuration list for PBXNativeTarget "pens'Tests" */;
+			buildConfigurationList = 18A92A2D29BF0918009820F6 /* Build configuration list for PBXNativeTarget "pensTests" */;
 			buildPhases = (
 				18A92A1229BF0918009820F6 /* Sources */,
 				18A92A1329BF0918009820F6 /* Frameworks */,
@@ -231,14 +231,14 @@
 			dependencies = (
 				18A92A1829BF0918009820F6 /* PBXTargetDependency */,
 			);
-			name = "pens'Tests";
+			name = pensTests;
 			productName = "pens'Tests";
-			productReference = 18A92A1629BF0918009820F6 /* pens'Tests.xctest */;
+			productReference = 18A92A1629BF0918009820F6 /* pensTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
-		18A92A1F29BF0918009820F6 /* pens'UITests */ = {
+		18A92A1F29BF0918009820F6 /* pensUITests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 18A92A3029BF0918009820F6 /* Build configuration list for PBXNativeTarget "pens'UITests" */;
+			buildConfigurationList = 18A92A3029BF0918009820F6 /* Build configuration list for PBXNativeTarget "pensUITests" */;
 			buildPhases = (
 				18A92A1C29BF0918009820F6 /* Sources */,
 				18A92A1D29BF0918009820F6 /* Frameworks */,
@@ -249,9 +249,9 @@
 			dependencies = (
 				18A92A2229BF0918009820F6 /* PBXTargetDependency */,
 			);
-			name = "pens'UITests";
+			name = pensUITests;
 			productName = "pens'UITests";
-			productReference = 18A92A2029BF0918009820F6 /* pens'UITests.xctest */;
+			productReference = 18A92A2029BF0918009820F6 /* pensUITests.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
 		};
 /* End PBXNativeTarget section */
@@ -277,7 +277,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 18A92A0129BF0917009820F6 /* Build configuration list for PBXProject "pens'" */;
+			buildConfigurationList = 18A92A0129BF0917009820F6 /* Build configuration list for PBXProject "pens" */;
 			compatibilityVersion = "Xcode 14.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -290,9 +290,9 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				18A92A0529BF0917009820F6 /* pens' */,
-				18A92A1529BF0918009820F6 /* pens'Tests */,
-				18A92A1F29BF0918009820F6 /* pens'UITests */,
+				18A92A0529BF0917009820F6 /* pens */,
+				18A92A1529BF0918009820F6 /* pensTests */,
+				18A92A1F29BF0918009820F6 /* pensUITests */,
 			);
 		};
 /* End PBXProject section */
@@ -370,12 +370,12 @@
 /* Begin PBXTargetDependency section */
 		18A92A1829BF0918009820F6 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 18A92A0529BF0917009820F6 /* pens' */;
+			target = 18A92A0529BF0917009820F6 /* pens */;
 			targetProxy = 18A92A1729BF0918009820F6 /* PBXContainerItemProxy */;
 		};
 		18A92A2229BF0918009820F6 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 18A92A0529BF0917009820F6 /* pens' */;
+			target = 18A92A0529BF0917009820F6 /* pens */;
 			targetProxy = 18A92A2129BF0918009820F6 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -502,7 +502,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_ASSET_PATHS = "\"pens'/Preview Content\"";
+				DEVELOPMENT_ASSET_PATHS = "\"pens/Preview Content\"";
 				DEVELOPMENT_TEAM = LV8N2952A2;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -536,7 +536,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_ASSET_PATHS = "\"pens'/Preview Content\"";
+				DEVELOPMENT_ASSET_PATHS = "\"pens/Preview Content\"";
 				DEVELOPMENT_TEAM = LV8N2952A2;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -579,7 +579,7 @@
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/pens'.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/pens'";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/pens.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/pens";
 			};
 			name = Debug;
 		};
@@ -599,7 +599,7 @@
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/pens'.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/pens'";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/pens.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/pens";
 			};
 			name = Release;
 		};
@@ -642,7 +642,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		18A92A0129BF0917009820F6 /* Build configuration list for PBXProject "pens'" */ = {
+		18A92A0129BF0917009820F6 /* Build configuration list for PBXProject "pens" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				18A92A2829BF0918009820F6 /* Debug */,
@@ -651,7 +651,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		18A92A2A29BF0918009820F6 /* Build configuration list for PBXNativeTarget "pens'" */ = {
+		18A92A2A29BF0918009820F6 /* Build configuration list for PBXNativeTarget "pens" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				18A92A2B29BF0918009820F6 /* Debug */,
@@ -660,7 +660,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		18A92A2D29BF0918009820F6 /* Build configuration list for PBXNativeTarget "pens'Tests" */ = {
+		18A92A2D29BF0918009820F6 /* Build configuration list for PBXNativeTarget "pensTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				18A92A2E29BF0918009820F6 /* Debug */,
@@ -669,7 +669,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		18A92A3029BF0918009820F6 /* Build configuration list for PBXNativeTarget "pens'UITests" */ = {
+		18A92A3029BF0918009820F6 /* Build configuration list for PBXNativeTarget "pensUITests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				18A92A3129BF0918009820F6 /* Debug */,
