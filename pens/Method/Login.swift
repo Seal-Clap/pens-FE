@@ -23,6 +23,7 @@ struct LoginResponse: Codable {
     let message: String
     let token :  String?
     let error: LoginError?
+    let userId : Int
 }
 //로그인
 func login(email: String, password: String, completion: @escaping (Bool, String, String?) -> Void) {
@@ -50,6 +51,8 @@ func login(email: String, password: String, completion: @escaping (Bool, String,
         
         do {
             let loginResponse = try JSONDecoder().decode(LoginResponse.self, from: data)
+            let userId = loginResponse.userId
+            print("+++++++++++++++++++++++ userId : \(userId) ++++++++++++++++++++++++++++++")
             completion(loginResponse.success, loginResponse.message, loginResponse.token)
             print(loginResponse.message)
             
@@ -122,5 +125,3 @@ func checkTokenAndLogin(completion: @escaping (Bool?) -> Void){
         completion(false)
     }
 }
-
-
