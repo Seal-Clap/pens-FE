@@ -8,14 +8,14 @@
 import Foundation
 
 struct GroupAPI {
-    func createGroup(groupName: String, groupAdmin: String, completion: @escaping (Result<String, Error>) -> Void) {
+    func createGroup(groupName: String, groupAdminUserId: Int, completion: @escaping (Result<String, Error>) -> Void) {
         guard let url = URL(string: APIContants.groupCreateURL) else { return }
         
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
         
-        let parameters = ["groupName": groupName, "groupAdmin": groupAdmin]
+        let parameters : [String: Any] = ["groupName": groupName, "groupAdminUserId": groupAdminUserId]
         do {
             request.httpBody = try JSONSerialization.data(withJSONObject: parameters, options: [])
         } catch {

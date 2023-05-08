@@ -10,7 +10,7 @@ import SwiftUI
 struct AddGroupView: View {
     @Binding var isPresented: Bool
     @State private var groupName: String = ""
-    @State private var groupAdmin: String = "" // 그룹 관리자 이름 변수 추가
+    @State private var groupAdminUserId: String = "" // 그룹 관리자 이름 변수 추가
     var onAddGroup: (String) -> Void // 콜백 함수 수정: 그룹 이름 대신 그룹 ID 사용
     @State private var groupAPI = GroupAPI() // GroupAPI 인스턴스 추가
 
@@ -28,23 +28,24 @@ struct AddGroupView: View {
                 TextField("그룹 이름 입력", text: $groupName)
                     .padding()
                     .textFieldStyle(RoundedBorderTextFieldStyle())
-                
-                TextField("그룹 관리자 이름 입력", text: $groupAdmin) // 그룹 관리자 이름 입력 필드 추가
+                TextField("그룹 관리자 uid 입력", text: $groupAdminUserId) // 그룹 관리자 이름 입력 필드 추가
                     .padding()
                     .textFieldStyle(RoundedBorderTextFieldStyle())
 
                 Button(action: {
-                    groupAPI.createGroup(groupName: groupName, groupAdmin: groupAdmin) { result in // createGroup 메소드 호출 수정
-                        switch result {
-                        case .success(let groupID):
-                            print("그룹 생성 성공: \(groupID)")
-                            onAddGroup(groupID) // 콜백 함수 호출
-                            DispatchQueue.main.async {
-                                isPresented = false
+                    if let groupAdminUserIdInt = Int(groupAdminUserId){
+                        groupAPI.createGroup(groupName: groupName, groupAdminUserId: groupAdminUserIdInt) { result in // createGroup 메소드 호출 수정
+                            switch result {
+                            case .success(let groupID):
+                                print("그룹 생성 성공: \(groupID)")
+                                onAddGroup(groupID) // 콜백 함수 호출
+                                DispatchQueue.main.async {
+                                    isPresented = false
+                                }
+                            case .failure(let error):
+                                print("그룹 생성 실패: \(error)")
                             }
-                        case .failure(let error):
-                            print("그룹 생성 실패: \(error)")
-                        }
+}
                     }
                 }) {
                     Text("그룹 추가")

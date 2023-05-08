@@ -10,11 +10,14 @@ import SwiftUI
 struct HomeView: View {
     //로그아웃 위해
     @Binding var loginState: Bool?
+    @State private var showingLogoutAlert = false
     //그룹
     @StateObject var leaveGroup = LeaveGroup()
     @State private var showInviteGroupMember = false
     @State private var showAddGroup = false
     @State private var grouplist: [String] = []
+    //
+    @State private var selectedGroupName: String = "not selected"
 
     var body: some View {
         NavigationView {
@@ -24,14 +27,10 @@ struct HomeView: View {
                 }
                 Divider()
                 List {
-                    HStack {
-                        Image(systemName: "person.circle")
-                            .font(.system(size: 40))
-                            .padding(.leading)
-                        Text("사용자").font(.title2)
-                    }
-                    ForEach(grouplist, id: \.self) { group in
-                        Text(group).font(.title2)
+                        ForEach(grouplist, id: \.self) { group in
+                            Text(group).font(.title2).onTapGesture {
+                                selectedGroupName = group
+                            }
                     }
                     .onDelete(perform: deleteGroup)
                 }
@@ -41,7 +40,7 @@ struct HomeView: View {
                 }, label: { Text("그룹 추가").font(.title2) })
             }
             VStack {
-                Text("그룹 이름")
+                Text(selectedGroupName)
                     .font(.title)
                     .padding(.leading)
                 Button(action: {
@@ -59,22 +58,29 @@ struct HomeView: View {
                 List{
                     VStack{
                         Text("그룹_멤버").font(.title)
+                        
                     }
                 }
                 Divider()
                 Button(action: {
-                    //로그아웃
-                    deleteToken()
-                    loginState = false
+                    showingLogoutAlert = true
                 }) {
                     Text("로그아웃")
                         .font(.title3)
                         .padding()
-                        .foregroundColor(.white)
-                        .frame(width: 150, height: 50)
+                        .foregroundColor(.blue)
+                        .frame(height: 25)
+                }.alert(isPresented: $showingLogoutAlert) {
+                    Alert(
+                        title: Text("로그아웃 확인"),
+                        message: Text("로그아웃 하시겠습니까?"),
+                        primaryButton: .destructive(Text("로그아웃")) {
+                            deleteToken()
+                            loginState = false
+                        },
+                        secondaryButton: .cancel()
+                    )
                 }
-                .background(RoundedRectangle(cornerRadius: 8).fill(Color.gray))
-                .padding()
             }
             Text("Detail")
         }.overlay(

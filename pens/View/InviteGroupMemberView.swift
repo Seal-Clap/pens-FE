@@ -5,6 +5,13 @@
 //  Created by 박상준 on 2023/04/16.
 //
 
+//
+//  InviteGroupMemberView.swift
+//  pens'
+//
+//  Created by 박상준 on 2023/04/16.
+//
+
 import SwiftUI
 
 struct InviteGroupMemberView: View {
@@ -27,6 +34,24 @@ struct InviteGroupMemberView: View {
 
                 Button(action: {
                     // 초대 동작 추가
+                    getGroupId { result in
+                        print("+++++++++++result : \(result)+++++++++++++")
+                        switch result {
+                        case .success(let groupId):
+                            print("++++++++++++++groupId : \(groupId) +++++++++++++")
+                            let userEmail = emailAddress
+                            inviteGroup(groupId: groupId, userEmail: userEmail) { result in
+                                switch result {
+                                case .success(let responseString):
+                                    print("Successfully sent data: \(responseString)")
+                                case .failure(let error):
+                                    print("Error sending data: \(error.localizedDescription)")
+                                }
+                            }
+                        case .failure(let error):
+                            print("Error getting groupId: \(error.localizedDescription)")
+                        }
+                    }
                     print("이메일 주소: \(emailAddress)")
                     isPresented = false
                 }) {
