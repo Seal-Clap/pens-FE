@@ -5,18 +5,13 @@
 //  Created by 박상준 on 2023/04/16.
 //
 
-//
-//  InviteGroupMemberView.swift
-//  pens'
-//
-//  Created by 박상준 on 2023/04/16.
-//
-
 import SwiftUI
 
 struct InviteGroupMemberView: View {
     @Binding var isPresented: Bool
     @State private var emailAddress: String = ""
+    @State private var userId: Int = (getUserId() ?? 0)
+    var groupName: String
     var body: some View {
         ZStack {
             RoundedRectangle(cornerRadius: 25)
@@ -31,14 +26,14 @@ struct InviteGroupMemberView: View {
                 TextField("이메일 주소 입력", text: $emailAddress)
                     .padding()
                     .textFieldStyle(RoundedBorderTextFieldStyle())
-
                 Button(action: {
                     // 초대 동작 추가
-                    getGroupId { result in
-                        print("+++++++++++result : \(result)+++++++++++++")
+                    print("InviteGroupMemberView++++++++userId : \(userId) +++++++++++")
+                    getGroupId(userId: userId, groupName: groupName) { result in
+                        print("InviteGroupMemberView+++++++++++result : \(result)+++++++++++++")
                         switch result {
                         case .success(let groupId):
-                            print("++++++++++++++groupId : \(groupId) +++++++++++++")
+                            print("InviteGroupMemberView++++++++++++++groupId : \(groupId) +++++++++++++")
                             let userEmail = emailAddress
                             inviteGroup(groupId: groupId, userEmail: userEmail) { result in
                                 switch result {
@@ -73,13 +68,12 @@ struct InviteGroupMemberView: View {
                 }
             }
             .padding()
-        }
-        .frame(width: 300, height: 250)
+        }.frame(width: 300, height: 250)
     }
 }
 
 struct InviteGroupMemberView_Previews: PreviewProvider {
     static var previews: some View {
-        InviteGroupMemberView(isPresented: .constant(false))
+        InviteGroupMemberView(isPresented: .constant(false), groupName: "sampleName")
     }
 }
