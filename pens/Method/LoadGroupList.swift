@@ -29,7 +29,6 @@ func getGroups(completion: @escaping ([GroupElement]) -> (), _ userId: Int?) {
 
     AF.request(APIContants.usersGroupsURL, method: .get, parameters: parameters, encoding: URLEncoding.default).validate(statusCode: 200..<300).responseDecodable(of: [GroupElement].self) { (response) in
         guard let groups = response.value else { return }
-        print(groups)
         completion(groups)
     }
 }

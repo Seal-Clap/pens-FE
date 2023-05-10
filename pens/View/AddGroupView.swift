@@ -35,12 +35,10 @@ struct AddGroupView: View {
                         case .success(let groupID):
                             print("+++++++++++++그룹 생성 성공+++++++++++++: \(groupID)")
                             onAddGroup(groupName) // 콜백 함수 호출
-                            DispatchQueue.main.async {
-                                isPresented = false
-                            }
                         case .failure(let error):
                             print("그룹 생성 실패: \(error)")
                         }
+                        isPresented = false
                     }
                 }) {
                     Text("그룹 추가")

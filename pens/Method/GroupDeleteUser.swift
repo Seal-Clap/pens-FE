@@ -56,5 +56,4 @@ func delete(_ group: GroupElement, _ groups: [GroupElement], _ userId: Int) {
     ).responseJSON { (response) in
         print(response)
     }
-    // 서버에서 그룹을 삭제하는 API 요청을 추가하십시오.
 }

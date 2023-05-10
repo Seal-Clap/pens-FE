@@ -44,8 +44,6 @@ struct HomeView: View {
                             } label: {
                                 Label("나가기", systemImage: "trash")
                             }
-
-
                         }
                     }
                 }.onAppear {
@@ -135,8 +133,12 @@ struct HomeView: View {
                 }
                 if showAddGroup {
                     AddGroupView(isPresented: $showAddGroup, onAddGroup: { groupID in
-                        grouplist.append(groupID)
+                        getGroups(completion: { (groups) in
+                            self.groups = groups
+                        }, userId)
+                        groups.sort { $0.groupId > $1.groupId }
                     })
+                    
                 }
             }
         )
