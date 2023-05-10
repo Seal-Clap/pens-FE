@@ -12,52 +12,58 @@ struct HomeView: View {
     @Binding var loginState: Bool?
     @State private var showingLogoutAlert = false
     //그룹
-    @StateObject var leaveGroup = LeaveGroup()
+    @State private var grouplist: [String] = []
     @State private var showInviteGroupMember = false
     @State private var showAddGroup = false
-    //그룹 목록
-    @State private var grouplist: [String] = []
     private let groupLoade = GroupLoader()
     //
     @State private var selectedGroup: GroupElement = GroupElement(groupId: 0, groupName: "local")
+    @State private var showingGroupLeaveAlert = false
+
     //
     @State private var userId: Int? = nil
-    
+
     @State private var groups = [GroupElement]()
     var body: some View {
         NavigationView {
             VStack {
-                HStack {
-                    Text("그룹 목록").font(.title)
-                }
-                Divider()
-                List(groups) { group in
-                    VStack(alignment: .leading) {
-                        Text("Group ID: \(group.groupId)")
-                        Text("Group Name: \(group.groupName)")
-                    }.onTapGesture {
-                        selectedGroup = group
+                Text("그룹 목록").font(.title)
+                List {
+                    ForEach(groups, id: \.groupId) { group in
+                        // Text("Group ID: \(group.groupId)")
+                        VStack(alignment: .leading) {
+                            Text("\(group.groupName)").font(.title2)
+                        }
+                        .padding(.leading)
+                            .onTapGesture {
+                            selectedGroup = group
+
+                        }.swipeActions {
+                            Button(role: .destructive) {
+                                delete(group, groups, userId!)
+                            } label: {
+                                Label("나가기", systemImage: "trash")
+                            }
+
+
+                        }
                     }
-                }
-                
-                .onAppear {
+                }.onAppear {
+                    print("get Group \(groups)")
+                    getGroups(completion: { (groups) in
+                        self.groups = groups
+                    }, userId)
+                    groups.sort { $0.groupId > $1.groupId }
+                }.listStyle(SidebarListStyle())
+
+
+                    .onAppear {
                     print("get Group \(groups)")
                     getGroups(completion: { (groups) in
                         self.groups = groups
                     }, userId)
                 }
-                .listStyle(SidebarListStyle())
-                
-                
-                //                List {
-                //                        ForEach(grouplist, id: \.self) { group in
-                //                            Text(group).font(.title2).onTapGesture {
-                //                                selectedGroupName = group
-                //                            }
-                //                    }
-                //                    .onDelete(perform: deleteGroup)
-                //                }
-                //                .listStyle(SidebarListStyle())
+                    .listStyle(SidebarListStyle())
                 Button(action: {
                     showAddGroup = true
                 }, label: { Text("그룹 추가").font(.title2) })
@@ -65,8 +71,8 @@ struct HomeView: View {
             VStack {
                 Text("User ID: \(userId ?? 0)")
                     .onAppear {
-                        userId = getUserId()
-                    }
+                    userId = getUserId()
+                }
                 Text(selectedGroup.groupName)
                     .font(.title)
                     .padding(.leading)
@@ -79,11 +85,11 @@ struct HomeView: View {
                         .foregroundColor(.white)
                         .frame(width: 200, height: 50)
                 }
-                .background(RoundedRectangle(cornerRadius: 8).fill(Color.gray))
-                .sheet(isPresented: $showInviteGroupMember) {
-                    InviteGroupMemberView(isPresented: $showInviteGroupMember, groupName: selectedGroupName)
+                    .background(RoundedRectangle(cornerRadius: 8).fill(Color.gray))
+                    .sheet(isPresented: $showInviteGroupMember) {
+                    InviteGroupMemberView(isPresented: $showInviteGroupMember, groupName: selectedGroup.groupName)
                 }
-                .padding()
+                    .padding()
                 Divider()
                 List {
                     VStack {
@@ -125,7 +131,7 @@ struct HomeView: View {
         }.overlay(
             Group {
                 if showInviteGroupMember {
-                    InviteGroupMemberView(isPresented: $showInviteGroupMember, groupName: selectedGroupName)
+                    InviteGroupMemberView(isPresented: $showInviteGroupMember, groupName: selectedGroup.groupName)
                 }
                 if showAddGroup {
                     AddGroupView(isPresented: $showAddGroup, onAddGroup: { groupID in
@@ -135,28 +141,14 @@ struct HomeView: View {
             }
         )
     }
+
 }
-    
-    //    func deleteGroup(at offsets: IndexSet) {
-    //        for index in offsets {
-    //            let groupId = grouplist[index]
-    //            if let groupIdInt = Int(groupId), let userIdInt = Int("user_id") {
-    //                leaveGroup.leaveGroup(groupId: groupIdInt, userId: userIdInt) { result in
-    //                    if case .success = result {
-    //                        DispatchQueue.main.async {
-    //                            grouplist.remove(at: index)
-    //                        }
-    //                    }
-    //                }
-    //            }
-    //        }
-    //    }
-    
-    
-    struct HomeView_Previews: PreviewProvider {
-        @State static private var loginState: Bool? = true
-        static var previews: some View {
-            HomeView(loginState: $loginState).environmentObject(LeaveGroup())
-        }
+
+
+struct HomeView_Previews: PreviewProvider {
+    @State static private var loginState: Bool? = true
+    static var previews: some View {
+        HomeView(loginState: $loginState).environmentObject(LeaveGroup())
     }
+}
 

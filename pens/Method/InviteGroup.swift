@@ -28,7 +28,7 @@ enum InviteGroupError: Error {
 }
 
 func getGroupId(userId : Int, groupName: String, completion: @escaping (Result<Int, Error>) -> Void) {
-    guard let url = URL(string: "\(APIContants.userGroupsURL)?userId=\(userId)") else {
+    guard let url = URL(string: "\(APIContants.usersGroupsURL)?userId=\(userId)") else {
         completion(.failure(NSError(domain: "Invalid URL", code: -1, userInfo: nil)))
         return
     }

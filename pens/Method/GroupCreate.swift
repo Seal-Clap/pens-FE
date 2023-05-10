@@ -59,7 +59,7 @@ struct GroupShow: Identifiable, Codable {
 }
 class UserAPI {
     func showGroupList(userId: Int, completion: @escaping (Result<[GroupShow], Error>) -> Void) {
-        let url = URL(string: "\(APIContants.userGroupsURL)?userId=\(userId)")! 
+        let url = URL(string: "\(APIContants.usersGroupsURL)?userId=\(userId)")! 
 
         var request = URLRequest(url: url)
         request.httpMethod = "GET"

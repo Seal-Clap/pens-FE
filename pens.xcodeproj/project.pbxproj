@@ -33,7 +33,6 @@
 		FD290E6A2A00306800CD2835 /* GroupUserDeleteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD290E692A00306800CD2835 /* GroupUserDeleteView.swift */; };
 		FD290E6C2A00344100CD2835 /* GroupDeleteUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD290E6B2A00344100CD2835 /* GroupDeleteUser.swift */; };
 		FD290E6E2A00364D00CD2835 /* GroupRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD290E6D2A00364D00CD2835 /* GroupRowView.swift */; };
-		FFDC4899379F307B2CB0F095 /* Pods_pens_pensUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2C40206FFE8887061DA53295 /* Pods_pens_pensUITests.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -90,7 +89,6 @@
 		FD290E692A00306800CD2835 /* GroupUserDeleteView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupUserDeleteView.swift; sourceTree = "<group>"; };
 		FD290E6B2A00344100CD2835 /* GroupDeleteUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupDeleteUser.swift; sourceTree = "<group>"; };
 		FD290E6D2A00364D00CD2835 /* GroupRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupRowView.swift; sourceTree = "<group>"; };
-		FF344193A8EB24FAA4C38ABF /* Pods-pens.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-pens.release.xcconfig"; path = "Target Support Files/Pods-pens/Pods-pens.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -190,19 +188,6 @@
 				18A92A2629BF0918009820F6 /* pens_UITestsLaunchTests.swift */,
 			);
 			path = "pens'UITests";
-			sourceTree = "<group>";
-		};
-		3AD5CE884F5674E42B5B29EA /* Pods */ = {
-			isa = PBXGroup;
-			children = (
-				A7B093ACD3266AB58DC82A95 /* Pods-pens.debug.xcconfig */,
-				FF344193A8EB24FAA4C38ABF /* Pods-pens.release.xcconfig */,
-				732B9EAF61EE3EB2FE3054C1 /* Pods-pens-pensUITests.debug.xcconfig */,
-				F230669E298EA5F6C1A42224 /* Pods-pens-pensUITests.release.xcconfig */,
-				23DC5E38D04FA4C194BF442D /* Pods-pensTests.debug.xcconfig */,
-				CFB71F800B4DDB6819B12B1E /* Pods-pensTests.release.xcconfig */,
-			);
-			path = Pods;
 			sourceTree = "<group>";
 		};
 		BC95CFD229D6DF8300AE3037 /* API */ = {
@@ -671,7 +656,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"pens/Preview Content\"";
-				DEVELOPMENT_TEAM = CBF7HZWZB2;
+				DEVELOPMENT_TEAM = LV8N2952A2;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "pens--Info.plist";
@@ -706,7 +691,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"pens/Preview Content\"";
-				DEVELOPMENT_TEAM = CBF7HZWZB2;
+				DEVELOPMENT_TEAM = LV8N2952A2;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "pens--Info.plist";

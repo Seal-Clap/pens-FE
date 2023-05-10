@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import Alamofire
 
 enum GroupAPIError: Error {
     case serverError
@@ -42,4 +43,18 @@ class LeaveGroup: ObservableObject {
         let success: Bool
         let message: String
     }
+
+}
+
+func delete(_ group: GroupElement, _ groups: [GroupElement], _ userId: Int) {
+    let parameters = ["groupId": group.groupId, "userId": userId]
+    print("delete\(group.groupId)")
+    AF.request(APIContants.groupDeleteUserURL,
+        method: .post,
+        parameters: parameters,
+        encoding: JSONEncoding(options: [])
+    ).responseJSON { (response) in
+        print(response)
+    }
+    // 서버에서 그룹을 삭제하는 API 요청을 추가하십시오.
 }
