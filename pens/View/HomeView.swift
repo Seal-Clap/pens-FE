@@ -15,11 +15,14 @@ struct HomeView: View {
     @StateObject var leaveGroup = LeaveGroup()
     @State private var showInviteGroupMember = false
     @State private var showAddGroup = false
+    //그룹 목록
     @State private var grouplist: [String] = []
+    private let groupLoade = GroupLoader()
     //
     @State private var selectedGroupName: String = "not selected"
     //
     @State private var userId: Int? = nil
+    
 
 
     var body: some View {
@@ -60,14 +63,26 @@ struct HomeView: View {
                         .frame(width: 200, height: 50)
                 }
                 .background(RoundedRectangle(cornerRadius: 8).fill(Color.gray))
+                .sheet(isPresented: $showInviteGroupMember) {
+                    InviteGroupMemberView(isPresented: $showInviteGroupMember, groupName: selectedGroupName)
+                }
                 .padding()
                 Divider()
                 List{
                     VStack{
                         Text("그룹_멤버").font(.title)
-                        
                     }
                 }
+                Divider()
+                Button(action: {
+                    //그룹 사용자 보여주기 동작 추가
+                }) {
+                    Text("그룹 멤버 보기")
+                        .font(.title3)
+                        .padding()
+                        .foregroundColor(.white)
+                        .frame(height: 25)
+                }.background(RoundedRectangle(cornerRadius: 6).fill(Color.black))
                 Divider()
                 Button(action: {
                     showingLogoutAlert = true
@@ -93,7 +108,7 @@ struct HomeView: View {
         }.overlay(
             Group {
                 if showInviteGroupMember {
-                    InviteGroupMemberView(isPresented: $showInviteGroupMember)
+                    InviteGroupMemberView(isPresented: $showInviteGroupMember, groupName: selectedGroupName)
                 }
                 if showAddGroup {
                     AddGroupView(isPresented: $showAddGroup, onAddGroup: { groupID in
