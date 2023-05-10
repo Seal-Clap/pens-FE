@@ -21,7 +21,7 @@ struct APIContants{
     //group delete 그룹 삭제
     static let groupDeleteURL = baseURL + "/group/delete";
     //user groups 유저 그룹 목록
-    static let userGroupsURL = baseURL + "/user/groups";
+    static let usersGroupsURL = baseURL + "/users/groups";
     //group add-user 그룹 유저 추가
     static let groupAddUserURL = baseURL + "/group/add-user";
     //group users 그룹 유저 목록

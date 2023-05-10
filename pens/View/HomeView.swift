@@ -17,11 +17,11 @@ struct HomeView: View {
     @State private var showAddGroup = false
     @State private var grouplist: [String] = []
     //
-    @State private var selectedGroupName: String = "not selected"
+    @State private var selectedGroup: GroupElement = GroupElement(groupId: 0, groupName: "local")
     //
     @State private var userId: Int? = nil
-
-
+    @State private var groups = [GroupElement]()
+    
     var body: some View {
         NavigationView {
             VStack {
@@ -29,15 +29,33 @@ struct HomeView: View {
                     Text("그룹 목록").font(.title)
                 }
                 Divider()
-                List {
-                        ForEach(grouplist, id: \.self) { group in
-                            Text(group).font(.title2).onTapGesture {
-                                selectedGroupName = group
-                            }
+                List(groups) { group in
+                    VStack(alignment: .leading) {
+                        Text("Group ID: \(group.groupId)")
+                        Text("Group Name: \(group.groupName)")
+                    }.onTapGesture {
+                        selectedGroup = group
                     }
-                    .onDelete(perform: deleteGroup)
+                }
+                
+                .onAppear {
+                    print("get Group \(groups)")
+                    getGroups(completion: { (groups) in
+                        self.groups = groups
+                    }, userId)
                 }
                 .listStyle(SidebarListStyle())
+                
+                
+                //                List {
+                //                        ForEach(grouplist, id: \.self) { group in
+                //                            Text(group).font(.title2).onTapGesture {
+                //                                selectedGroupName = group
+                //                            }
+                //                    }
+                //                    .onDelete(perform: deleteGroup)
+                //                }
+                //                .listStyle(SidebarListStyle())
                 Button(action: {
                     showAddGroup = true
                 }, label: { Text("그룹 추가").font(.title2) })
@@ -45,9 +63,9 @@ struct HomeView: View {
             VStack {
                 Text("User ID: \(userId ?? 0)")
                     .onAppear {
-                    userId = getUserId()
-                }
-                Text(selectedGroupName)
+                        userId = getUserId()
+                    }
+                Text(selectedGroup.groupName)
                     .font(.title)
                     .padding(.leading)
                 Button(action: {
@@ -62,10 +80,9 @@ struct HomeView: View {
                 .background(RoundedRectangle(cornerRadius: 8).fill(Color.gray))
                 .padding()
                 Divider()
-                List{
-                    VStack{
+                List {
+                    VStack {
                         Text("그룹_멤버").font(.title)
-                        
                     }
                 }
                 Divider()
@@ -103,26 +120,28 @@ struct HomeView: View {
             }
         )
     }
-
-    func deleteGroup(at offsets: IndexSet) {
-        for index in offsets {
-            let groupId = grouplist[index]
-            if let groupIdInt = Int(groupId), let userIdInt = Int("user_id") {
-                leaveGroup.leaveGroup(groupId: groupIdInt, userId: userIdInt) { result in
-                    if case .success = result {
-                        DispatchQueue.main.async {
-                            grouplist.remove(at: index)
-                        }
-                    }
-                }
-            }
+}
+    
+    //    func deleteGroup(at offsets: IndexSet) {
+    //        for index in offsets {
+    //            let groupId = grouplist[index]
+    //            if let groupIdInt = Int(groupId), let userIdInt = Int("user_id") {
+    //                leaveGroup.leaveGroup(groupId: groupIdInt, userId: userIdInt) { result in
+    //                    if case .success = result {
+    //                        DispatchQueue.main.async {
+    //                            grouplist.remove(at: index)
+    //                        }
+    //                    }
+    //                }
+    //            }
+    //        }
+    //    }
+    
+    
+    struct HomeView_Previews: PreviewProvider {
+        @State static private var loginState: Bool? = true
+        static var previews: some View {
+            HomeView(loginState: $loginState).environmentObject(LeaveGroup())
         }
     }
-}
 
-struct HomeView_Previews: PreviewProvider {
-    @State static private var loginState: Bool? = true
-    static var previews: some View {
-        HomeView(loginState: $loginState).environmentObject(LeaveGroup())
-    }
-}
