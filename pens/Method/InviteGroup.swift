@@ -27,7 +27,7 @@ enum InviteGroupError: Error {
     case decodingError
 }
 
-func getGroupId(userId : Int, groupName: String, completion: @escaping (Result<Int, Error>) -> Void) {
+func getGroupId(userId : Int, groupId: Int, completion: @escaping (Result<Int, Error>) -> Void) {
     guard let url = URL(string: "\(APIContants.usersGroupsURL)?userId=\(userId)") else {
         completion(.failure(NSError(domain: "Invalid URL", code: -1, userInfo: nil)))
         return
@@ -49,7 +49,7 @@ func getGroupId(userId : Int, groupName: String, completion: @escaping (Result<I
         
         do {
             let groupIdResponses = try JSONDecoder().decode([GroupIdResponse].self, from: data)
-            if let groupIdResponse = groupIdResponses.first(where: { $0.groupName == groupName }) {
+            if let groupIdResponse = groupIdResponses.first(where: { $0.groupId == groupId }) {
                 print("getGroupId+++++++++++ groupId : \(groupIdResponse.groupId) +++++++++++++++++++")
                 print("getGroupId+++++++++++ groupName : \(groupIdResponse.groupName) +++++++++++++++++++")
                 completion(.success(groupIdResponse.groupId))

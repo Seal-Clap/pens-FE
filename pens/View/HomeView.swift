@@ -85,7 +85,7 @@ struct HomeView: View {
                 }
                     .background(RoundedRectangle(cornerRadius: 8).fill(Color.gray))
                     .sheet(isPresented: $showInviteGroupMember) {
-                    InviteGroupMemberView(isPresented: $showInviteGroupMember, groupName: selectedGroup.groupName)
+                    InviteGroupMemberView(isPresented: $showInviteGroupMember, groupId: selectedGroup.groupId)
                 }
                     .padding()
                 Divider()
@@ -129,7 +129,7 @@ struct HomeView: View {
         }.overlay(
             Group {
                 if showInviteGroupMember {
-                    InviteGroupMemberView(isPresented: $showInviteGroupMember, groupName: selectedGroup.groupName)
+                    InviteGroupMemberView(isPresented: $showInviteGroupMember, groupId: selectedGroup.groupId)
                 }
                 if showAddGroup {
                     AddGroupView(isPresented: $showAddGroup, onAddGroup: { groupID in
