@@ -7,6 +7,7 @@
 
 import Foundation
 import SwiftUI
+import Alamofire
 
 struct LoginRequest: Codable {
     let userEmail: String
@@ -32,51 +33,48 @@ func login(email: String, password: String, completion: @escaping (Bool, String,
         return
     }
     
-    let loginData = LoginRequest(userEmail: email, userPassword: password)
-    guard let httpBody = try? JSONEncoder().encode(loginData) else {
-        completion(false, "Error encoding data", nil)
-        return
-    }
+    let parameters: [String: Any] = [
+        "userEmail": email,
+        "userPassword": password
+    ]
     
-    var request = URLRequest(url: url)
-    request.httpMethod = "POST"
-    request.httpBody = httpBody
-    request.addValue("application/json", forHTTPHeaderField: "Content-Type")
-    
-    let task = URLSession.shared.dataTask(with: request) { data, response, error in
-        guard let data = data, error == nil else {
-            completion(false, "Network error", nil)
-            return
-        }
-        
-        do {
-            let loginResponse = try JSONDecoder().decode(LoginResponse.self, from: data)
-            let userId = loginResponse.userId
-            print("+++++++++++++++++++++++ userId : \(userId) ++++++++++++++++++++++++++++++")
-            saveUserId(userId)
-            completion(loginResponse.success, loginResponse.message, loginResponse.token)
-            print(loginResponse.message)
-            
-            //유효성 검사
-            if let error = loginResponse.error {
-                switch error {
-                case .invalidEmail:
-                    completion(false, "등록된 이메일이 없습니다.", nil)
-                case .invalidPassword:
-                    completion(false, "이메일과 비밀번호가 일치하지 않습니다.", nil)
-                }
-            } else {
-                completion(loginResponse.success, loginResponse.message, loginResponse.token)
-                //토큰 처리
-                if let token = loginResponse.token {
-                    saveToken(token)
-                }
+    AF.request(url, method: .post, parameters: parameters, encoding: JSONEncoding.default).responseJSON { response in
+        switch response.result {
+        case .success:
+            guard let data = response.data else {
+                completion(false, "No data received", nil)
+                return
             }
-        } catch {
-            completion(false, "Error decoding response", nil)
+            
+            do {
+                let loginResponse = try JSONDecoder().decode(LoginResponse.self, from: data)
+                let userId = loginResponse.userId
+                print("+++++++++++++++++++++++ userId : \(userId) ++++++++++++++++++++++++++++++")
+                saveUserId(userId)
+                completion(loginResponse.success, loginResponse.message, loginResponse.token)
+                print(loginResponse.message)
+                
+                if let error = loginResponse.error {
+                    switch error {
+                    case .invalidEmail:
+                        completion(false, "등록된 이메일이 없습니다.", nil)
+                    case .invalidPassword:
+                        completion(false, "이메일과 비밀번호가 일치하지 않습니다.", nil)
+                    }
+                } else {
+                    completion(loginResponse.success, loginResponse.message, loginResponse.token)
+                    if let token = loginResponse.token {
+                        saveToken(token)
+                    }
+                }
+            } catch {
+                completion(false, "Error decoding response", nil)
+            }
+        case .failure(let error):
+            print("Request failed: \(error.localizedDescription)")
+            completion(false, "Network error", nil)
         }
     }
-    task.resume()
 }
 //토큰 로그인
 func tokenLogin(token: String, completion: @escaping (Bool, String) -> Void) {
@@ -85,24 +83,29 @@ func tokenLogin(token: String, completion: @escaping (Bool, String) -> Void) {
         return
     }
 
-    var request = URLRequest(url: url)
-    request.httpMethod = "GET"
-    request.addValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
+    let headers: HTTPHeaders = [
+        "Authorization": "Bearer \(token)"
+    ]
 
-    let task = URLSession.shared.dataTask(with: request) { data, response, error in
-        guard let data = data, error == nil else {
+    AF.request(url, method: .get, headers: headers).responseJSON { response in
+        switch response.result {
+        case .success:
+            guard let data = response.data else {
+                completion(false, "No data received")
+                return
+            }
+            
+            do {
+                let loginResponse = try JSONDecoder().decode(LoginResponse.self, from: data)
+                completion(loginResponse.success, loginResponse.message)
+            } catch {
+                completion(false, "Error decoding response")
+            }
+        case .failure(let error):
+            print("Request failed: \(error.localizedDescription)")
             completion(false, "Network error")
-            return
-        }
-
-        do {
-            let loginResponse = try JSONDecoder().decode(LoginResponse.self, from: data)
-            completion(loginResponse.success, loginResponse.message)
-        } catch {
-            completion(false, "Error decoding response")
         }
     }
-    task.resume()
 }
 //토큰 확인 -> contentView에서 먼저 확인하여 토큰 로그인 여부 확인해야함
 func checkTokenAndLogin(completion: @escaping (Bool?) -> Void){

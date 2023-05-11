@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import Alamofire
 
 struct GroupListResponse: Codable {
     let groups: [GroupIdResponse]
@@ -27,73 +28,56 @@ enum InviteGroupError: Error {
     case decodingError
 }
 
-func getGroupId(userId : Int, groupId: Int, completion: @escaping (Result<Int, Error>) -> Void) {
-    guard let url = URL(string: "\(APIContants.usersGroupsURL)?userId=\(userId)") else {
-        completion(.failure(NSError(domain: "Invalid URL", code: -1, userInfo: nil)))
-        return
-    }
-    print("========= URL : \(url)================")
-    var request = URLRequest(url: url)
-    request.httpMethod = "GET"
-
-    let task = URLSession.shared.dataTask(with: request) { data, response, error in
-        if let error = error {
-            completion(.failure(error))
-            return
-        }
-        guard let data = data else {
-            completion(.failure(NSError(domain: "No data received", code: -1, userInfo: nil)))
-            return
-        }
-        print(String(data: data, encoding: .utf8) ?? "No data")
-        
-        do {
-            let groupIdResponses = try JSONDecoder().decode([GroupIdResponse].self, from: data)
+func getGroupId(userId: Int, groupId: Int, completion: @escaping (Result<Int, Error>) -> Void) {
+    let urlString = "\(APIContants.usersGroupsURL)?userId=\(userId)"
+    let url = URL(string: urlString)!
+    
+    AF.request(url, method: .get).responseJSON { response in
+        switch response.result {
+        case .success(let data):
+            guard let jsonArray = data as? [[String: Any]] else {
+                completion(.failure(NSError(domain: "Invalid JSON data", code: -1, userInfo: nil)))
+                return
+            }
+            let groupIdResponses = jsonArray.compactMap { json -> GroupIdResponse? in
+                guard let groupId = json["groupId"] as? Int,
+                      let groupName = json["groupName"] as? String else {
+                    return nil
+                }
+                return GroupIdResponse(groupId: groupId, groupName: groupName)
+            }
+            
             if let groupIdResponse = groupIdResponses.first(where: { $0.groupId == groupId }) {
-                print("getGroupId+++++++++++ groupId : \(groupIdResponse.groupId) +++++++++++++++++++")
-                print("getGroupId+++++++++++ groupName : \(groupIdResponse.groupName) +++++++++++++++++++")
                 completion(.success(groupIdResponse.groupId))
             } else {
                 completion(.failure(NSError(domain: "Group not found", code: -1, userInfo: nil)))
             }
-        } catch {
+        case .failure(let error):
             completion(.failure(error))
-            print("Error getting groupId:", error.localizedDescription)
         }
     }
-    task.resume()
 }
 
 func inviteGroup(groupId: Int, userEmail: String, completion: @escaping (Result<InviteGroupResponse, InviteGroupError>) -> Void) {
-    guard let url = URL(string: APIContants.groupInviteURL) else {
-        completion(.failure(.invalidURL))
-        return
-    }
-
-    let inviteData = ["groupId": String(groupId), "userEmail": userEmail]
-
-    guard let httpBody = try? JSONEncoder().encode(inviteData) else {
-        completion(.failure(.encodingError))
-        return
-    }
-
-    var request = URLRequest(url: url)
-    request.httpMethod = "POST"
-    request.httpBody = httpBody
-    request.addValue("application/json", forHTTPHeaderField: "Content-Type")
-
-    let task = URLSession.shared.dataTask(with: request) { data, response, error in
-        guard let data = data, error == nil else {
-            completion(.failure(.networkError))
-            return
-        }
-
-        do {
-            let inviteResponse = try JSONDecoder().decode(InviteGroupResponse.self, from: data)
+    let url = URL(string: APIContants.groupInviteURL)!
+    let parameters: [String: Any] = [
+        "groupId": groupId,
+        "userEmail": userEmail
+    ]
+    
+    AF.request(url, method: .post, parameters: parameters, encoding: JSONEncoding.default).responseJSON { response in
+        switch response.result {
+        case .success(let data):
+            guard let json = data as? [String: Any],
+                  let success = json["success"] as? Bool,
+                  let message = json["message"] as? String else {
+                completion(.failure(.decodingError))
+                return
+            }
+            let inviteResponse = InviteGroupResponse(success: success, message: message)
             completion(.success(inviteResponse))
-        } catch {
-            completion(.failure(.decodingError))
+        case .failure:
+            completion(.failure(.networkError))
         }
     }
-    task.resume()
 }

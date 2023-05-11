@@ -7,47 +7,37 @@
 
 import Foundation
 import SwiftUI
+import Alamofire
 
-func register(email: String, pwd: String, name: String, completion: @escaping (Bool) -> Void){
+func register(email: String, pwd: String, name: String, completion: @escaping (Bool) -> Void) {
     guard let url = URL(string: APIContants.registerURL) else {
         print("Invalid URL")
         return
     }
     
-    let items = ["userEmail" : email, "userPassword" : pwd, "userName" : name]
-    let jsonData = try! JSONSerialization.data(withJSONObject: items)
+    let parameters: [String: Any] = [
+        "userEmail": email,
+        "userPassword": pwd,
+        "userName": name
+    ]
     
-    // [http 통신 타입 및 헤더 지정 실시]
-    var requestURL = URLRequest(url: url)
-    requestURL.httpMethod = "POST" // POST
-    requestURL.httpBody = jsonData
-    requestURL.addValue("application/json", forHTTPHeaderField: "Content-Type") // POST
-    
-   URLSession.shared.dataTask(with: requestURL) { (data, response, error) in
-        // [error가 존재하면 종료]
-        guard error == nil else {
-            print("++++++++++++++++++++++++++++++++++++++++++++++++")
-            print("[requestPOST : http post 요청 실패]")
-            print("fail : ", error?.localizedDescription ?? "")
-            print("++++++++++++++++++++++++++++++++++++++++++++++++")
-            completion(false)
-            return
-        }
-       if let httpResponse = response as? HTTPURLResponse {
-            if httpResponse.statusCode == 200 {
-                // 서버 응답이 성공이면 completion 핸들러에 true를 전달합니다.
-                completion(true)
+    AF.request(url, method: .post, parameters: parameters, encoding: JSONEncoding.default).responseJSON { response in
+        switch response.result {
+        case .success:
+            if let httpResponse = response.response {
+                completion(httpResponse.statusCode == 200)
             } else {
-                // 서버 응답이 성공이 아니면 completion 핸들러에 false를 전달합니다.
                 completion(false)
             }
-        } else {
+        case .failure(let error):
+            print("Request failed: \(error.localizedDescription)")
             completion(false)
         }
-   }.resume()
+    }
 }
-func pwdCheck(email: String, pwd: String, name: String, pwdConfirm: String, isRegistered: Binding<Bool>, showAlert: Binding<Bool>){
-    if(pwd == pwdConfirm){
+
+func pwdCheck(email: String, pwd: String, name: String, pwdConfirm: String, isRegistered: Binding<Bool>, showAlert: Binding<Bool>) {
+    if pwd == pwdConfirm {
         register(email: email, pwd: pwd, name: name) { success in
             DispatchQueue.main.async {
                 isRegistered.wrappedValue = success
@@ -60,5 +50,4 @@ func pwdCheck(email: String, pwd: String, name: String, pwdConfirm: String, isRe
             showAlert.wrappedValue = true
         }
     }
-    
 }
