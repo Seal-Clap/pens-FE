@@ -15,6 +15,7 @@ struct HomeView: View {
     @State private var grouplist: [String] = []
     @State private var showInviteGroupMember = false
     @State private var showAddGroup = false
+    @State private var showGroupUsers = false
     private let groupLoade = GroupLoader()
     //
     @State private var selectedGroup: GroupElement = GroupElement(groupId: 0, groupName: "local")
@@ -96,7 +97,7 @@ struct HomeView: View {
                 }
                 Divider()
                 Button(action: {
-                    //그룹 사용자 보여주기 동작 추가
+                    showGroupUsers = true
                 }) {
                     Text("그룹 멤버 보기")
                         .font(.title3)
@@ -138,7 +139,9 @@ struct HomeView: View {
                         }, userId)
                         groups.sort { $0.groupId > $1.groupId }
                     })
-                    
+                }
+                if showGroupUsers {
+                    GroupUsersView(isPresented: $showGroupUsers, groupId: selectedGroup.groupId)
                 }
             }
         )
