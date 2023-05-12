@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import Alamofire
 
 struct HomeView: View {
     //로그아웃 위해
@@ -19,11 +20,13 @@ struct HomeView: View {
     //
     @State private var selectedGroup: GroupElement = GroupElement(groupId: 0, groupName: "local")
     @State private var showingGroupLeaveAlert = false
-
     //
     @State private var userId: Int? = nil
-
     @State private var groups = [GroupElement]()
+    //
+    @State private var isPickerPresented = false
+    @State private var fileUrl: URL?
+    
     var body: some View {
         NavigationView {
             VStack {
@@ -126,6 +129,24 @@ struct HomeView: View {
                 }
             }
             Text("Detail")
+            LazyVGrid(columns: /*@START_MENU_TOKEN@*//*@PLACEHOLDER=Columns@*/[GridItem(.fixed(200))]/*@END_MENU_TOKEN@*/) {
+                Button(action: {
+                    isPickerPresented = true
+                }) {
+                    Image(systemName: "plus.rectangle")
+                        .resizable()
+                        .frame(width: 60, height: 45, alignment: .center)
+                }.sheet(isPresented: $isPickerPresented) {
+                    DocumentPicker(fileUrl: $fileUrl)
+                }
+                .onChange(of: fileUrl) { newValue in
+                    if let fileUrl = newValue {
+                        uploadFile(groupId: selectedGroup.groupId, fileUrl: fileUrl)
+                    }
+                }
+                /*@START_MENU_TOKEN@*/Text("Placeholder")/*@END_MENU_TOKEN@*/
+                /*@START_MENU_TOKEN@*/Text("Placeholder")/*@END_MENU_TOKEN@*/
+            }
         }.overlay(
             Group {
                 if showInviteGroupMember {
@@ -143,6 +164,31 @@ struct HomeView: View {
             }
         )
     }
+    func uploadFile(groupId: Int, fileUrl: URL) {
+        let url = URL(string: "\(APIContants.fileUploadURL)?groupId=\(groupId)")!
+
+        // Start accessing a security-scoped resource.
+        guard fileUrl.startAccessingSecurityScopedResource() else {
+            // Handle the failure here.
+            return
+        }
+
+        // Make sure you release the security-scoped resource when you finish.
+        defer { fileUrl.stopAccessingSecurityScopedResource() }
+
+        do {
+            let fileData = try Data(contentsOf: fileUrl)
+            AF.upload(multipartFormData: { multipartFormData in
+                multipartFormData.append(fileData, withName: "file")
+            }, to: url)
+            .responseJSON { response in
+                debugPrint(response)
+            }
+        } catch {
+            print("Unable to load data: \(error)")
+        }
+    }
+
 
 }
 
