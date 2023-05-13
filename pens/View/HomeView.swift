@@ -24,8 +24,8 @@ struct HomeView: View {
     @State private var userId: Int? = nil
     @State private var groups = [GroupElement]()
     //
-    @State private var isPickerPresented = false
-    @State private var fileUrl: URL?
+    @State private var isImporting: Bool = false
+    @State private var fileURL: URL?
     
     var body: some View {
         NavigationView {
@@ -130,18 +130,23 @@ struct HomeView: View {
             }
             Text("Detail")
             LazyVGrid(columns: /*@START_MENU_TOKEN@*//*@PLACEHOLDER=Columns@*/[GridItem(.fixed(200))]/*@END_MENU_TOKEN@*/) {
-                Button(action: {
-                    isPickerPresented = true
+                Button(action: { // file upload button
+                    isImporting = true
                 }) {
                     Image(systemName: "plus.rectangle")
                         .resizable()
                         .frame(width: 60, height: 45, alignment: .center)
-                }.sheet(isPresented: $isPickerPresented) {
-                    DocumentPicker(fileUrl: $fileUrl)
-                }
-                .onChange(of: fileUrl) { newValue in
-                    if let fileUrl = newValue {
-                        uploadFile(groupId: selectedGroup.groupId, fileUrl: fileUrl)
+                }.fileImporter(
+                    isPresented: $isImporting,
+                    allowedContentTypes: [.pdf, .presentation, .image],
+                    allowsMultipleSelection: false
+                ) { result in
+                    do {
+                        let selectedFiles = try result.get()
+                        fileURL = selectedFiles.first
+                        uploadFile(groupId: selectedGroup.groupId, fileUrl: fileURL!)
+                    } catch {
+                        // Handle error
                     }
                 }
                 /*@START_MENU_TOKEN@*/Text("Placeholder")/*@END_MENU_TOKEN@*/
@@ -179,9 +184,9 @@ struct HomeView: View {
         do {
             let fileData = try Data(contentsOf: fileUrl)
             AF.upload(multipartFormData: { multipartFormData in
-                multipartFormData.append(fileData, withName: "file")
-            }, to: url)
-            .responseJSON { response in
+                multipartFormData.append(fileData, withName: "file", fileName: fileUrl.lastPathComponent)
+            }, to: url, method: .post).validate(statusCode: 200..<300)
+            .response { response in
                 debugPrint(response)
             }
         } catch {
