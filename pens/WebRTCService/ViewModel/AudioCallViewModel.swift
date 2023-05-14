@@ -42,24 +42,8 @@ extension AudioCallViewModel {
         guard let _roomClient = _roomClient else {
             return
         }
-        _roomClient.join(roomID: roomID, completion: {
-            [weak self](_ response: JoinResponseParam?, _ error: Error?) -> Void in
-            if let response = response {
-                self?._roomInfo = response
-                if let messages = response.messages {
-                    self?._messageQueue.append(contentsOf: messages)
-                    self?.drainMessageQueue()
-                }
-                self?.connectToWebSocket()
-            } else if let error = error as? RoomResponseError,
-                error == .full {
-                return
-            } else if let error = error {
-                dLog(error)
-                return
-            }
-
-        });
+//        _roomClient.join(roomID: roomID)
+        connectToWebSocket(roomId: roomID)
     }
 
     func disconnect() -> Void {
@@ -134,14 +118,17 @@ extension AudioCallViewModel {
 
 //MARK: webSocketClientDelegate
 extension AudioCallViewModel: WebSocketClientDelegate {
-    func connectToWebSocket() -> Void {
-        guard let webSocketURL = self._roomInfo?.wss_url,
-            let url = URL(string: webSocketURL),
-            let webSocket = _webSocket else {
+    func connectToWebSocket(roomId: String) -> Void {
+        guard let webSocketURL = URL(string: APIContants.signalingServerURL + "?roomId=" + roomId) else {
             return
         }
-        webSocket.delegate = self;
-        webSocket.connect(url: url);
+//        let url = URL(string: webSocketURL)
+        guard let webSocket = _webSocket else {
+            return
+        }
+        webSocket.delegate = self
+        debugPrint(webSocketURL)
+        webSocket.connect(url: webSocketURL)
     }
 
     func registerWithCollider() {
@@ -172,7 +159,6 @@ extension AudioCallViewModel: WebSocketClientDelegate {
 
         webRTCClient.delegate = self
         if(_roomInfo?.is_initiator == "true") {
-            // 发送offer
             webRTCClient.createOffer()
         }
         drainMessageQueue();

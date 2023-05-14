@@ -59,6 +59,7 @@ extension WebSocketClient: SRWebSocketDelegate {
     
     func webSocket(_ webSocket: SRWebSocket!, didFailWithError error: Error!) {
         debugPrint("did Fail to connect websocket")
+        debugPrint(error)
         self.disconnect()
     }
     

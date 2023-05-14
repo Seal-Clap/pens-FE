@@ -27,36 +27,11 @@ struct JoinResponseParam: Decodable {
     let messages: [String]?
 }
 
-struct tempParam: Decodable {
-    let type: String
-    let sender: String?
-    let receiver: String?
-    let roomId: String?
-    let data: Data?
-}
-
 enum RoomResponseError: Error {
     case full
 }
 
 struct RoomClient {
-    
-    func join(roomID:String,completion: @escaping ((_ response: JoinResponseParam?, _ error: Error?) -> Void)) -> Void {
-        let temp: tempParam = tempParam(type: "init", sender: "1", roomId: "1")
-        AF.request(roomURL(roomID: roomID), method: .post, parameters: temp, encoder: JSONParameterEncoder(encoder: <#T##JSONEncoder#>)).responseDecodable(of: JoinResponse.self) { response in
-            
-            switch response.result {
-            case .success(let result):
-                if result.result == .SUCCESS {
-                    completion(result.params, nil)
-                } else if result.result == .FULL {
-                    completion(nil, RoomResponseError.full)
-                }
-            case .failure(let error):
-                completion(nil, error)
-            }
-        }
-    }
     
     func disconnect(roomID: String, userID: String, completion: @escaping (() -> Void)) {
         
@@ -81,8 +56,8 @@ struct RoomClient {
 // MARK: URL Path
 extension RoomClient {
     func roomURL(roomID: String) -> String {
-        let base = Config.default.signalingServer + "/room/"
-        return base + "?roomId=\(roomID)"
+        let base = Config.default.signalingServer + "/room"
+        return base
     }
     func leaveURL(roomID: String, userID: String) -> String {
         let base =  Config.default.signalingServer + "/leave/"

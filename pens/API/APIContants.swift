@@ -34,4 +34,7 @@ struct APIContants{
     static let groupInviteURL = baseURL + "/group/invite";
     // file upload
     static let fileUploadURL = baseURL + "/file/upload"
+    // signaling server
+    static let signalingServerURL = "ws://13.209.120.19:8080/room"
+
 }
