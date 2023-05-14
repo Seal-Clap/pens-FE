@@ -154,7 +154,45 @@ struct HomeView: View {
                 /*@START_MENU_TOKEN@*/Text("Placeholder")/*@END_MENU_TOKEN@*/
                 /*@START_MENU_TOKEN@*/Text("Placeholder")/*@END_MENU_TOKEN@*/
                 Button(action: {self.viewModel.connectRoom(roomID: "1")}) { Text("Connect")}
+                Text("Placeholder")
+                /*@START_MENU_TOKEN@*/Text("Placeholder")/*@END_MENU_TOKEN@*/
+                /*@START_MENU_TOKEN@*/Text("Placeholder")/*@END_MENU_TOKEN@*/
+                /*@START_MENU_TOKEN@*/Text("Placeholder")/*@END_MENU_TOKEN@*/
+                Button(action: {
+                    let destination: DownloadRequest.Destination = { _, _ in
+                        let documentsURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
+                        let fileURL = documentsURL.appendingPathComponent("testfile.pdf")
+
+                        return (fileURL, [.removePreviousFile, .createIntermediateDirectories])
+                    }
+
+                    AF.download(
+                        APIContants.baseURL+"/file/download?groupId=1000&fileName=testfile.pdf",
+                        to: destination)
+                        .downloadProgress { progress in
+                            print("Download Progress: \(progress.fractionCompleted)")
+                        }
+                        .response { response in
+                            if response.error == nil, let filePath = response.fileURL?.path {
+                                print("File downloaded successfully: \(filePath)")
+                            }
+                        }
+                }) {Text("Test file download")}
             }
+            /*@START_MENU_TOKEN@*/Text("Placeholder")/*@END_MENU_TOKEN@*/
+            /*@START_MENU_TOKEN@*/Text("Placeholder")/*@END_MENU_TOKEN@*/
+            Button(action: {
+                let documentsURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
+                let fileURL = documentsURL.appendingPathComponent("testfile.pdf")
+                do {
+                    let fileData = try Data(contentsOf: fileURL)
+                    print("file data is empty: \(fileData.isEmpty), \(fileData.description)")
+                    // file data 접근 하는 부분
+                } catch {
+                    print("Error loading data: \(error)")
+                }
+            }) {Text("access testfile.pdf")}
+            
         }.overlay(
             Group {
                 if showInviteGroupMember {
@@ -196,8 +234,6 @@ struct HomeView: View {
             print("Unable to load data: \(error)")
         }
     }
-
-
 }
 
 
