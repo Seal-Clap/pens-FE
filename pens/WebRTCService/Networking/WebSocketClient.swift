@@ -8,7 +8,7 @@
 import Foundation
 import SocketRocket
 
-protocol WebSocketClientDelegate: class {
+protocol WebSocketClientDelegate: AnyObject {
     func webSocketDidConnect(_ webSocket: WebSocketClient)
     func webSocketDidDisconnect(_ webSocket: WebSocketClient)
     func webSocket(_ webSocket: WebSocketClient, didReceive data: String)

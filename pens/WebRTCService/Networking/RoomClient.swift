@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import Alamofire
 
 enum JoinStatus: String, Decodable {
     case FULL
@@ -26,86 +27,69 @@ struct JoinResponseParam: Decodable {
     let messages: [String]?
 }
 
+struct tempParam: Decodable {
+    let type: String
+    let sender: String?
+    let receiver: String?
+    let roomId: String?
+    let data: Data?
+}
+
 enum RoomResponseError: Error {
     case full
 }
 
 struct RoomClient {
+    
     func join(roomID:String,completion: @escaping ((_ response: JoinResponseParam?, _ error: Error?) -> Void)) -> Void {
-        var request = URLRequest(url: roomURL(roomID: roomID))
-        request.httpMethod = "POST"
-        
-        let task = URLSession.shared.dataTask(with: request){(data, response, error) in
-            guard let data = data else {
-                if let error = error {
-                    completion(nil, error)
-                }
-                return
-            }
+        let temp: tempParam = tempParam(type: "init", sender: "1", roomId: "1")
+        AF.request(roomURL(roomID: roomID), method: .post, parameters: temp, encoder: JSONParameterEncoder(encoder: <#T##JSONEncoder#>)).responseDecodable(of: JoinResponse.self) { response in
             
-            do{
-                let decoder = JSONDecoder()
-                let result = try decoder.decode(JoinResponse.self, from: data)
-                
+            switch response.result {
+            case .success(let result):
                 if result.result == .SUCCESS {
                     completion(result.params, nil)
                 } else if result.result == .FULL {
                     completion(nil, RoomResponseError.full)
                 }
-            }catch let error{
-                completion(nil,error)
+            case .failure(let error):
+                completion(nil, error)
             }
-            
         }
-        
-        task.resume();
     }
     
     func disconnect(roomID: String, userID: String, completion: @escaping (() -> Void)) {
-        var request = URLRequest(url: leaveURL(roomID: roomID, userID: userID))
-        request.httpMethod = "POST"
         
-        let task = URLSession.shared.dataTask(with: request) { _,_,_  in
+        AF.request(leaveURL(roomID: roomID, userID: userID), method: .post).response { _ in
             completion()
         }
-        
-        task.resume()
     }
     
     func sendMessage(_ message: Data, roomID: String, userID: String, completion: @escaping (() -> Void)) {
-        var request = URLRequest(url: messageURL(roomID: roomID, userID: userID))
-        request.httpMethod = "POST"
-        request.httpBody = message
         
-        dLog("Message \(message.prettyPrintedJSONString)")
-        
-        let task = URLSession.shared.dataTask(with: request) { data, response, error  in
-            if let data = data {
+        AF.request(messageURL(roomID: roomID, userID: userID), method: .post, parameters: ["message": message], encoding: JSONEncoding.default).response { response in
+            if let data = response.data {
                 dLog("\(data.prettyPrintedJSONString)")
-            } else if let error = error {
+            } else if let error = response.error {
                 dLog(error)
             }
-            
             completion()
         }
-        
-        task.resume()
     }
-    
 }
 
 // MARK: URL Path
 extension RoomClient {
-    func roomURL(roomID: String) -> URL {
-        let base = Config.default.signalingServer + "/join/"
-        return URL(string: base + "\(roomID)")!
+    func roomURL(roomID: String) -> String {
+        let base = Config.default.signalingServer + "/room/"
+        return base + "?roomId=\(roomID)"
     }
-    func leaveURL(roomID: String, userID: String) -> URL {
+    func leaveURL(roomID: String, userID: String) -> String {
         let base =  Config.default.signalingServer + "/leave/"
-        return URL(string: base + "\(roomID)/\(userID)")!
+        return base + "\(roomID)/\(userID)"
     }
-    func messageURL(roomID: String, userID: String) -> URL {
+    func messageURL(roomID: String, userID: String) -> String {
         let base =  Config.default.signalingServer + "/message/"
-        return URL(string: base + "\(roomID)/\(userID)")!
+        return base + "\(roomID)/\(userID)"
     }
 }

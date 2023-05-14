@@ -47,11 +47,10 @@ class WebRTCClient: NSObject {
     }
 
     func setup() {
-        let constraints = RTCMediaConstraints(mandatoryConstraints: nil, optionalConstraints: nil)
-        let config = RTCConfiguration()
-        self.peerConnection = self.factory.peerConnection(with: config, constraints: constraints, delegate: nil)
-        let audioSource = self.factory.audioSource(with: constraints)
-        self.remoteAudioTrack = self.factory.audioTrack(with: audioSource, trackId: "audio0")
+        let constraints = RTCMediaConstraints(mandatoryConstraints: nil, optionalConstraints: ["DtlsSrtpKeyAgreement": "true"])
+        let config = generateRTCConfig()
+
+        peerConnection = self.factory.peerConnection(with: config, constraints: constraints, delegate: self)
 
         createMediaSenders()
 
@@ -119,7 +118,7 @@ class WebRTCClient: NSObject {
             }
         })
 
-        if let data = sdp.JSONData() {
+        if let data = sdp.jsonData() {
             self.delegate?.webRTCClient(self, sendData: data)
             dLog("Send Local SDP")
         }
@@ -145,12 +144,11 @@ extension WebRTCClient {
             dLog("Check PeerConnection")
             return
         }
-
-
-        let mediaTrackStreamIDs = ["ARDAMS"]
-
+        let constraints = RTCMediaConstraints(mandatoryConstraints: [:], optionalConstraints: nil)
+        let audioSource = self.factory.audioSource(with: constraints)
+        localAudioTrack = self.factory.audioTrack(with: audioSource, trackId: "audio0")
+        let mediaTrackStreamIDs = ["audio0"]
         peerConnection.add(localAudioTrack!, streamIds: mediaTrackStreamIDs)
-        remoteAudioTrack = peerConnection.transceivers.first { $0.mediaType == .audio }?.receiver.track as? RTCAudioTrack
     }
 }
 
@@ -224,7 +222,7 @@ extension WebRTCClient: RTCPeerConnectionDelegate {
     }
 
     func peerConnection(_ peerConnection: RTCPeerConnection, didGenerate candidate: RTCIceCandidate) {
-        guard let message = candidate.JSONData() else { return }
+        guard let message = candidate.jsonData() else { return }
         delegate?.webRTCClient(self, sendData: message)
         dLog("")
     }
