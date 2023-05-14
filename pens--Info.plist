@@ -2,12 +2,12 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>NSDocumentsBrowserUserInterfaceItemIdentifier</key>
-	<string>Read/Write</string>
 	<key>NSAppTransportSecurity</key>
 	<dict>
 		<key>NSAllowsArbitraryLoads</key>
 		<true/>
 	</dict>
+	<key>NSDocumentsBrowserUserInterfaceItemIdentifier</key>
+	<string>Read/Write</string>
 </dict>
 </plist>

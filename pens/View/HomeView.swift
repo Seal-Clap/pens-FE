@@ -27,6 +27,8 @@ struct HomeView: View {
     @State private var isImporting: Bool = false
     @State private var fileURL: URL?
     
+    @ObservedObject var viewModel: AudioCallViewModel
+    
     var body: some View {
         NavigationView {
             VStack {
@@ -151,6 +153,7 @@ struct HomeView: View {
                 }
                 /*@START_MENU_TOKEN@*/Text("Placeholder")/*@END_MENU_TOKEN@*/
                 /*@START_MENU_TOKEN@*/Text("Placeholder")/*@END_MENU_TOKEN@*/
+                Button(action: {self.viewModel.connectRoom(roomID: "1")}) { Text("Connect")}
             }
         }.overlay(
             Group {
@@ -201,7 +204,7 @@ struct HomeView: View {
 struct HomeView_Previews: PreviewProvider {
     @State static private var loginState: Bool? = true
     static var previews: some View {
-        HomeView(loginState: $loginState).environmentObject(LeaveGroup())
+        HomeView(loginState: $loginState, viewModel: AudioCallViewModel()).environmentObject(LeaveGroup())
     }
 }
 

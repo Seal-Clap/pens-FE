@@ -9,6 +9,14 @@
 /* Begin PBXBuildFile section */
 		05EE4B2729E545E50088B6AF /* AuthNavigationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05EE4B2629E545E50088B6AF /* AuthNavigationView.swift */; };
 		186FF4A22A0BA120008D26EC /* LoadGroupList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 186FF4A12A0BA120008D26EC /* LoadGroupList.swift */; };
+		1891A2932A10E22A001C5BA9 /* WebSocketClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1891A2922A10E22A001C5BA9 /* WebSocketClient.swift */; };
+		1891A2982A10E2E0001C5BA9 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1891A2972A10E2E0001C5BA9 /* Extensions.swift */; };
+		1891A29A2A10E2EF001C5BA9 /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1891A2992A10E2EF001C5BA9 /* Logger.swift */; };
+		1891A29C2A10E327001C5BA9 /* RoomClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1891A29B2A10E327001C5BA9 /* RoomClient.swift */; };
+		1891A29E2A10E339001C5BA9 /* Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1891A29D2A10E339001C5BA9 /* Config.swift */; };
+		1891A2A12A10E780001C5BA9 /* AudioCallViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1891A2A02A10E780001C5BA9 /* AudioCallViewModel.swift */; };
+		1891A2A92A10E8B8001C5BA9 /* SignalMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1891A2A82A10E8B8001C5BA9 /* SignalMessage.swift */; };
+		1891A2AB2A10E8D5001C5BA9 /* WebRTCClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1891A2AA2A10E8D5001C5BA9 /* WebRTCClient.swift */; };
 		18A92A0A29BF0917009820F6 /* pens_App.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18A92A0929BF0917009820F6 /* pens_App.swift */; };
 		18A92A0C29BF0917009820F6 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18A92A0B29BF0917009820F6 /* ContentView.swift */; };
 		18A92A0E29BF0918009820F6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 18A92A0D29BF0918009820F6 /* Assets.xcassets */; };
@@ -55,6 +63,14 @@
 /* Begin PBXFileReference section */
 		05EE4B2629E545E50088B6AF /* AuthNavigationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthNavigationView.swift; sourceTree = "<group>"; };
 		186FF4A12A0BA120008D26EC /* LoadGroupList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadGroupList.swift; sourceTree = "<group>"; };
+		1891A2922A10E22A001C5BA9 /* WebSocketClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebSocketClient.swift; sourceTree = "<group>"; };
+		1891A2972A10E2E0001C5BA9 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
+		1891A2992A10E2EF001C5BA9 /* Logger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Logger.swift; sourceTree = "<group>"; };
+		1891A29B2A10E327001C5BA9 /* RoomClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoomClient.swift; sourceTree = "<group>"; };
+		1891A29D2A10E339001C5BA9 /* Config.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Config.swift; sourceTree = "<group>"; };
+		1891A2A02A10E780001C5BA9 /* AudioCallViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioCallViewModel.swift; sourceTree = "<group>"; };
+		1891A2A82A10E8B8001C5BA9 /* SignalMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignalMessage.swift; sourceTree = "<group>"; };
+		1891A2AA2A10E8D5001C5BA9 /* WebRTCClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebRTCClient.swift; sourceTree = "<group>"; };
 		18A92A0629BF0917009820F6 /* pens.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = pens.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		18A92A0929BF0917009820F6 /* pens_App.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = pens_App.swift; sourceTree = "<group>"; };
 		18A92A0B29BF0917009820F6 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -129,6 +145,53 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		1891A2902A10D1C3001C5BA9 /* WebRTCService */ = {
+			isa = PBXGroup;
+			children = (
+				1891A2A72A10E8AC001C5BA9 /* WebRTC */,
+				1891A29F2A10E770001C5BA9 /* ViewModel */,
+				1891A2962A10E2CB001C5BA9 /* Utils */,
+				1891A2912A10E215001C5BA9 /* Networking */,
+				1891A29D2A10E339001C5BA9 /* Config.swift */,
+			);
+			path = WebRTCService;
+			sourceTree = "<group>";
+		};
+		1891A2912A10E215001C5BA9 /* Networking */ = {
+			isa = PBXGroup;
+			children = (
+				1891A2922A10E22A001C5BA9 /* WebSocketClient.swift */,
+				1891A29B2A10E327001C5BA9 /* RoomClient.swift */,
+			);
+			path = Networking;
+			sourceTree = "<group>";
+		};
+		1891A2962A10E2CB001C5BA9 /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				1891A2972A10E2E0001C5BA9 /* Extensions.swift */,
+				1891A2992A10E2EF001C5BA9 /* Logger.swift */,
+			);
+			path = Utils;
+			sourceTree = "<group>";
+		};
+		1891A29F2A10E770001C5BA9 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				1891A2A02A10E780001C5BA9 /* AudioCallViewModel.swift */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		1891A2A72A10E8AC001C5BA9 /* WebRTC */ = {
+			isa = PBXGroup;
+			children = (
+				1891A2A82A10E8B8001C5BA9 /* SignalMessage.swift */,
+				1891A2AA2A10E8D5001C5BA9 /* WebRTCClient.swift */,
+			);
+			path = WebRTC;
+			sourceTree = "<group>";
+		};
 		18A929FD29BF0917009820F6 = {
 			isa = PBXGroup;
 			children = (
@@ -154,6 +217,7 @@
 		18A92A0829BF0917009820F6 /* pens */ = {
 			isa = PBXGroup;
 			children = (
+				1891A2902A10D1C3001C5BA9 /* WebRTCService */,
 				BC95CFD629D6E80600AE3037 /* Method */,
 				BC95CFD529D6E28A00AE3037 /* pens--Info.plist */,
 				BC95CFD229D6DF8300AE3037 /* API */,
@@ -483,20 +547,28 @@
 				BC95CFD829D6E81900AE3037 /* Register.swift in Sources */,
 				BC5B927E29E2CDFE00F52228 /* HomeView.swift in Sources */,
 				BCE32D2B29CD7DC40096F899 /* LoginView.swift in Sources */,
+				1891A29A2A10E2EF001C5BA9 /* Logger.swift in Sources */,
 				BC95CFD429D6DFBC00AE3037 /* APIContants.swift in Sources */,
 				BCE32D2D29CD81000096F899 /* ResisterView.swift in Sources */,
 				BC74703E29EBDA07003C541C /* AddGroupView.swift in Sources */,
+				1891A2932A10E22A001C5BA9 /* WebSocketClient.swift in Sources */,
+				1891A2A92A10E8B8001C5BA9 /* SignalMessage.swift in Sources */,
 				18A92A0C29BF0917009820F6 /* ContentView.swift in Sources */,
 				FD290E6A2A00306800CD2835 /* GroupUserDeleteView.swift in Sources */,
 				FD290E682A001DF600CD2835 /* GroupCreate.swift in Sources */,
 				18A92A0A29BF0917009820F6 /* pens_App.swift in Sources */,
+				1891A2A12A10E780001C5BA9 /* AudioCallViewModel.swift in Sources */,
 				05EE4B2729E545E50088B6AF /* AuthNavigationView.swift in Sources */,
 				BC74703829EBB7FD003C541C /* LoginToken.swift in Sources */,
 				FD290E6E2A00364D00CD2835 /* GroupRowView.swift in Sources */,
+				1891A2982A10E2E0001C5BA9 /* Extensions.swift in Sources */,
 				FD290E6C2A00344100CD2835 /* GroupDeleteUser.swift in Sources */,
+				1891A29E2A10E339001C5BA9 /* Config.swift in Sources */,
 				BCC985832A0795DB002A17E3 /* InviteGroup.swift in Sources */,
 				BC74703C29EBC81F003C541C /* InviteGroupMemberView.swift in Sources */,
 				186FF4A22A0BA120008D26EC /* LoadGroupList.swift in Sources */,
+				1891A29C2A10E327001C5BA9 /* RoomClient.swift in Sources */,
+				1891A2AB2A10E8D5001C5BA9 /* WebRTCClient.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -656,7 +728,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"pens/Preview Content\"";
-				DEVELOPMENT_TEAM = CBF7HZWZB2;
+				DEVELOPMENT_TEAM = LV8N2952A2;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "pens--Info.plist";
@@ -671,7 +743,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.example.pens-";
+				PRODUCT_BUNDLE_IDENTIFIER = com.example.pens;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
@@ -691,7 +763,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"pens/Preview Content\"";
-				DEVELOPMENT_TEAM = CBF7HZWZB2;
+				DEVELOPMENT_TEAM = LV8N2952A2;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "pens--Info.plist";
@@ -706,7 +778,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.example.pens-";
+				PRODUCT_BUNDLE_IDENTIFIER = com.example.pens;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
