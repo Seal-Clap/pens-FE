@@ -1,28 +1,24 @@
 PODS:
   - Alamofire (5.6.4)
-  - Socket.IO-Client-Swift (16.0.1):
-    - Starscream (~> 4.0)
-  - Starscream (4.0.4)
-  - WebRTC (63.11.20455)
+  - GoogleWebRTC (1.1.32000)
+  - SocketRocket (0.6.0)
 
 DEPENDENCIES:
   - Alamofire
-  - Socket.IO-Client-Swift
-  - WebRTC
+  - GoogleWebRTC
+  - SocketRocket
 
 SPEC REPOS:
   trunk:
     - Alamofire
-    - Socket.IO-Client-Swift
-    - Starscream
-    - WebRTC
+    - GoogleWebRTC
+    - SocketRocket
 
 SPEC CHECKSUMS:
   Alamofire: 4e95d97098eacb88856099c4fc79b526a299e48c
-  Socket.IO-Client-Swift: c116d6dc9fd6be9c259bacfe143f8725bce7d79e
-  Starscream: 5178aed56b316f13fa3bc55694e583d35dd414d9
-  WebRTC: f2a6203584745fe53532633397557876b5d71640
+  GoogleWebRTC: 4d261187b30512efdb711d21fa961a6adf138717
+  SocketRocket: fccef3f9c5cedea1353a9ef6ada904fde10d6608
 
-PODFILE CHECKSUM: 813ff87f456da231ac72b40521c27b09038c8f42
+PODFILE CHECKSUM: af379b95a628c15bed40e76d7b3952e7b044214b
 
 COCOAPODS: 1.12.1

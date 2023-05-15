@@ -11,7 +11,7 @@ struct InviteGroupMemberView: View {
     @Binding var isPresented: Bool
     @State private var emailAddress: String = ""
     @State private var userId: Int = (getUserId() ?? 0)
-    var groupName: String
+    var groupId: Int
     var body: some View {
         ZStack {
             RoundedRectangle(cornerRadius: 25)
@@ -27,15 +27,10 @@ struct InviteGroupMemberView: View {
                     .padding()
                     .textFieldStyle(RoundedBorderTextFieldStyle())
                 Button(action: {
-                    // 초대 동작 추가
-                    print("InviteGroupMemberView++++++++userId : \(userId) +++++++++++")
-                    getGroupId(userId: userId, groupName: groupName) { result in
-                        print("InviteGroupMemberView+++++++++++result : \(result)+++++++++++++")
+                    getGroupId(userId: userId, groupId: groupId) { result in
                         switch result {
                         case .success(let groupId):
-                            print("InviteGroupMemberView++++++++++++++groupId : \(groupId) +++++++++++++")
-                            let userEmail = emailAddress
-                            inviteGroup(groupId: groupId, userEmail: userEmail) { result in
+                            inviteGroup(groupId: groupId, userEmail: emailAddress) { result in
                                 switch result {
                                 case .success(let responseString):
                                     print("Successfully sent data: \(responseString)")
@@ -74,6 +69,6 @@ struct InviteGroupMemberView: View {
 
 struct InviteGroupMemberView_Previews: PreviewProvider {
     static var previews: some View {
-        InviteGroupMemberView(isPresented: .constant(false), groupName: "sampleName")
+        InviteGroupMemberView(isPresented: .constant(false), groupId: 0)
     }
 }

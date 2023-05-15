@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import Alamofire
 
 struct HomeView: View {
     //로그아웃 위해
@@ -20,11 +21,15 @@ struct HomeView: View {
     //
     @State private var selectedGroup: GroupElement = GroupElement(groupId: 0, groupName: "local")
     @State private var showingGroupLeaveAlert = false
-
     //
     @State private var userId: Int? = nil
-
     @State private var groups = [GroupElement]()
+    //
+    @State private var isImporting: Bool = false
+    @State private var fileURL: URL?
+    
+    @ObservedObject var viewModel: AudioCallViewModel
+    
     var body: some View {
         NavigationView {
             VStack {
@@ -85,9 +90,6 @@ struct HomeView: View {
                         .frame(width: 200, height: 50)
                 }
                     .background(RoundedRectangle(cornerRadius: 8).fill(Color.gray))
-                    .sheet(isPresented: $showInviteGroupMember) {
-                    InviteGroupMemberView(isPresented: $showInviteGroupMember, groupName: selectedGroup.groupName)
-                }
                     .padding()
                 Divider()
                 List {
@@ -126,11 +128,13 @@ struct HomeView: View {
                     )
                 }
             }
-            Text("Detail")
+            VStack{
+                FileView(groupId : $selectedGroup.groupId,viewModel: AudioCallViewModel())
+            }.navigationTitle("문서")
         }.overlay(
             Group {
                 if showInviteGroupMember {
-                    InviteGroupMemberView(isPresented: $showInviteGroupMember, groupName: selectedGroup.groupName)
+                    InviteGroupMemberView(isPresented: $showInviteGroupMember, groupId: selectedGroup.groupId)
                 }
                 if showAddGroup {
                     AddGroupView(isPresented: $showAddGroup, onAddGroup: { groupID in
@@ -146,14 +150,13 @@ struct HomeView: View {
             }
         )
     }
-
 }
 
 
 struct HomeView_Previews: PreviewProvider {
     @State static private var loginState: Bool? = true
     static var previews: some View {
-        HomeView(loginState: $loginState).environmentObject(LeaveGroup())
+        HomeView(loginState: $loginState, viewModel: AudioCallViewModel()).environmentObject(LeaveGroup())
     }
 }
 

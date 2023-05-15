@@ -11,7 +11,7 @@ import Alamofire
 
 struct GroupElement: Codable, Identifiable{
     let id = UUID()
-    let groupId: Int
+    var groupId: Int
     let groupName: String
 
     enum CodingKeys: String, CodingKey {

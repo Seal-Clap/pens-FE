@@ -32,4 +32,9 @@ struct APIContants{
     static let groupIsAdminURL = baseURL + "/group/isAdmin";
     //group invite 그룹 초대
     static let groupInviteURL = baseURL + "/group/invite";
+    // file upload
+    static let fileUploadURL = baseURL + "/file/upload"
+    // signaling server
+    static let signalingServerURL = "ws://13.209.120.19:8080/room"
+
 }

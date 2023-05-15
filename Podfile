@@ -7,8 +7,9 @@ target 'pens' do
 
   # Pods for pens
     pod "Alamofire"
-    pod "WebRTC"
-    pod 'Socket.IO-Client-Swift'
+    pod "GoogleWebRTC"
+    pod "SocketRocket"
+    
   target 'pensTests' do
     inherit! :search_paths
     # Pods for testing
