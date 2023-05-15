@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		05C752D02A11E34E0070D16B /* GroupUsersView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05C752CF2A11E34E0070D16B /* GroupUsersView.swift */; };
+		05C752D22A11E3700070D16B /* GroupUsers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05C752D12A11E3700070D16B /* GroupUsers.swift */; };
 		05EE4B2729E545E50088B6AF /* AuthNavigationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05EE4B2629E545E50088B6AF /* AuthNavigationView.swift */; };
 		186FF4A22A0BA120008D26EC /* LoadGroupList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 186FF4A12A0BA120008D26EC /* LoadGroupList.swift */; };
 		18A92A0A29BF0917009820F6 /* pens_App.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18A92A0929BF0917009820F6 /* pens_App.swift */; };
@@ -53,6 +55,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		05C752CF2A11E34E0070D16B /* GroupUsersView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GroupUsersView.swift; sourceTree = "<group>"; };
+		05C752D12A11E3700070D16B /* GroupUsers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GroupUsers.swift; sourceTree = "<group>"; };
 		05EE4B2629E545E50088B6AF /* AuthNavigationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthNavigationView.swift; sourceTree = "<group>"; };
 		186FF4A12A0BA120008D26EC /* LoadGroupList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadGroupList.swift; sourceTree = "<group>"; };
 		18A92A0629BF0917009820F6 /* pens.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = pens.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -201,6 +205,7 @@
 		BC95CFD629D6E80600AE3037 /* Method */ = {
 			isa = PBXGroup;
 			children = (
+				05C752D12A11E3700070D16B /* GroupUsers.swift */,
 				BC95CFD729D6E81900AE3037 /* Register.swift */,
 				FD1C79C929E397930055F52C /* Login.swift */,
 				BC74703729EBB7FD003C541C /* LoginToken.swift */,
@@ -215,6 +220,7 @@
 		BCE32D2929CD7CFA0096F899 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				05C752CF2A11E34E0070D16B /* GroupUsersView.swift */,
 				18A92A0B29BF0917009820F6 /* ContentView.swift */,
 				BCE32D2A29CD7DC40096F899 /* LoginView.swift */,
 				BCE32D2C29CD81000096F899 /* ResisterView.swift */,
@@ -480,6 +486,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				FD1C79CA29E397930055F52C /* Login.swift in Sources */,
+				05C752D02A11E34E0070D16B /* GroupUsersView.swift in Sources */,
 				BC95CFD829D6E81900AE3037 /* Register.swift in Sources */,
 				BC5B927E29E2CDFE00F52228 /* HomeView.swift in Sources */,
 				BCE32D2B29CD7DC40096F899 /* LoginView.swift in Sources */,
@@ -496,6 +503,7 @@
 				FD290E6C2A00344100CD2835 /* GroupDeleteUser.swift in Sources */,
 				BCC985832A0795DB002A17E3 /* InviteGroup.swift in Sources */,
 				BC74703C29EBC81F003C541C /* InviteGroupMemberView.swift in Sources */,
+				05C752D22A11E3700070D16B /* GroupUsers.swift in Sources */,
 				186FF4A22A0BA120008D26EC /* LoadGroupList.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
