@@ -32,21 +32,9 @@ func getGroupId(userId: Int, groupId: Int, completion: @escaping (Result<Int, Er
     let urlString = "\(APIContants.usersGroupsURL)?userId=\(userId)"
     let url = URL(string: urlString)!
     
-    AF.request(url, method: .get).responseJSON { response in
+    AF.request(url, method: .get).responseDecodable(of: [GroupIdResponse].self) { response in
         switch response.result {
-        case .success(let data):
-            guard let jsonArray = data as? [[String: Any]] else {
-                completion(.failure(NSError(domain: "Invalid JSON data", code: -1, userInfo: nil)))
-                return
-            }
-            let groupIdResponses = jsonArray.compactMap { json -> GroupIdResponse? in
-                guard let groupId = json["groupId"] as? Int,
-                      let groupName = json["groupName"] as? String else {
-                    return nil
-                }
-                return GroupIdResponse(groupId: groupId, groupName: groupName)
-            }
-            
+        case .success(let groupIdResponses):
             if let groupIdResponse = groupIdResponses.first(where: { $0.groupId == groupId }) {
                 completion(.success(groupIdResponse.groupId))
             } else {
@@ -65,16 +53,9 @@ func inviteGroup(groupId: Int, userEmail: String, completion: @escaping (Result<
         "userEmail": userEmail
     ]
     
-    AF.request(url, method: .post, parameters: parameters, encoding: JSONEncoding.default).responseJSON { response in
+    AF.request(url, method: .post, parameters: parameters, encoding: JSONEncoding.default).responseDecodable(of: InviteGroupResponse.self) { response in
         switch response.result {
-        case .success(let data):
-            guard let json = data as? [String: Any],
-                  let success = json["success"] as? Bool,
-                  let message = json["message"] as? String else {
-                completion(.failure(.decodingError))
-                return
-            }
-            let inviteResponse = InviteGroupResponse(success: success, message: message)
+        case .success(let inviteResponse):
             completion(.success(inviteResponse))
         case .failure:
             completion(.failure(.networkError))

@@ -19,10 +19,13 @@
 		567BCAC863932C408CA02676 /* Pods_pens.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D537C501EFD92DDA358EAAF8 /* Pods_pens.framework */; };
 		56F80CA428838B3161D7C987 /* Pods_pens_pensUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A89259D620AE14C328DAFAE0 /* Pods_pens_pensUITests.framework */; };
 		7BBEA2E0C80635D6D031018D /* Pods_pensTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4BFCEEB3231594F5CEBB91B9 /* Pods_pensTests.framework */; };
+		BC0822D62A0E242200EB4CB9 /* DocumentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC0822D52A0E242200EB4CB9 /* DocumentView.swift */; };
 		BC5B927E29E2CDFE00F52228 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC5B927D29E2CDFE00F52228 /* HomeView.swift */; };
 		BC74703829EBB7FD003C541C /* LoginToken.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC74703729EBB7FD003C541C /* LoginToken.swift */; };
 		BC74703C29EBC81F003C541C /* InviteGroupMemberView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC74703B29EBC81F003C541C /* InviteGroupMemberView.swift */; };
 		BC74703E29EBDA07003C541C /* AddGroupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC74703D29EBDA07003C541C /* AddGroupView.swift */; };
+		BC86BE2B2A0F8316009FB1D2 /* FilePopUpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC86BE2A2A0F8316009FB1D2 /* FilePopUpView.swift */; };
+		BC86BE2E2A0F967E009FB1D2 /* Folder.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC86BE2D2A0F967E009FB1D2 /* Folder.swift */; };
 		BC95CFD429D6DFBC00AE3037 /* APIContants.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC95CFD329D6DFBC00AE3037 /* APIContants.swift */; };
 		BC95CFD829D6E81900AE3037 /* Register.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC95CFD729D6E81900AE3037 /* Register.swift */; };
 		BCC985832A0795DB002A17E3 /* InviteGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCC985822A0795DB002A17E3 /* InviteGroup.swift */; };
@@ -68,10 +71,13 @@
 		4BFCEEB3231594F5CEBB91B9 /* Pods_pensTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_pensTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		A89259D620AE14C328DAFAE0 /* Pods_pens_pensUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_pens_pensUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		AE0D5555DEDD5A1458F3F9EA /* Pods-pens-pensUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-pens-pensUITests.debug.xcconfig"; path = "Target Support Files/Pods-pens-pensUITests/Pods-pens-pensUITests.debug.xcconfig"; sourceTree = "<group>"; };
+		BC0822D52A0E242200EB4CB9 /* DocumentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocumentView.swift; sourceTree = "<group>"; };
 		BC5B927D29E2CDFE00F52228 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 		BC74703729EBB7FD003C541C /* LoginToken.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginToken.swift; sourceTree = "<group>"; };
 		BC74703B29EBC81F003C541C /* InviteGroupMemberView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InviteGroupMemberView.swift; sourceTree = "<group>"; };
 		BC74703D29EBDA07003C541C /* AddGroupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddGroupView.swift; sourceTree = "<group>"; };
+		BC86BE2A2A0F8316009FB1D2 /* FilePopUpView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilePopUpView.swift; sourceTree = "<group>"; };
+		BC86BE2D2A0F967E009FB1D2 /* Folder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Folder.swift; sourceTree = "<group>"; };
 		BC95CFD329D6DFBC00AE3037 /* APIContants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIContants.swift; sourceTree = "<group>"; };
 		BC95CFD529D6E28A00AE3037 /* pens--Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "pens--Info.plist"; sourceTree = SOURCE_ROOT; };
 		BC95CFD729D6E81900AE3037 /* Register.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Register.swift; sourceTree = "<group>"; };
@@ -208,6 +214,7 @@
 				FD290E6B2A00344100CD2835 /* GroupDeleteUser.swift */,
 				BCC985822A0795DB002A17E3 /* InviteGroup.swift */,
 				186FF4A12A0BA120008D26EC /* LoadGroupList.swift */,
+				BC86BE2D2A0F967E009FB1D2 /* Folder.swift */,
 			);
 			path = Method;
 			sourceTree = "<group>";
@@ -224,6 +231,8 @@
 				BC74703D29EBDA07003C541C /* AddGroupView.swift */,
 				FD290E692A00306800CD2835 /* GroupUserDeleteView.swift */,
 				FD290E6D2A00364D00CD2835 /* GroupRowView.swift */,
+				BC0822D52A0E242200EB4CB9 /* DocumentView.swift */,
+				BC86BE2A2A0F8316009FB1D2 /* FilePopUpView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -480,6 +489,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				FD1C79CA29E397930055F52C /* Login.swift in Sources */,
+				BC86BE2B2A0F8316009FB1D2 /* FilePopUpView.swift in Sources */,
 				BC95CFD829D6E81900AE3037 /* Register.swift in Sources */,
 				BC5B927E29E2CDFE00F52228 /* HomeView.swift in Sources */,
 				BCE32D2B29CD7DC40096F899 /* LoginView.swift in Sources */,
@@ -488,6 +498,7 @@
 				BC74703E29EBDA07003C541C /* AddGroupView.swift in Sources */,
 				18A92A0C29BF0917009820F6 /* ContentView.swift in Sources */,
 				FD290E6A2A00306800CD2835 /* GroupUserDeleteView.swift in Sources */,
+				BC0822D62A0E242200EB4CB9 /* DocumentView.swift in Sources */,
 				FD290E682A001DF600CD2835 /* GroupCreate.swift in Sources */,
 				18A92A0A29BF0917009820F6 /* pens_App.swift in Sources */,
 				05EE4B2729E545E50088B6AF /* AuthNavigationView.swift in Sources */,
@@ -497,6 +508,7 @@
 				BCC985832A0795DB002A17E3 /* InviteGroup.swift in Sources */,
 				BC74703C29EBC81F003C541C /* InviteGroupMemberView.swift in Sources */,
 				186FF4A22A0BA120008D26EC /* LoadGroupList.swift in Sources */,
+				BC86BE2E2A0F967E009FB1D2 /* Folder.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

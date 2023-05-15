@@ -26,6 +26,7 @@ struct HomeView: View {
     @State private var groups = [GroupElement]()
     var body: some View {
         NavigationView {
+            //group
             VStack {
                 Text("그룹 목록").font(.title)
                 List {
@@ -66,6 +67,7 @@ struct HomeView: View {
                     showAddGroup = true
                 }, label: { Text("그룹 추가").font(.title2) })
             }
+            //channel
             VStack {
                 Text("User ID: \(userId ?? 0)")
                     .onAppear {
@@ -84,10 +86,10 @@ struct HomeView: View {
                         .frame(width: 200, height: 50)
                 }
                     .background(RoundedRectangle(cornerRadius: 8).fill(Color.gray))
-                    .sheet(isPresented: $showInviteGroupMember) {
+                    /*.sheet(isPresented: $showInviteGroupMember) {
                     InviteGroupMemberView(isPresented: $showInviteGroupMember, groupId: selectedGroup.groupId)
-                }
-                    .padding()
+                }*/
+                .padding()
                 Divider()
                 List {
                     VStack {
@@ -125,12 +127,16 @@ struct HomeView: View {
                     )
                 }
             }
-            Text("Detail")
+            //문서
+            VStack{
+                DocumentView()
+            }.navigationTitle("문서")
         }.overlay(
             Group {
                 if showInviteGroupMember {
                     InviteGroupMemberView(isPresented: $showInviteGroupMember, groupId: selectedGroup.groupId)
                 }
+                
                 if showAddGroup {
                     AddGroupView(isPresented: $showAddGroup, onAddGroup: { groupID in
                         getGroups(completion: { (groups) in
@@ -143,10 +149,7 @@ struct HomeView: View {
             }
         )
     }
-
 }
-
-
 struct HomeView_Previews: PreviewProvider {
     @State static private var loginState: Bool? = true
     static var previews: some View {

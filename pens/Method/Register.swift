@@ -4,7 +4,6 @@
 //
 //  Created by 박상준 on 2023/03/31.
 //
-
 import Foundation
 import SwiftUI
 import Alamofire
@@ -21,7 +20,7 @@ func register(email: String, pwd: String, name: String, completion: @escaping (B
         "userName": name
     ]
     
-    AF.request(url, method: .post, parameters: parameters, encoding: JSONEncoding.default).responseJSON { response in
+    AF.request(url, method: .post, parameters: parameters, encoding: JSONEncoding.default).responseData { response in
         switch response.result {
         case .success:
             if let httpResponse = response.response {
@@ -51,3 +50,4 @@ func pwdCheck(email: String, pwd: String, name: String, pwdConfirm: String, isRe
         }
     }
 }
+
