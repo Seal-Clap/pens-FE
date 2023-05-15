@@ -89,9 +89,6 @@ struct HomeView: View {
                         .frame(width: 200, height: 50)
                 }
                     .background(RoundedRectangle(cornerRadius: 8).fill(Color.gray))
-                    .sheet(isPresented: $showInviteGroupMember) {
-                    InviteGroupMemberView(isPresented: $showInviteGroupMember, groupId: selectedGroup.groupId)
-                }
                     .padding()
                 Divider()
                 List {
@@ -130,69 +127,9 @@ struct HomeView: View {
                     )
                 }
             }
-            Text("Detail")
-            LazyVGrid(columns: /*@START_MENU_TOKEN@*//*@PLACEHOLDER=Columns@*/[GridItem(.fixed(200))]/*@END_MENU_TOKEN@*/) {
-                Button(action: { // file upload button
-                    isImporting = true
-                }) {
-                    Image(systemName: "plus.rectangle")
-                        .resizable()
-                        .frame(width: 60, height: 45, alignment: .center)
-                }.fileImporter(
-                    isPresented: $isImporting,
-                    allowedContentTypes: [.pdf, .presentation, .image],
-                    allowsMultipleSelection: false
-                ) { result in
-                    do {
-                        let selectedFiles = try result.get()
-                        fileURL = selectedFiles.first
-                        uploadFile(groupId: selectedGroup.groupId, fileUrl: fileURL!)
-                    } catch {
-                        // Handle error
-                    }
-                }
-                /*@START_MENU_TOKEN@*/Text("Placeholder")/*@END_MENU_TOKEN@*/
-                /*@START_MENU_TOKEN@*/Text("Placeholder")/*@END_MENU_TOKEN@*/
-                Button(action: {self.viewModel.connectRoom(roomID: "1")}) { Text("Connect")}
-                Text("Placeholder")
-                /*@START_MENU_TOKEN@*/Text("Placeholder")/*@END_MENU_TOKEN@*/
-                /*@START_MENU_TOKEN@*/Text("Placeholder")/*@END_MENU_TOKEN@*/
-                /*@START_MENU_TOKEN@*/Text("Placeholder")/*@END_MENU_TOKEN@*/
-                Button(action: {
-                    let destination: DownloadRequest.Destination = { _, _ in
-                        let documentsURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
-                        let fileURL = documentsURL.appendingPathComponent("testfile.pdf")
-
-                        return (fileURL, [.removePreviousFile, .createIntermediateDirectories])
-                    }
-
-                    AF.download(
-                        APIContants.baseURL+"/file/download?groupId=1000&fileName=testfile.pdf",
-                        to: destination)
-                        .downloadProgress { progress in
-                            print("Download Progress: \(progress.fractionCompleted)")
-                        }
-                        .response { response in
-                            if response.error == nil, let filePath = response.fileURL?.path {
-                                print("File downloaded successfully: \(filePath)")
-                            }
-                        }
-                }) {Text("Test file download")}
-            }
-            /*@START_MENU_TOKEN@*/Text("Placeholder")/*@END_MENU_TOKEN@*/
-            /*@START_MENU_TOKEN@*/Text("Placeholder")/*@END_MENU_TOKEN@*/
-            Button(action: {
-                let documentsURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
-                let fileURL = documentsURL.appendingPathComponent("testfile.pdf")
-                do {
-                    let fileData = try Data(contentsOf: fileURL)
-                    print("file data is empty: \(fileData.isEmpty), \(fileData.description)")
-                    // file data 접근 하는 부분
-                } catch {
-                    print("Error loading data: \(error)")
-                }
-            }) {Text("access testfile.pdf")}
-            
+            VStack{
+                FileView(groupId : $selectedGroup.groupId,viewModel: AudioCallViewModel())
+            }.navigationTitle("문서")
         }.overlay(
             Group {
                 if showInviteGroupMember {
@@ -209,30 +146,6 @@ struct HomeView: View {
                 }
             }
         )
-    }
-    func uploadFile(groupId: Int, fileUrl: URL) {
-        let url = URL(string: "\(APIContants.fileUploadURL)?groupId=\(groupId)")!
-
-        // Start accessing a security-scoped resource.
-        guard fileUrl.startAccessingSecurityScopedResource() else {
-            // Handle the failure here.
-            return
-        }
-
-        // Make sure you release the security-scoped resource when you finish.
-        defer { fileUrl.stopAccessingSecurityScopedResource() }
-
-        do {
-            let fileData = try Data(contentsOf: fileUrl)
-            AF.upload(multipartFormData: { multipartFormData in
-                multipartFormData.append(fileData, withName: "file", fileName: fileUrl.lastPathComponent)
-            }, to: url, method: .post).validate(statusCode: 200..<300)
-            .response { response in
-                debugPrint(response)
-            }
-        } catch {
-            print("Unable to load data: \(error)")
-        }
     }
 }
 
