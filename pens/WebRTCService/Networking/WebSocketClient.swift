@@ -41,7 +41,10 @@ class WebSocketClient: NSObject {
         }
         
         dLog(data.prettyPrintedJSONString)
-        socket.send(data)
+        guard let stringData = String(data: data, encoding: .utf8) else {
+            return
+        }
+        socket.send(stringData)
     }
 }
 

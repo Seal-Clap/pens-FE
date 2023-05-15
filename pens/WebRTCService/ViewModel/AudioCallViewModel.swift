@@ -10,7 +10,6 @@ class AudioCallViewModel: ObservableObject {
     // MARK: Room
     var _roomInfo: JoinResponseParam?
 
-    // MARK: 信令
     var _webSocket: WebSocketClient?
     var _messageQueue = [String]()
 
@@ -36,7 +35,6 @@ class AudioCallViewModel: ObservableObject {
     }
 }
 
-//MARK: 网络
 extension AudioCallViewModel {
     func join(roomID: String) -> Void {
         guard let _roomClient = _roomClient else {
@@ -110,9 +108,9 @@ extension AudioCallViewModel {
             let userID = _roomInfo?.client_id,
             let roomClient = _roomClient else { return }
 
-        roomClient.sendMessage(message, roomID: roomID, userID: userID) {
-
-        }
+//        roomClient.sendMessage(message, roomID: roomID, userID: userID) {
+//
+//        }
     }
 }
 
@@ -129,10 +127,6 @@ extension AudioCallViewModel: WebSocketClientDelegate {
         webSocket.delegate = self
         debugPrint(webSocketURL)
         webSocket.connect(url: webSocketURL)
-        if (webSocket.isConnected) {
-            webSocketDidConnect(webSocket)
-
-        }
     }
 
     func registerWithCollider(roomId: String) {
@@ -148,11 +142,8 @@ extension AudioCallViewModel: WebSocketClientDelegate {
             debugPrint("Error in Register room.")
             return
         }
-
-        webSocket.send(data: data)
-        do {
+                do {
             let jsonData = try JSONEncoder().encode(message)
-            
             webSocket.send(data: jsonData)
         }
         catch {
@@ -170,10 +161,8 @@ extension AudioCallViewModel: WebSocketClientDelegate {
         registerWithCollider(roomId: "1")
 
         webRTCClient.delegate = self
-        if(_roomInfo?.is_initiator == "true") {
             webRTCClient.createOffer()
-        }
-        drainMessageQueue();
+        drainMessageQueue()
 
     }
 

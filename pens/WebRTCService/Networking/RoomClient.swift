@@ -40,17 +40,17 @@ struct RoomClient {
         }
     }
     
-    func sendMessage(_ message: Data, roomID: String, userID: String, completion: @escaping (() -> Void)) {
-        
-        AF.request(messageURL(roomID: roomID, userID: userID), method: .post, parameters: ["message": message], encoding: JSONEncoding.default).response { response in
-            if let data = response.data {
-                dLog("\(data.prettyPrintedJSONString)")
-            } else if let error = response.error {
-                dLog(error)
-            }
-            completion()
-        }
-    }
+//    func sendMessage(_ message: Data, roomID: String, completion: @escaping (() -> Void)) {
+//        
+//        AF.request(messageURL(roomID: roomID), method: .post, parameters: ["message": message], encoding: JSONEncoding.default).response { response in
+//            if let data = response.data {
+//                dLog("\(data.prettyPrintedJSONString)")
+//            } else if let error = response.error {
+//                dLog(error)
+//            }
+//            completion()
+//        }
+//    }
 }
 
 // MARK: URL Path
