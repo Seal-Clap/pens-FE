@@ -24,10 +24,10 @@ enum SignalMessage {
                let messageData = messageStr.data(using: .utf8),
                let messageDict = try? JSONSerialization.jsonObject(with: messageData, options: []) as? [String: Any] {
                 
-                if let type = messageDict["type"] as? String {
+                if let type = dict["type"] as? String {
                     
                     if type == "ice",
-                       let candidateDict = messageDict["ice"] as? [String: Any],
+                       let candidateDict = messageDict["candidate"] as? [String: Any],
                        let candidate = RTCIceCandidate(dict: candidateDict) {
                         return .ice(candidate)
                     } else if type == "answer",

@@ -15,11 +15,11 @@ protocol WebRTCClientDelegate: class {
 class WebRTCClient: NSObject {
     var factory: RTCPeerConnectionFactory
     var remoteAudioTrack: RTCAudioTrack?
-    private let mediaConstraints = RTCMediaConstraints(mandatoryConstraints: nil, optionalConstraints: nil)
+    private let mediaConstraints = [kRTCMediaConstraintsOfferToReceiveAudio: kRTCMediaConstraintsValueTrue]
     private var candidateQueue = [RTCIceCandidate]()
     private var peerConnection: RTCPeerConnection?
     var localAudioTrack: RTCAudioTrack?
-
+    
     weak var delegate: WebRTCClientDelegate?
 
     private var hasReceivedSdp = false
@@ -60,7 +60,7 @@ class WebRTCClient: NSObject {
         let constraints = RTCMediaConstraints(mandatoryConstraints: ["OfferToReceiveAudio": "true"],
             optionalConstraints: nil)
 
-        self.peerConnection?.offer(for: constraints, completionHandler: { (sdp, error) in
+        self.peerConnection?.offer(for: RTCMediaConstraints(mandatoryConstraints: mediaConstraints, optionalConstraints: nil), completionHandler: { (sdp, error) in
             guard let sdp = sdp else {
                 print("Failed to create offer: \(error?.localizedDescription ?? "")")
                 return
