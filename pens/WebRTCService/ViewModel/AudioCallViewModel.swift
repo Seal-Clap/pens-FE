@@ -123,6 +123,8 @@ extension AudioCallViewModel {
 
         }
     }
+    
+   
 }
 
 //MARK: webSocketClientDelegate
@@ -131,7 +133,6 @@ extension AudioCallViewModel: WebSocketClientDelegate {
         guard let webSocketURL = URL(string: APIContants.signalingServerURL + "?roomId=" + roomId) else {
             return
         }
-//        let url = URL(string: webSocketURL)
         guard let webSocket = _webSocket else {
             return
         }
@@ -140,39 +141,11 @@ extension AudioCallViewModel: WebSocketClientDelegate {
         webSocket.connect(url: webSocketURL)
     }
 
-//    func registerWithCollider(roomId: String) {
-//        guard let webSocket = _webSocket else {
-//            return
-//        }
-//
-//        let message = ["type": "offer",
-//            "roomId": roomId
-//        ]
-//
-//        guard let data = message.JSONData else {
-//            debugPrint("Error in Register room.")
-//            return
-//        }
-//                do {
-//            let jsonData = try JSONEncoder().encode(message)
-//            webSocket.send(data: jsonData)
-//        }
-//        catch {
-//            print("exception")
-//            return
-//        }
-//
-//
-//        dLog("Register Room")
-//    }
+
 
     func webSocketDidConnect(_ webSocket: WebSocketClient) {
         guard let webRTCClient = _webRTCClient else { return }
-
-//        registerWithCollider(roomId: "1")
-
         webRTCClient.delegate = self
-//        webRTCClient.createOffer()
         drainMessageQueue()
 
     }
@@ -194,9 +167,3 @@ extension AudioCallViewModel: WebRTCClientDelegate {
     }
 }
 
-extension AudioCallViewModel {
-    func audioEnable(_ enable: Bool) -> Void {
-        self._webRTCClient?.AudioIsEnable = enable
-    }
-
-}
