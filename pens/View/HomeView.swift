@@ -29,6 +29,8 @@ struct HomeView: View {
     @State private var fileURL: URL?
     
     @ObservedObject var viewModel: AudioCallViewModel
+    @State private var addFileView : Bool = false
+    @State private var draws: [Draw] = []
     
     var body: some View {
         NavigationView {
@@ -129,7 +131,7 @@ struct HomeView: View {
                 }
             }
             VStack{
-                FileView(groupId : $selectedGroup.groupId,viewModel: AudioCallViewModel())
+                FileView(groupId : $selectedGroup.groupId,draws : $draws, isPresented: $addFileView,viewModel: AudioCallViewModel())
             }.navigationTitle("문서")
         }.overlay(
             Group {

@@ -37,6 +37,8 @@
 		BC95CFD429D6DFBC00AE3037 /* APIContants.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC95CFD329D6DFBC00AE3037 /* APIContants.swift */; };
 		BC95CFD829D6E81900AE3037 /* Register.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC95CFD729D6E81900AE3037 /* Register.swift */; };
 		BCC985832A0795DB002A17E3 /* InviteGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCC985822A0795DB002A17E3 /* InviteGroup.swift */; };
+		BCDE22D42A136641009F3F46 /* DrawFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCDE22D32A136641009F3F46 /* DrawFile.swift */; };
+		BCDE22D62A136D33009F3F46 /* DrawView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCDE22D52A136D33009F3F46 /* DrawView.swift */; };
 		BCE32D2B29CD7DC40096F899 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCE32D2A29CD7DC40096F899 /* LoginView.swift */; };
 		BCE32D2D29CD81000096F899 /* ResisterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCE32D2C29CD81000096F899 /* ResisterView.swift */; };
 		CF6911BDEFE5F1F545047C87 /* Pods_pens.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9BFE442DD6AE2471172B1CED /* Pods_pens.framework */; };
@@ -105,6 +107,8 @@
 		BC95CFD529D6E28A00AE3037 /* pens--Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "pens--Info.plist"; sourceTree = SOURCE_ROOT; };
 		BC95CFD729D6E81900AE3037 /* Register.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Register.swift; sourceTree = "<group>"; };
 		BCC985822A0795DB002A17E3 /* InviteGroup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InviteGroup.swift; sourceTree = "<group>"; };
+		BCDE22D32A136641009F3F46 /* DrawFile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrawFile.swift; sourceTree = "<group>"; };
+		BCDE22D52A136D33009F3F46 /* DrawView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrawView.swift; sourceTree = "<group>"; };
 		BCE32D2A29CD7DC40096F899 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		BCE32D2C29CD81000096F899 /* ResisterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResisterView.swift; sourceTree = "<group>"; };
 		DDE8D4674C5E938242C33E84 /* Pods-pens-pensUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-pens-pensUITests.debug.xcconfig"; path = "Target Support Files/Pods-pens-pensUITests/Pods-pens-pensUITests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -282,6 +286,7 @@
 				FD290E6B2A00344100CD2835 /* GroupDeleteUser.swift */,
 				BCC985822A0795DB002A17E3 /* InviteGroup.swift */,
 				186FF4A12A0BA120008D26EC /* LoadGroupList.swift */,
+				BCDE22D32A136641009F3F46 /* DrawFile.swift */,
 			);
 			path = Method;
 			sourceTree = "<group>";
@@ -300,6 +305,7 @@
 				BC74703D29EBDA07003C541C /* AddGroupView.swift */,
 				FD290E692A00306800CD2835 /* GroupUserDeleteView.swift */,
 				FD290E6D2A00364D00CD2835 /* GroupRowView.swift */,
+				BCDE22D52A136D33009F3F46 /* DrawView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -573,6 +579,7 @@
 				18A92A0A29BF0917009820F6 /* pens_App.swift in Sources */,
 				1891A2A12A10E780001C5BA9 /* AudioCallViewModel.swift in Sources */,
 				05EE4B2729E545E50088B6AF /* AuthNavigationView.swift in Sources */,
+				BCDE22D62A136D33009F3F46 /* DrawView.swift in Sources */,
 				BC11A21D2A11F0780081D58D /* FileUpload.swift in Sources */,
 				BC74703829EBB7FD003C541C /* LoginToken.swift in Sources */,
 				FD290E6E2A00364D00CD2835 /* GroupRowView.swift in Sources */,
@@ -582,6 +589,7 @@
 				BCC985832A0795DB002A17E3 /* InviteGroup.swift in Sources */,
 				BC74703C29EBC81F003C541C /* InviteGroupMemberView.swift in Sources */,
 				05C752D22A11E3700070D16B /* GroupUsers.swift in Sources */,
+				BCDE22D42A136641009F3F46 /* DrawFile.swift in Sources */,
 				186FF4A22A0BA120008D26EC /* LoadGroupList.swift in Sources */,
 				1891A29C2A10E327001C5BA9 /* RoomClient.swift in Sources */,
 				1891A2AB2A10E8D5001C5BA9 /* WebRTCClient.swift in Sources */,

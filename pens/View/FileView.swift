@@ -12,7 +12,12 @@ struct FileView: View {
     @State private var isImporting: Bool = false
     @State private var fileURL: URL?
     @Binding var groupId : Int
-    
+    //
+    let columns: [GridItem] = Array(repeating: .init(.flexible()), count: 5)
+    @State private var newDrawName: String = ""
+    @State private var showingPrompt = false
+    @Binding var draws: [Draw]
+    @Binding var isPresented: Bool
     
     @ObservedObject var viewModel: AudioCallViewModel
     
@@ -20,6 +25,14 @@ struct FileView: View {
         VStack{
             HStack{
                 Spacer()
+                Button(action : {
+                    DrawFileName.setDrawFileName(draws: $draws, isPresented: $isPresented)
+                }){
+                    VStack{
+                        Image(systemName: "note.text").font(.system(size: 30))
+                        Text("새 노트")
+                    }.foregroundColor(.black)
+                }
                 Button(action: { // file upload button
                     isImporting = true
                 }) {
@@ -38,6 +51,18 @@ struct FileView: View {
                         uploadFile(groupId: groupId, fileUrl: fileURL!)
                     } catch {
                         // Handle error
+                    }
+                }
+            }
+            ScrollView{
+                LazyVGrid(columns: columns) {
+                    ForEach(draws) { draw in
+                        NavigationLink(destination: DrawView(drawID: draw.id, drawName : draw.drawFileName)) {
+                            VStack {
+                                Image(systemName: "doc.richtext").font(.system(size: 100))
+                                Text(draw.drawFileName)
+                            }.foregroundColor(.black)
+                        }
                     }
                 }
             }
@@ -93,7 +118,7 @@ struct FileView_Previews: PreviewProvider {
     struct PreviewWrapper: View {
         @State private var groupId: Int = 0
         var body: some View {
-            FileView(groupId: $groupId, viewModel: AudioCallViewModel())
+            FileView(groupId: $groupId, draws: .constant([]) , isPresented : .constant(false), viewModel: AudioCallViewModel())
         }
     }
     static var previews: some View {
