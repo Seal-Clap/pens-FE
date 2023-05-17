@@ -3,12 +3,22 @@ import SwiftUI
 import WebRTC
 
 
+struct WebSocketMessage: Decodable {
+    let type: String
+    let sender: String?
+    let receiver: String?
+    let roomId: String
+    let data: String?
+
+}
+
 class AudioCallViewModel: ObservableObject {
 
     var _roomClient: RoomClient?
 
     // MARK: Room
-    var _roomInfo: JoinResponseParam?
+//    var _roomInfo: JoinResponseParam?
+    var _roomId: String = ""
 
     var _webSocket: WebSocketClient?
     var _messageQueue = [String]()
@@ -18,14 +28,15 @@ class AudioCallViewModel: ObservableObject {
 
     func connectRoom(roomID: String) -> Void {
         dLog("connectToRoom");
-        prepare();
+        prepare(roomId: roomID);
         join(roomID: roomID)
     }
 
-    private func prepare() {
+    private func prepare(roomId: String) {
         _roomClient = RoomClient();
         _webSocket = WebSocketClient();
         _webRTCClient = WebRTCClient();
+        _roomId = roomId
     }
 
     func clear() {
@@ -45,14 +56,13 @@ extension AudioCallViewModel {
     }
 
     func disconnect() -> Void {
-        guard let roomID = _roomInfo?.room_id,
-            let userID = _roomInfo?.client_id,
-            let roomClient = _roomClient,
+        let roomID = _roomId
+        guard let roomClient = _roomClient,
             let webSocket = _webSocket,
             let webRTCClient = _webRTCClient else { return }
 
-        roomClient.disconnect(roomID: roomID, userID: userID) { [weak self] in
-            self?._roomInfo = nil
+        roomClient.disconnect(roomID: roomID) { [weak self] in
+            self?._roomId = ""
         }
 
         let message = ["type": "bye"]
@@ -61,7 +71,6 @@ extension AudioCallViewModel {
             webSocket.send(data: data)
         }
         webSocket.delegate = nil
-        _roomInfo = nil
 
         webRTCClient.disconnect()
 
@@ -84,7 +93,6 @@ extension AudioCallViewModel {
 
     func processSignalingMessage(_ message: String) -> Void {
         guard let webRTCClient = _webRTCClient else { return }
-
         let signalMessage = SignalMessage.from(message: message)
         switch signalMessage {
         case .candidate(let candidate):
@@ -103,14 +111,13 @@ extension AudioCallViewModel {
         }
     }
 
-    func sendSignalingMessage(_ message: Data) {
-        guard let roomID = _roomInfo?.room_id,
-            let userID = _roomInfo?.client_id,
-            let roomClient = _roomClient else { return }
+    func sendSignalingMessage(_ message: Data, type: String) {
+        guard let roomClient = _roomClient,
+        let webSocket = _webSocket
+        else { return }
+        roomClient.sendMessage(message, roomId: _roomId, type: type, websocket: webSocket) {
 
-//        roomClient.sendMessage(message, roomID: roomID, userID: userID) {
-//
-//        }
+        }
     }
 }
 
@@ -129,39 +136,39 @@ extension AudioCallViewModel: WebSocketClientDelegate {
         webSocket.connect(url: webSocketURL)
     }
 
-    func registerWithCollider(roomId: String) {
-        guard let webSocket = _webSocket else {
-            return
-        }
-
-        let message = ["type": "offer",
-            "roomId": roomId
-        ]
-
-        guard let data = message.JSONData else {
-            debugPrint("Error in Register room.")
-            return
-        }
-                do {
-            let jsonData = try JSONEncoder().encode(message)
-            webSocket.send(data: jsonData)
-        }
-        catch {
-            print("exception")
-            return
-        }
-            
-
-        dLog("Register Room")
-    }
+//    func registerWithCollider(roomId: String) {
+//        guard let webSocket = _webSocket else {
+//            return
+//        }
+//
+//        let message = ["type": "offer",
+//            "roomId": roomId
+//        ]
+//
+//        guard let data = message.JSONData else {
+//            debugPrint("Error in Register room.")
+//            return
+//        }
+//                do {
+//            let jsonData = try JSONEncoder().encode(message)
+//            webSocket.send(data: jsonData)
+//        }
+//        catch {
+//            print("exception")
+//            return
+//        }
+//
+//
+//        dLog("Register Room")
+//    }
 
     func webSocketDidConnect(_ webSocket: WebSocketClient) {
         guard let webRTCClient = _webRTCClient else { return }
 
-        registerWithCollider(roomId: "1")
+//        registerWithCollider(roomId: "1")
 
         webRTCClient.delegate = self
-            webRTCClient.createOffer()
+        webRTCClient.createOffer()
         drainMessageQueue()
 
     }
@@ -178,13 +185,12 @@ extension AudioCallViewModel: WebSocketClientDelegate {
 
 //MARK: WebRTCClientDelegate
 extension AudioCallViewModel: WebRTCClientDelegate {
-    func webRTCClient(_ client: WebRTCClient, sendData data: Data) {
-        sendSignalingMessage(data)
+    func webRTCClient(_ client: WebRTCClient, sendData data: Data, type: String) {
+        sendSignalingMessage(data, type: type)
     }
 }
 
 extension AudioCallViewModel {
-
     func audioEnable(_ enable: Bool) -> Void {
         self._webRTCClient?.AudioIsEnable = enable
     }

@@ -19,8 +19,8 @@ enum SignalMessage {
         if let data = message.data(using: .utf8),
            let dict = try? JSONSerialization.jsonObject(with: data, options: []) as? [String: Any] {
             
-            if dict.keys.contains("msg"),
-               let messageStr = dict["msg"] as? String,
+            if dict.keys.contains("data"),
+               let messageStr = dict["data"] as? String,
                let messageData = messageStr.data(using: .utf8),
                let messageDict = try? JSONSerialization.jsonObject(with: messageData, options: []) as? [String: Any] {
                 

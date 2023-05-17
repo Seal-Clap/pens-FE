@@ -9,7 +9,7 @@ import Foundation
 import WebRTC
 
 protocol WebRTCClientDelegate: class {
-    func webRTCClient(_ client: WebRTCClient, sendData data: Data)
+    func webRTCClient(_ client: WebRTCClient, sendData data: Data, type: String)
 }
 
 class WebRTCClient: NSObject {
@@ -67,11 +67,11 @@ class WebRTCClient: NSObject {
             }
 
             let sdpDescription = RTCSessionDescription(type: .offer, sdp: sdp.sdp)
-            self.setLocalSDP(sdpDescription)
+            self.setLocalSDP(sdpDescription, type: "offer")
         })
     }
 
-    func receivedOffer(_ remoteSdp: RTCSessionDescription) {
+    func receivedOffer(_ remoteSdp: RTCSessionDescription, roomId: String) {
         self.peerConnection?.setRemoteDescription(remoteSdp, completionHandler: { (error) in
             if let error = error {
                 print("Failed to set remote description: \(error.localizedDescription)")
@@ -93,7 +93,7 @@ class WebRTCClient: NSObject {
             }
 
             let sdpDescription = RTCSessionDescription(type: .answer, sdp: sdp.sdp)
-            self.setLocalSDP(sdpDescription)
+            self.setLocalSDP(sdpDescription, type: "answer")
         })
     }
 
@@ -106,7 +106,7 @@ class WebRTCClient: NSObject {
     }
 
 
-    private func setLocalSDP(_ sdp: RTCSessionDescription) {
+    private func setLocalSDP(_ sdp: RTCSessionDescription, type: String) {
         guard let peerConnection = peerConnection else {
             dLog("Check PeerConnection")
             return
@@ -119,7 +119,16 @@ class WebRTCClient: NSObject {
         })
 
         if let data = sdp.jsonData() {
-            self.delegate?.webRTCClient(self, sendData: data)
+            switch type {
+            case "offer":
+                self.delegate?.webRTCClient(self, sendData: data, type: "offer")
+            case "answer":
+                self.delegate?.webRTCClient(self, sendData: data, type: "answer")
+            default:
+                dLog("type not defined")
+            }
+//            self.delegate?.webRTCClient(self, sendData: data)
+            //                    WebSocketClient().send(data: jsonData)
             dLog("Send Local SDP")
         }
     }
@@ -223,7 +232,7 @@ extension WebRTCClient: RTCPeerConnectionDelegate {
 
     func peerConnection(_ peerConnection: RTCPeerConnection, didGenerate candidate: RTCIceCandidate) {
         guard let message = candidate.jsonData() else { return }
-        delegate?.webRTCClient(self, sendData: message)
+        delegate?.webRTCClient(self, sendData: message, type: "canidate")
         dLog("")
     }
 
@@ -235,3 +244,4 @@ extension WebRTCClient: RTCPeerConnectionDelegate {
         dLog("")
     }
 }
+
