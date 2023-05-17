@@ -28,7 +28,7 @@ enum SignalMessage {
                     
                     if type == "ice",
                        let candidateDict = messageDict["candidate"] as? [String: Any],
-                       let candidate = RTCIceCandidate(dict: candidateDict) {
+                       let candidate = RTCIceCandidate.candidate(from: messageDict) {
                         return .ice(candidate)
                     } else if type == "answer",
                               let sdp = messageDict["sdp"] as? String {
@@ -60,11 +60,22 @@ extension RTCIceCandidate {
         return try? JSONSerialization.data(withJSONObject: dict, options: [])
     }
     
-    convenience init?(dict: [String: Any]) {
-        guard let sdp = dict["ice"] as? String,
-              let sdpMid = dict["id"] as? String,
-              let labelStr = dict["label"] as? String,
-              let label = Int32(labelStr) else { return nil }
-        self.init(sdp: sdp, sdpMLineIndex: label, sdpMid: sdpMid)
+//    convenience init?(dict: [String: Any]) {
+//        guard let sdp = dict["ice"] as? String,
+//              let sdpMid = dict["id"] as? String,
+//              let labelStr = dict["label"] as? String,
+//              let label = Int32(labelStr) else { return nil }
+//        self.init(sdp: sdp, sdpMLineIndex: label, sdpMid: sdpMid)
+//    }
+    
+    static func candidate(from: [String: Any]) -> RTCIceCandidate? {
+        let sdp = from["candidate"] as? String
+        let sdpMid = from["id"] as? String
+        let labelStr = from["label"] as? String
+        let label = (from["label"] as? Int32) ?? 0
+        
+        return RTCIceCandidate(sdp: sdp ?? "", sdpMLineIndex: Int32(labelStr ?? "") ?? label, sdpMid: sdpMid)
     }
 }
+
+
