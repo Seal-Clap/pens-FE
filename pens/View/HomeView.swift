@@ -31,6 +31,8 @@ struct HomeView: View {
     @ObservedObject var viewModel: AudioCallViewModel
     @State private var addFileView : Bool = false
     @State private var draws: [Draw] = []
+    //
+    @State private var showFileList = false
     
     var body: some View {
         NavigationView {
@@ -100,6 +102,16 @@ struct HomeView: View {
                     }
                 }
                 Divider()
+                //파일 목록 보기
+                Button(action: {
+                    showFileList = true
+                }){
+                    Text("그룹 파일 목록").font(.title3)
+                        .padding()
+                        .foregroundColor(.white)
+                        .frame(height: 25)
+                }.background(RoundedRectangle(cornerRadius: 6).fill(Color.black))
+                //그룹 목록 보기
                 Button(action: {
                     showGroupUsers = true
                 }) {
@@ -110,6 +122,7 @@ struct HomeView: View {
                         .frame(height: 25)
                 }.background(RoundedRectangle(cornerRadius: 6).fill(Color.black))
                 Divider()
+                //로그아웃
                 Button(action: {
                     showingLogoutAlert = true
                 }) {
@@ -148,6 +161,9 @@ struct HomeView: View {
                 }
                 if showGroupUsers {
                     GroupUsersView(isPresented: $showGroupUsers, groupId: selectedGroup.groupId)
+                }
+                if showFileList {
+                    FileListView(isPresented: $showFileList, groupId: selectedGroup.groupId)
                 }
             }
         )

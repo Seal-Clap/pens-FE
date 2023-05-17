@@ -36,6 +36,8 @@
 		BC74703E29EBDA07003C541C /* AddGroupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC74703D29EBDA07003C541C /* AddGroupView.swift */; };
 		BC95CFD429D6DFBC00AE3037 /* APIContants.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC95CFD329D6DFBC00AE3037 /* APIContants.swift */; };
 		BC95CFD829D6E81900AE3037 /* Register.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC95CFD729D6E81900AE3037 /* Register.swift */; };
+		BCBAD9822A14CBC100D4CA73 /* FileListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCBAD9812A14CBC100D4CA73 /* FileListView.swift */; };
+		BCBAD9842A14CCC300D4CA73 /* FileListShow.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCBAD9832A14CCC300D4CA73 /* FileListShow.swift */; };
 		BCC985832A0795DB002A17E3 /* InviteGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCC985822A0795DB002A17E3 /* InviteGroup.swift */; };
 		BCDE22D42A136641009F3F46 /* DrawFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCDE22D32A136641009F3F46 /* DrawFile.swift */; };
 		BCDE22D62A136D33009F3F46 /* DrawView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCDE22D52A136D33009F3F46 /* DrawView.swift */; };
@@ -107,6 +109,8 @@
 		BC95CFD329D6DFBC00AE3037 /* APIContants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIContants.swift; sourceTree = "<group>"; };
 		BC95CFD529D6E28A00AE3037 /* pens--Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "pens--Info.plist"; sourceTree = SOURCE_ROOT; };
 		BC95CFD729D6E81900AE3037 /* Register.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Register.swift; sourceTree = "<group>"; };
+		BCBAD9812A14CBC100D4CA73 /* FileListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileListView.swift; sourceTree = "<group>"; };
+		BCBAD9832A14CCC300D4CA73 /* FileListShow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileListShow.swift; sourceTree = "<group>"; };
 		BCC985822A0795DB002A17E3 /* InviteGroup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InviteGroup.swift; sourceTree = "<group>"; };
 		BCDE22D32A136641009F3F46 /* DrawFile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrawFile.swift; sourceTree = "<group>"; };
 		BCDE22D52A136D33009F3F46 /* DrawView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrawView.swift; sourceTree = "<group>"; };
@@ -290,6 +294,7 @@
 				186FF4A12A0BA120008D26EC /* LoadGroupList.swift */,
 				BCDE22D32A136641009F3F46 /* DrawFile.swift */,
 				BCDE22D72A14AE38009F3F46 /* DrawManage.swift */,
+				BCBAD9832A14CCC300D4CA73 /* FileListShow.swift */,
 			);
 			path = Method;
 			sourceTree = "<group>";
@@ -309,6 +314,7 @@
 				FD290E692A00306800CD2835 /* GroupUserDeleteView.swift */,
 				FD290E6D2A00364D00CD2835 /* GroupRowView.swift */,
 				BCDE22D52A136D33009F3F46 /* DrawView.swift */,
+				BCBAD9812A14CBC100D4CA73 /* FileListView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -564,6 +570,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BCBAD9822A14CBC100D4CA73 /* FileListView.swift in Sources */,
 				FD1C79CA29E397930055F52C /* Login.swift in Sources */,
 				05C752D02A11E34E0070D16B /* GroupUsersView.swift in Sources */,
 				BC95CFD829D6E81900AE3037 /* Register.swift in Sources */,
@@ -587,6 +594,7 @@
 				BC11A21D2A11F0780081D58D /* FileUpload.swift in Sources */,
 				BC74703829EBB7FD003C541C /* LoginToken.swift in Sources */,
 				FD290E6E2A00364D00CD2835 /* GroupRowView.swift in Sources */,
+				BCBAD9842A14CCC300D4CA73 /* FileListShow.swift in Sources */,
 				1891A2982A10E2E0001C5BA9 /* Extensions.swift in Sources */,
 				FD290E6C2A00344100CD2835 /* GroupDeleteUser.swift in Sources */,
 				1891A29E2A10E339001C5BA9 /* Config.swift in Sources */,
