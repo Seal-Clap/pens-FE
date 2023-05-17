@@ -20,11 +20,15 @@ struct DrawView: View {
             Text("\(drawName)")
             CanvasView(canvas: $canvas, toolPicker: $toolPicker)
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
-        }
+            }
         .onAppear {
             toolPicker.setVisible(true, forFirstResponder: canvas)
             toolPicker.addObserver(canvas)
             canvas.becomeFirstResponder()
+            DrawFileManager.shared.loadDrawing(into: canvas, withID: drawID)
+        }
+        .onDisappear{
+            DrawFileManager.shared.saveDrawing(canvas, withID: drawID)
         }
     }
 }

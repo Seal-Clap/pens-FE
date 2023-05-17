@@ -8,10 +8,11 @@
 import Foundation
 import SwiftUI
 
-struct Draw: Identifiable {
+struct Draw: Identifiable{
     var id = UUID()
     var drawFileName: String
 }
+
 struct DrawFileName {
     static func setDrawFileName(draws: Binding<[Draw]>, isPresented: Binding<Bool>) {
         let alert = UIAlertController(title: "새 문서", message: "새 문서의 이름을 입력하세요", preferredStyle: .alert)
