@@ -19,6 +19,9 @@ class WebRTCClient: NSObject {
     private var candidateQueue = [RTCIceCandidate]()
     private var peerConnection: RTCPeerConnection?
     var localAudioTrack: RTCAudioTrack?
+    var localStream: RTCMediaStream?
+    var rtcAudioSession: RTCAudioSession?
+    
     
     weak var delegate: WebRTCClientDelegate?
 
@@ -152,11 +155,23 @@ extension WebRTCClient {
             dLog("Check PeerConnection")
             return
         }
+        localStream = factory.mediaStream(withStreamId: "media")
         let constraints = RTCMediaConstraints(mandatoryConstraints: [:], optionalConstraints: nil)
         let audioSource = self.factory.audioSource(with: constraints)
-        localAudioTrack = self.factory.audioTrack(with: audioSource, trackId: "audio0Audio")
-        let mediaTrackStreamIDs = ["audio0"]
+        localAudioTrack = self.factory.audioTrack(with: audioSource, trackId: "audio")
+        let mediaTrackStreamIDs = ["ARDAMS"]
+    
         peerConnection.add(localAudioTrack!, streamIds: mediaTrackStreamIDs)
+        
+        rtcAudioSession = RTCAudioSession.sharedInstance()
+        rtcAudioSession?.lockForConfiguration()
+        do {
+            try rtcAudioSession?.setCategory(AVAudioSession.Category.playAndRecord.rawValue)
+            try rtcAudioSession?.setMode(AVAudioSession.Mode.voiceChat.rawValue)
+        } catch let error {
+            dLog(error)
+        }
+        rtcAudioSession?.unlockForConfiguration()
     }
 }
 
