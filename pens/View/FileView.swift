@@ -21,7 +21,9 @@ struct FileView: View {
     
     @ObservedObject var viewModel: AudioCallViewModel
     //
-    
+    @State private var fileId = ""
+    @State private var showDownloadAlert = false
+    @State private var fileURLs: [URL] = []
     
     var body: some View {
         VStack{
@@ -59,7 +61,12 @@ struct FileView: View {
                 }
             //download
                 Button(action : {
-                    //download
+                    FileDownloadView.getFileId { fileId in
+                        downloadFile(n: fileId) { url in
+                            self.fileURLs.append(url)
+                        }
+                    }
+
                 }){
                     VStack{
                         Image(systemName: "arrow.down.doc").font(.system(size: 30))
@@ -67,9 +74,16 @@ struct FileView: View {
                 }
             }.padding()
             //파일 목록
-            ScrollView{
-                LazyVGrid(columns: columns){
-                    Text("파일 불러올거임")
+            ScrollView {
+                LazyVGrid(columns: columns) {
+                    ForEach(fileURLs, id: \.self) { url in
+                        NavigationLink(destination: PDF_FileView(url: url)) {
+                            VStack {
+                                Image(systemName: "doc.plaintext").font(.system(size: 100))
+                                Text(url.lastPathComponent)
+                            }.foregroundColor(.black)
+                        }
+                    }
                 }
             }
             //빈 노트
