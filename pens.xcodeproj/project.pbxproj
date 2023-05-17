@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		05C752D02A11E34E0070D16B /* GroupUsersView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05C752CF2A11E34E0070D16B /* GroupUsersView.swift */; };
+		05C752D22A11E3700070D16B /* GroupUsers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05C752D12A11E3700070D16B /* GroupUsers.swift */; };
 		05EE4B2729E545E50088B6AF /* AuthNavigationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05EE4B2629E545E50088B6AF /* AuthNavigationView.swift */; };
 		181F73972A121A6700845341 /* SignalMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 181F73962A121A6700845341 /* SignalMessage.swift */; };
 		186FF4A22A0BA120008D26EC /* LoadGroupList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 186FF4A12A0BA120008D26EC /* LoadGroupList.swift */; };
@@ -26,13 +28,21 @@
 		18A92A2729BF0918009820F6 /* pens_UITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18A92A2629BF0918009820F6 /* pens_UITestsLaunchTests.swift */; };
 		481792EB1DE5ED5FBE51D29B /* Pods_pensTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2B6A7928F2471879A96B5C51 /* Pods_pensTests.framework */; };
 		9FF5BC2F38B67ABF1362A737 /* Pods_pens_pensUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6D4D56C60B13555F25CC3F7B /* Pods_pens_pensUITests.framework */; };
+		BC11A21B2A11F0650081D58D /* FileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC11A21A2A11F0650081D58D /* FileView.swift */; };
+		BC11A21D2A11F0780081D58D /* FileUpload.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC11A21C2A11F0780081D58D /* FileUpload.swift */; };
 		BC5B927E29E2CDFE00F52228 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC5B927D29E2CDFE00F52228 /* HomeView.swift */; };
 		BC74703829EBB7FD003C541C /* LoginToken.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC74703729EBB7FD003C541C /* LoginToken.swift */; };
 		BC74703C29EBC81F003C541C /* InviteGroupMemberView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC74703B29EBC81F003C541C /* InviteGroupMemberView.swift */; };
 		BC74703E29EBDA07003C541C /* AddGroupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC74703D29EBDA07003C541C /* AddGroupView.swift */; };
 		BC95CFD429D6DFBC00AE3037 /* APIContants.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC95CFD329D6DFBC00AE3037 /* APIContants.swift */; };
 		BC95CFD829D6E81900AE3037 /* Register.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC95CFD729D6E81900AE3037 /* Register.swift */; };
+		BCBAD9822A14CBC100D4CA73 /* FileListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCBAD9812A14CBC100D4CA73 /* FileListView.swift */; };
+		BCBAD9842A14CCC300D4CA73 /* FileListShow.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCBAD9832A14CCC300D4CA73 /* FileListShow.swift */; };
+		BCBAD9862A14E45600D4CA73 /* FileDownload.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCBAD9852A14E45600D4CA73 /* FileDownload.swift */; };
 		BCC985832A0795DB002A17E3 /* InviteGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCC985822A0795DB002A17E3 /* InviteGroup.swift */; };
+		BCDE22D42A136641009F3F46 /* DrawFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCDE22D32A136641009F3F46 /* DrawFile.swift */; };
+		BCDE22D62A136D33009F3F46 /* DrawView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCDE22D52A136D33009F3F46 /* DrawView.swift */; };
+		BCDE22D82A14AE38009F3F46 /* DrawManage.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCDE22D72A14AE38009F3F46 /* DrawManage.swift */; };
 		BCE32D2B29CD7DC40096F899 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCE32D2A29CD7DC40096F899 /* LoginView.swift */; };
 		BCE32D2D29CD81000096F899 /* ResisterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCE32D2C29CD81000096F899 /* ResisterView.swift */; };
 		CF6911BDEFE5F1F545047C87 /* Pods_pens.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9BFE442DD6AE2471172B1CED /* Pods_pens.framework */; };
@@ -61,6 +71,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		05C752CF2A11E34E0070D16B /* GroupUsersView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GroupUsersView.swift; sourceTree = "<group>"; };
+		05C752D12A11E3700070D16B /* GroupUsers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GroupUsers.swift; sourceTree = "<group>"; };
 		05EE4B2629E545E50088B6AF /* AuthNavigationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthNavigationView.swift; sourceTree = "<group>"; };
 		181F73962A121A6700845341 /* SignalMessage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignalMessage.swift; sourceTree = "<group>"; };
 		186FF4A12A0BA120008D26EC /* LoadGroupList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadGroupList.swift; sourceTree = "<group>"; };
@@ -89,6 +101,8 @@
 		98DD398BBB2BEC6499A30F05 /* Pods-pens.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-pens.release.xcconfig"; path = "Target Support Files/Pods-pens/Pods-pens.release.xcconfig"; sourceTree = "<group>"; };
 		9BFE442DD6AE2471172B1CED /* Pods_pens.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_pens.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		A203071CF4A6292C553BA996 /* Pods-pensTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-pensTests.release.xcconfig"; path = "Target Support Files/Pods-pensTests/Pods-pensTests.release.xcconfig"; sourceTree = "<group>"; };
+		BC11A21A2A11F0650081D58D /* FileView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FileView.swift; sourceTree = "<group>"; };
+		BC11A21C2A11F0780081D58D /* FileUpload.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FileUpload.swift; sourceTree = "<group>"; };
 		BC5B927D29E2CDFE00F52228 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 		BC74703729EBB7FD003C541C /* LoginToken.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginToken.swift; sourceTree = "<group>"; };
 		BC74703B29EBC81F003C541C /* InviteGroupMemberView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InviteGroupMemberView.swift; sourceTree = "<group>"; };
@@ -96,7 +110,13 @@
 		BC95CFD329D6DFBC00AE3037 /* APIContants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIContants.swift; sourceTree = "<group>"; };
 		BC95CFD529D6E28A00AE3037 /* pens--Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "pens--Info.plist"; sourceTree = SOURCE_ROOT; };
 		BC95CFD729D6E81900AE3037 /* Register.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Register.swift; sourceTree = "<group>"; };
+		BCBAD9812A14CBC100D4CA73 /* FileListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileListView.swift; sourceTree = "<group>"; };
+		BCBAD9832A14CCC300D4CA73 /* FileListShow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileListShow.swift; sourceTree = "<group>"; };
+		BCBAD9852A14E45600D4CA73 /* FileDownload.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileDownload.swift; sourceTree = "<group>"; };
 		BCC985822A0795DB002A17E3 /* InviteGroup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InviteGroup.swift; sourceTree = "<group>"; };
+		BCDE22D32A136641009F3F46 /* DrawFile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrawFile.swift; sourceTree = "<group>"; };
+		BCDE22D52A136D33009F3F46 /* DrawView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrawView.swift; sourceTree = "<group>"; };
+		BCDE22D72A14AE38009F3F46 /* DrawManage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrawManage.swift; sourceTree = "<group>"; };
 		BCE32D2A29CD7DC40096F899 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		BCE32D2C29CD81000096F899 /* ResisterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResisterView.swift; sourceTree = "<group>"; };
 		DDE8D4674C5E938242C33E84 /* Pods-pens-pensUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-pens-pensUITests.debug.xcconfig"; path = "Target Support Files/Pods-pens-pensUITests/Pods-pens-pensUITests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -265,6 +285,8 @@
 		BC95CFD629D6E80600AE3037 /* Method */ = {
 			isa = PBXGroup;
 			children = (
+				05C752D12A11E3700070D16B /* GroupUsers.swift */,
+				BC11A21C2A11F0780081D58D /* FileUpload.swift */,
 				BC95CFD729D6E81900AE3037 /* Register.swift */,
 				FD1C79C929E397930055F52C /* Login.swift */,
 				BC74703729EBB7FD003C541C /* LoginToken.swift */,
@@ -272,6 +294,10 @@
 				FD290E6B2A00344100CD2835 /* GroupDeleteUser.swift */,
 				BCC985822A0795DB002A17E3 /* InviteGroup.swift */,
 				186FF4A12A0BA120008D26EC /* LoadGroupList.swift */,
+				BCDE22D32A136641009F3F46 /* DrawFile.swift */,
+				BCDE22D72A14AE38009F3F46 /* DrawManage.swift */,
+				BCBAD9832A14CCC300D4CA73 /* FileListShow.swift */,
+				BCBAD9852A14E45600D4CA73 /* FileDownload.swift */,
 			);
 			path = Method;
 			sourceTree = "<group>";
@@ -279,6 +305,8 @@
 		BCE32D2929CD7CFA0096F899 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				BC11A21A2A11F0650081D58D /* FileView.swift */,
+				05C752CF2A11E34E0070D16B /* GroupUsersView.swift */,
 				18A92A0B29BF0917009820F6 /* ContentView.swift */,
 				BCE32D2A29CD7DC40096F899 /* LoginView.swift */,
 				BCE32D2C29CD81000096F899 /* ResisterView.swift */,
@@ -288,6 +316,8 @@
 				BC74703D29EBDA07003C541C /* AddGroupView.swift */,
 				FD290E692A00306800CD2835 /* GroupUserDeleteView.swift */,
 				FD290E6D2A00364D00CD2835 /* GroupRowView.swift */,
+				BCDE22D52A136D33009F3F46 /* DrawView.swift */,
+				BCBAD9812A14CBC100D4CA73 /* FileListView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -543,7 +573,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BCBAD9822A14CBC100D4CA73 /* FileListView.swift in Sources */,
 				FD1C79CA29E397930055F52C /* Login.swift in Sources */,
+				05C752D02A11E34E0070D16B /* GroupUsersView.swift in Sources */,
 				BC95CFD829D6E81900AE3037 /* Register.swift in Sources */,
 				BC5B927E29E2CDFE00F52228 /* HomeView.swift in Sources */,
 				BCE32D2B29CD7DC40096F899 /* LoginView.swift in Sources */,
@@ -551,6 +583,8 @@
 				BC95CFD429D6DFBC00AE3037 /* APIContants.swift in Sources */,
 				BCE32D2D29CD81000096F899 /* ResisterView.swift in Sources */,
 				BC74703E29EBDA07003C541C /* AddGroupView.swift in Sources */,
+				BC11A21B2A11F0650081D58D /* FileView.swift in Sources */,
+				BCDE22D82A14AE38009F3F46 /* DrawManage.swift in Sources */,
 				1891A2932A10E22A001C5BA9 /* WebSocketClient.swift in Sources */,
 				18A92A0C29BF0917009820F6 /* ContentView.swift in Sources */,
 				FD290E6A2A00306800CD2835 /* GroupUserDeleteView.swift in Sources */,
@@ -558,14 +592,20 @@
 				18A92A0A29BF0917009820F6 /* pens_App.swift in Sources */,
 				1891A2A12A10E780001C5BA9 /* AudioCallViewModel.swift in Sources */,
 				05EE4B2729E545E50088B6AF /* AuthNavigationView.swift in Sources */,
+				BCDE22D62A136D33009F3F46 /* DrawView.swift in Sources */,
+				BC11A21D2A11F0780081D58D /* FileUpload.swift in Sources */,
 				BC74703829EBB7FD003C541C /* LoginToken.swift in Sources */,
 				FD290E6E2A00364D00CD2835 /* GroupRowView.swift in Sources */,
+				BCBAD9842A14CCC300D4CA73 /* FileListShow.swift in Sources */,
+				BCBAD9862A14E45600D4CA73 /* FileDownload.swift in Sources */,
 				181F73972A121A6700845341 /* SignalMessage.swift in Sources */,
 				1891A2982A10E2E0001C5BA9 /* Extensions.swift in Sources */,
 				FD290E6C2A00344100CD2835 /* GroupDeleteUser.swift in Sources */,
 				1891A29E2A10E339001C5BA9 /* Config.swift in Sources */,
 				BCC985832A0795DB002A17E3 /* InviteGroup.swift in Sources */,
 				BC74703C29EBC81F003C541C /* InviteGroupMemberView.swift in Sources */,
+				05C752D22A11E3700070D16B /* GroupUsers.swift in Sources */,
+				BCDE22D42A136641009F3F46 /* DrawFile.swift in Sources */,
 				186FF4A22A0BA120008D26EC /* LoadGroupList.swift in Sources */,
 				1891A29C2A10E327001C5BA9 /* RoomClient.swift in Sources */,
 				1891A2AB2A10E8D5001C5BA9 /* WebRTCClient.swift in Sources */,
@@ -728,7 +768,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"pens/Preview Content\"";
-				DEVELOPMENT_TEAM = LV8N2952A2;
+				DEVELOPMENT_TEAM = CBF7HZWZB2;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "pens--Info.plist";
@@ -763,7 +803,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"pens/Preview Content\"";
-				DEVELOPMENT_TEAM = LV8N2952A2;
+				DEVELOPMENT_TEAM = CBF7HZWZB2;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "pens--Info.plist";

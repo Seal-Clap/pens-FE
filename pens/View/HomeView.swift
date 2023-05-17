@@ -16,6 +16,7 @@ struct HomeView: View {
     @State private var grouplist: [String] = []
     @State private var showInviteGroupMember = false
     @State private var showAddGroup = false
+    @State private var showGroupUsers = false
     private let groupLoade = GroupLoader()
     //
     @State private var selectedGroup: GroupElement = GroupElement(groupId: 0, groupName: "local")
@@ -28,6 +29,10 @@ struct HomeView: View {
     @State private var fileURL: URL?
     
     @ObservedObject var viewModel: AudioCallViewModel
+    @State private var addFileView : Bool = false
+    @State private var draws: [Draw] = []
+    //
+    @State private var showFileList = false
     
     var body: some View {
         NavigationView {
@@ -89,9 +94,6 @@ struct HomeView: View {
                         .frame(width: 200, height: 50)
                 }
                     .background(RoundedRectangle(cornerRadius: 8).fill(Color.gray))
-                    .sheet(isPresented: $showInviteGroupMember) {
-                    InviteGroupMemberView(isPresented: $showInviteGroupMember, groupId: selectedGroup.groupId)
-                }
                     .padding()
                 Divider()
                 List {
@@ -100,8 +102,18 @@ struct HomeView: View {
                     }
                 }
                 Divider()
+                //파일 목록 보기
                 Button(action: {
-                    //그룹 사용자 보여주기 동작 추가
+                    showFileList = true
+                }){
+                    Text("그룹 파일 목록").font(.title3)
+                        .padding()
+                        .foregroundColor(.white)
+                        .frame(height: 25)
+                }.background(RoundedRectangle(cornerRadius: 6).fill(Color.black))
+                //그룹 목록 보기
+                Button(action: {
+                    showGroupUsers = true
                 }) {
                     Text("그룹 멤버 보기")
                         .font(.title3)
@@ -110,6 +122,7 @@ struct HomeView: View {
                         .frame(height: 25)
                 }.background(RoundedRectangle(cornerRadius: 6).fill(Color.black))
                 Divider()
+                //로그아웃
                 Button(action: {
                     showingLogoutAlert = true
                 }) {
@@ -130,6 +143,9 @@ struct HomeView: View {
                     )
                 }
             }
+            VStack{
+                FileView(groupId : $selectedGroup.groupId,draws : $draws, isPresented: $addFileView,viewModel: AudioCallViewModel())
+            }.navigationTitle("문서")
             Text("Detail")
             LazyVGrid(columns: /*@START_MENU_TOKEN@*//*@PLACEHOLDER=Columns@*/[GridItem(.fixed(200))]/*@END_MENU_TOKEN@*/) {
                 Button(action: { // file upload button
@@ -170,37 +186,16 @@ struct HomeView: View {
                         }, userId)
                         groups.sort { $0.groupId > $1.groupId }
                     })
-                    
+                }
+                if showGroupUsers {
+                    GroupUsersView(isPresented: $showGroupUsers, groupId: selectedGroup.groupId)
+                }
+                if showFileList {
+                    FileListView(isPresented: $showFileList, groupId: selectedGroup.groupId)
                 }
             }
         )
     }
-    func uploadFile(groupId: Int, fileUrl: URL) {
-        let url = URL(string: "\(APIContants.fileUploadURL)?groupId=\(groupId)")!
-
-        // Start accessing a security-scoped resource.
-        guard fileUrl.startAccessingSecurityScopedResource() else {
-            // Handle the failure here.
-            return
-        }
-
-        // Make sure you release the security-scoped resource when you finish.
-        defer { fileUrl.stopAccessingSecurityScopedResource() }
-
-        do {
-            let fileData = try Data(contentsOf: fileUrl)
-            AF.upload(multipartFormData: { multipartFormData in
-                multipartFormData.append(fileData, withName: "file", fileName: fileUrl.lastPathComponent)
-            }, to: url, method: .post).validate(statusCode: 200..<300)
-            .response { response in
-                debugPrint(response)
-            }
-        } catch {
-            print("Unable to load data: \(error)")
-        }
-    }
-
-
 }
 
 
