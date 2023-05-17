@@ -20,11 +20,14 @@ struct FileView: View {
     @Binding var isPresented: Bool
     
     @ObservedObject var viewModel: AudioCallViewModel
+    //
+    
     
     var body: some View {
         VStack{
             HStack{
                 Spacer()
+                //새노트
                 Button(action : {
                     DrawFileName.setDrawFileName(draws: $draws, isPresented: $isPresented)
                 }){
@@ -33,6 +36,7 @@ struct FileView: View {
                         Text("새 노트")
                     }.foregroundColor(.black)
                 }
+                //파일 업로드
                 Button(action: { // file upload button
                     isImporting = true
                 }) {
@@ -53,7 +57,22 @@ struct FileView: View {
                         // Handle error
                     }
                 }
+            //download
+                Button(action : {
+                    //download
+                }){
+                    VStack{
+                        Image(systemName: "arrow.down.doc").font(.system(size: 30))
+                    }.foregroundColor(.black)
+                }
+            }.padding()
+            //파일 목록
+            ScrollView{
+                LazyVGrid(columns: columns){
+                    Text("파일 불러올거임")
+                }
             }
+            //빈 노트
             ScrollView{
                 LazyVGrid(columns: columns) {
                     ForEach(draws) { draw in
@@ -66,6 +85,7 @@ struct FileView: View {
                     }
                 }
             }
+            //음성채팅 연결
             ScrollView{
                 LazyVGrid(columns: /*@START_MENU_TOKEN@*//*@PLACEHOLDER=Columns@*/[GridItem(.fixed(200))]/*@END_MENU_TOKEN@*/) {
                     /*@START_MENU_TOKEN@*/Text("Placeholder")/*@END_MENU_TOKEN@*/
