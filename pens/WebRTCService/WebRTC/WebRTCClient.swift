@@ -154,7 +154,7 @@ extension WebRTCClient {
         }
         let constraints = RTCMediaConstraints(mandatoryConstraints: [:], optionalConstraints: nil)
         let audioSource = self.factory.audioSource(with: constraints)
-        localAudioTrack = self.factory.audioTrack(with: audioSource, trackId: "audio0")
+        localAudioTrack = self.factory.audioTrack(with: audioSource, trackId: "audio0Audio")
         let mediaTrackStreamIDs = ["audio0"]
         peerConnection.add(localAudioTrack!, streamIds: mediaTrackStreamIDs)
     }
