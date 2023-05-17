@@ -232,7 +232,7 @@ extension WebRTCClient: RTCPeerConnectionDelegate {
 
     func peerConnection(_ peerConnection: RTCPeerConnection, didGenerate candidate: RTCIceCandidate) {
         guard let message = candidate.jsonData() else { return }
-        delegate?.webRTCClient(self, sendData: message, type: "canidate")
+        delegate?.webRTCClient(self, sendData: message, type: "ice")
         dLog("")
     }
 

@@ -10,7 +10,7 @@ import WebRTC
 
 enum SignalMessage {
     case none
-    case candidate(_ message: RTCIceCandidate)
+    case ice(_ message: RTCIceCandidate)
     case answer(_ message: RTCSessionDescription)
     case offer(_ message: RTCSessionDescription)
     case bye
@@ -26,10 +26,10 @@ enum SignalMessage {
                 
                 if let type = messageDict["type"] as? String {
                     
-                    if type == "candidate",
-                       let candidateDict = messageDict["candidate"] as? [String: Any],
+                    if type == "ice",
+                       let candidateDict = messageDict["ice"] as? [String: Any],
                        let candidate = RTCIceCandidate(dict: candidateDict) {
-                        return .candidate(candidate)
+                        return .ice(candidate)
                     } else if type == "answer",
                               let sdp = messageDict["sdp"] as? String {
                         return .answer(RTCSessionDescription(type: .answer, sdp: sdp))
@@ -56,12 +56,12 @@ extension RTCSessionDescription {
 
 extension RTCIceCandidate {
     func jsonData() -> Data? {
-        let dict: [String: Any] = ["type": "candidate", "label": "\(self.sdpMLineIndex)", "id": self.sdpMid, "candidate": self.sdp]
+        let dict: [String: Any] = ["type": "ice", "label": "\(self.sdpMLineIndex)", "id": self.sdpMid, "candidate": self.sdp]
         return try? JSONSerialization.data(withJSONObject: dict, options: [])
     }
     
     convenience init?(dict: [String: Any]) {
-        guard let sdp = dict["candidate"] as? String,
+        guard let sdp = dict["ice"] as? String,
               let sdpMid = dict["id"] as? String,
               let labelStr = dict["label"] as? String,
               let label = Int32(labelStr) else { return nil }

@@ -95,7 +95,7 @@ extension AudioCallViewModel {
         guard let webRTCClient = _webRTCClient else { return }
         let signalMessage = SignalMessage.from(message: message)
         switch signalMessage {
-        case .candidate(let candidate):
+        case .ice(let candidate):
             webRTCClient.handleCandidateMessage(candidate)
             dLog("Receive candidate")
         case .answer(let answer):
