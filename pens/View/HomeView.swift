@@ -46,9 +46,9 @@ struct HomeView: View {
                             Text("\(group.groupName)").font(.title2)
                         }
                         .padding(.leading)
-                            .onTapGesture {
+                        .onTapGesture {
                             selectedGroup = group
-
+                            
                         }.swipeActions {
                             Button(role: .destructive) {
                                 delete(group, groups, userId!)
@@ -64,14 +64,14 @@ struct HomeView: View {
                     }, userId)
                     groups.sort { $0.groupId > $1.groupId }
                 }.listStyle(SidebarListStyle())
-
-
+                
+                
                     .onAppear {
-                    print("get Group \(groups)")
-                    getGroups(completion: { (groups) in
-                        self.groups = groups
-                    }, userId)
-                }
+                        print("get Group \(groups)")
+                        getGroups(completion: { (groups) in
+                            self.groups = groups
+                        }, userId)
+                    }
                     .listStyle(SidebarListStyle())
                 Button(action: {
                     showAddGroup = true
@@ -81,8 +81,8 @@ struct HomeView: View {
             VStack {
                 Text("User ID: \(userId ?? 0)")
                     .onAppear {
-                    userId = getUserId()
-                }
+                        userId = getUserId()
+                    }
                 Text(selectedGroup.groupName)
                     .font(.title)
                     .padding(.leading)
@@ -95,63 +95,52 @@ struct HomeView: View {
                         .foregroundColor(.white)
                         .frame(width: 200, height: 50)
                 }
-                    .background(RoundedRectangle(cornerRadius: 8).fill(Color.gray))
-                    .padding()
+                .background(RoundedRectangle(cornerRadius: 8).fill(Color.gray))
+                .padding()
                 Divider()
                 List {
-                    //음성채팅 연결
-                    ScrollView{
-                        LazyVGrid(columns: /*@START_MENU_TOKEN@*//*@PLACEHOLDER=Columns@*/[GridItem(.fixed(200))]/*@END_MENU_TOKEN@*/) {
-                            /*@START_MENU_TOKEN@*/Text("Placeholder")/*@END_MENU_TOKEN@*/
-                            /*@START_MENU_TOKEN@*/Text("Placeholder")/*@END_MENU_TOKEN@*/
-                            Button(action: {self.viewModel.connectRoom(roomID: "1")}) { Text("Connect")}
-                            Text("Placeholder")
-                            /*@START_MENU_TOKEN@*/Text("Placeholder")/*@END_MENU_TOKEN@*/
-                            /*@START_MENU_TOKEN@*/Text("Placeholder")/*@END_MENU_TOKEN@*/
-                            /*@START_MENU_TOKEN@*/Text("Placeholder")/*@END_MENU_TOKEN@*/
-                            Button(action: {
-                                let destination: DownloadRequest.Destination = { _, _ in
-                                    let documentsURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
-                                    let fileURL = documentsURL.appendingPathComponent("testfile.pdf")
-                                    
-                                    return (fileURL, [.removePreviousFile, .createIntermediateDirectories])
+                    VStack {
+                        Button(action: {
+                            let destination: DownloadRequest.Destination = { _, _ in
+                                let documentsURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
+                                let fileURL = documentsURL.appendingPathComponent("testfile.pdf")
+                                
+                                return (fileURL, [.removePreviousFile, .createIntermediateDirectories])
+                            }
+                            AF.download(
+                                APIContants.baseURL+"/file/download?groupId=1000&fileName=testfile.pdf",
+                                to: destination)
+                            .downloadProgress { progress in
+                                print("Download Progress: \(progress.fractionCompleted)")
+                            }
+                            .response { response in
+                                if response.error == nil, let filePath = response.fileURL?.path {
+                                    print("File downloaded successfully: \(filePath)")
                                 }
-                                AF.download(
-                                    APIContants.baseURL+"/file/download?groupId=1000&fileName=testfile.pdf",
-                                    to: destination)
-                                .downloadProgress { progress in
-                                    print("Download Progress: \(progress.fractionCompleted)")
-                                }
-                                .response { response in
-                                    if response.error == nil, let filePath = response.fileURL?.path {
-                                        print("File downloaded successfully: \(filePath)")
-                                    }
-                                }
-                            }) {Text("Test file download")}
-                        }
+                            }
+                        }) {Text("Test file download")}
                     }
-                    /*@START_MENU_TOKEN@*/Text("Placeholder")/*@END_MENU_TOKEN@*/
-                    /*@START_MENU_TOKEN@*/Text("Placeholder")/*@END_MENU_TOKEN@*/
-                    Button(action: {
-                        let documentsURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
-                        let fileURL = documentsURL.appendingPathComponent("testfile.pdf")
-                        do {
-                            let fileData = try Data(contentsOf: fileURL)
-                            print("file data is empty: \(fileData.isEmpty), \(fileData.description)")
-                            // file data 접근 하는 부분
-                        } catch {
-                            print("Error loading data: \(error)")
-                        }
-                    }) {Text("access testfile.pdf")}
-                }
-                //
-                LazyVGrid(columns: /*@START_MENU_TOKEN@*//*@PLACEHOLDER=Columns@*/[GridItem(.fixed(200))]/*@END_MENU_TOKEN@*/) {
-                    /*@START_MENU_TOKEN@*/Text("Placeholder")/*@END_MENU_TOKEN@*/
-                    /*@START_MENU_TOKEN@*/Text("Placeholder")/*@END_MENU_TOKEN@*/
-                    Button(action: {self.viewModel.connectRoom(roomID: "1")}) { Text("Connect")}
-                    /*@START_MENU_TOKEN@*/Text("Placeholder")/*@END_MENU_TOKEN@*/
-                    /*@START_MENU_TOKEN@*/Text("Placeholder")/*@END_MENU_TOKEN@*/
-                    Button(action: {self.viewModel.startVoiceChat()}) { Text("StartVoiceChat")}
+                    
+                    VStack {
+                        Button(action: {
+                            let documentsURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
+                            let fileURL = documentsURL.appendingPathComponent("testfile.pdf")
+                            do {
+                                let fileData = try Data(contentsOf: fileURL)
+                                print("file data is empty: \(fileData.isEmpty), \(fileData.description)")
+                                // file data 접근 하는 부분
+                            } catch {
+                                print("Error loading data: \(error)")
+                            }
+                        }) {Text("access testfile.pdf")}
+                        //
+                    }
+                    VStack {
+                        Button(action: {self.viewModel.connectRoom(roomID: "1")}) { Text("Connect")}
+                    }
+                    VStack {
+                        Button(action: {self.viewModel.startVoiceChat()}) { Text("StartVoiceChat")}
+                    }
                 }
                 Divider()
                 //파일 목록 보기
