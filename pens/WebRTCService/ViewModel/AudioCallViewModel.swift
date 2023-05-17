@@ -54,6 +54,10 @@ extension AudioCallViewModel {
 //        _roomClient.join(roomID: roomID)
         connectToWebSocket(roomId: roomID)
     }
+    
+    func startVoiceChat() {
+        _webRTCClient?.createOffer()
+    }
 
     func disconnect() -> Void {
         let roomID = _roomId
@@ -168,7 +172,7 @@ extension AudioCallViewModel: WebSocketClientDelegate {
 //        registerWithCollider(roomId: "1")
 
         webRTCClient.delegate = self
-        webRTCClient.createOffer()
+//        webRTCClient.createOffer()
         drainMessageQueue()
 
     }

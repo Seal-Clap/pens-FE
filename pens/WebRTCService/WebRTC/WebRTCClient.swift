@@ -91,7 +91,6 @@ class WebRTCClient: NSObject {
                 print("Failed to create answer: \(error?.localizedDescription ?? "")")
                 return
             }
-
             let sdpDescription = RTCSessionDescription(type: .answer, sdp: sdp.sdp)
             self.setLocalSDP(sdpDescription, type: "answer")
         })
@@ -176,6 +175,7 @@ extension WebRTCClient {
 
         hasReceivedSdp = true
 
+        //TODO
         peerConnection.setRemoteDescription(desc, completionHandler: { [weak self](error) in
             if let error = error {
                 dLog(error)
@@ -231,6 +231,7 @@ extension WebRTCClient: RTCPeerConnectionDelegate {
     }
 
     func peerConnection(_ peerConnection: RTCPeerConnection, didGenerate candidate: RTCIceCandidate) {
+        //TODO
         guard let message = candidate.jsonData() else { return }
         delegate?.webRTCClient(self, sendData: message, type: "ice")
         dLog("")

@@ -154,6 +154,9 @@ struct HomeView: View {
                 /*@START_MENU_TOKEN@*/Text("Placeholder")/*@END_MENU_TOKEN@*/
                 /*@START_MENU_TOKEN@*/Text("Placeholder")/*@END_MENU_TOKEN@*/
                 Button(action: {self.viewModel.connectRoom(roomID: "1")}) { Text("Connect")}
+                /*@START_MENU_TOKEN@*/Text("Placeholder")/*@END_MENU_TOKEN@*/
+                /*@START_MENU_TOKEN@*/Text("Placeholder")/*@END_MENU_TOKEN@*/
+                Button(action: {self.viewModel.startVoiceChat()}) { Text("StartVoiceChat")}
             }
         }.overlay(
             Group {
