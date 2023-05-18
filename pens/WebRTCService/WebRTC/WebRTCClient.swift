@@ -47,7 +47,7 @@ class WebRTCClient: NSObject {
     func setup() {
         let constraints = RTCMediaConstraints(mandatoryConstraints: nil,
             optionalConstraints: ["DtlsSrtpKeyAgreement": kRTCMediaConstraintsValueTrue])
-        let config = RTCConfiguration()
+        let config = generateRTCConfig()
         config.iceServers = [RTCIceServer(urlStrings: Config.default.webRTCIceServers)]
         peerConnection = WebRTCClient.factory.peerConnection(with: config, constraints: constraints, delegate: self)
         self.createMediaSenders()
@@ -159,7 +159,7 @@ extension WebRTCClient {
     private func generateRTCConfig() -> RTCConfiguration {
         let config = RTCConfiguration()
         config.iceServers = [RTCIceServer(urlStrings: Config.default.webRTCIceServers)]
-//        config.sdpSemantics = RTCSdpSemantics.unifiedPlan
+        config.sdpSemantics = RTCSdpSemantics.unifiedPlan
 
         return config
     }
