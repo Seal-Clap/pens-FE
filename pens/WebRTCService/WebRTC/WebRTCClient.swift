@@ -159,7 +159,7 @@ extension WebRTCClient {
     private func generateRTCConfig() -> RTCConfiguration {
         let config = RTCConfiguration()
         config.iceServers = [RTCIceServer(urlStrings: Config.default.webRTCIceServers)]
-        config.sdpSemantics = RTCSdpSemantics.unifiedPlan
+//        config.sdpSemantics = RTCSdpSemantics.unifiedPlan
 
         return config
     }
