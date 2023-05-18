@@ -10,6 +10,9 @@ import WebRTC
 
 protocol WebRTCClientDelegate: class {
     func webRTCClient(_ client: WebRTCClient, sendData data: Data, type: String)
+    func webRTCClient(_ client: WebRTCClient, didDiscoverLocalCandidate candidate: RTCIceCandidate)
+    func webRTCClient(_ client: WebRTCClient, didChangeConnectionState state: RTCIceConnectionState)
+    func webRTCClient(_ client: WebRTCClient, didReceiveData data: Data)
 }
 
 class WebRTCClient: NSObject {
@@ -242,42 +245,82 @@ extension WebRTCClient {
     }
 }
 
+//extension WebRTCClient: RTCPeerConnectionDelegate {
+//    func peerConnection(_ peerConnection: RTCPeerConnection, didChange stateChanged: RTCSignalingState) {
+//        dLog("\(stateChanged.rawValue)")
+//    }
+//
+//    func peerConnection(_ peerConnection: RTCPeerConnection, didAdd stream: RTCMediaStream) {
+//        dLog("")
+//    }
+//
+//    func peerConnection(_ peerConnection: RTCPeerConnection, didRemove stream: RTCMediaStream) {
+//        dLog("")
+//    }
+//
+//    func peerConnectionShouldNegotiate(_ peerConnection: RTCPeerConnection) {
+//        dLog("")
+//    }
+//
+//    func peerConnection(_ peerConnection: RTCPeerConnection, didChange newState: RTCIceConnectionState) {
+//        dLog("\(newState.rawValue)")
+//    }
+//
+//    func peerConnection(_ peerConnection: RTCPeerConnection, didChange newState: RTCIceGatheringState) {
+//        dLog("")
+//    }
+//
+//    func peerConnection(_ peerConnection: RTCPeerConnection, didGenerate candidate: RTCIceCandidate) {
+//        //TODO
+//        guard let message = candidate.jsonData() else { return }
+//        delegate?.webRTCClient(self, sendData: message, type: "ice")
+//        dLog("")
+//    }
+//
+//    func peerConnection(_ peerConnection: RTCPeerConnection, didRemove candidates: [RTCIceCandidate]) {
+//        dLog("")
+//    }
+//
+//    func peerConnection(_ peerConnection: RTCPeerConnection, didOpen dataChannel: RTCDataChannel) {
+//        dLog("")
+//    }
+//}
+
 extension WebRTCClient: RTCPeerConnectionDelegate {
+    
     func peerConnection(_ peerConnection: RTCPeerConnection, didChange stateChanged: RTCSignalingState) {
-        dLog("\(stateChanged.rawValue)")
+        debugPrint("peerConnection new signaling state: \(stateChanged)")
     }
-
+    
     func peerConnection(_ peerConnection: RTCPeerConnection, didAdd stream: RTCMediaStream) {
-        dLog("")
+        debugPrint("peerConnection did add stream")
     }
-
+    
     func peerConnection(_ peerConnection: RTCPeerConnection, didRemove stream: RTCMediaStream) {
-        dLog("")
+        debugPrint("peerConnection did remove stream")
     }
-
+    
     func peerConnectionShouldNegotiate(_ peerConnection: RTCPeerConnection) {
-        dLog("")
+        debugPrint("peerConnection should negotiate")
     }
-
+    
     func peerConnection(_ peerConnection: RTCPeerConnection, didChange newState: RTCIceConnectionState) {
-        dLog("\(newState.rawValue)")
+        debugPrint("peerConnection new connection state: \(newState)")
+        self.delegate?.webRTCClient(self, didChangeConnectionState: newState)
     }
-
+    
     func peerConnection(_ peerConnection: RTCPeerConnection, didChange newState: RTCIceGatheringState) {
-        dLog("")
+        debugPrint("peerConnection new gathering state: \(newState)")
     }
-
+    
     func peerConnection(_ peerConnection: RTCPeerConnection, didGenerate candidate: RTCIceCandidate) {
-        //TODO
-        guard let message = candidate.jsonData() else { return }
-        delegate?.webRTCClient(self, sendData: message, type: "ice")
-        dLog("")
+        self.delegate?.webRTCClient(self, didDiscoverLocalCandidate: candidate)
     }
-
+    
     func peerConnection(_ peerConnection: RTCPeerConnection, didRemove candidates: [RTCIceCandidate]) {
-        dLog("")
+        debugPrint("peerConnection did remove candidate(s)")
     }
-
+    
     func peerConnection(_ peerConnection: RTCPeerConnection, didOpen dataChannel: RTCDataChannel) {
         dLog("")
     }
