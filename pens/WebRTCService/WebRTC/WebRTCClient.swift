@@ -52,6 +52,7 @@ class WebRTCClient: NSObject {
         peerConnection = WebRTCClient.factory.peerConnection(with: config, constraints: constraints, delegate: self)
         self.createMediaSenders()
         self.configureAudioSession()
+        self.setAudioEnabled(true)
     }
 
     func createOffer() {
@@ -195,7 +196,7 @@ extension WebRTCClient {
             if let error = error {
                 dLog(error)
             }
-            dLog(desc)
+//            dLog(desc)
             if desc.type == .offer,
                 self?.peerConnection?.localDescription == nil {
 //                self?.createAnswer()
@@ -236,7 +237,7 @@ extension WebRTCClient {
     func extractDesc(desc: RTCSessionDescription) -> RTCSessionDescription {
         var extractTarget = desc
         var extractTargetSdpString = desc.sdp
-        extractTargetSdpString = extractTargetSdpString.replacingOccurrences(of: "\n", with: "").replacingOccurrences(of: "\r", with: "").replacingOccurrences(of: "\\", with: "")
+//        extractTargetSdpString = extractTargetSdpString.replacingOccurrences(of: "\n", with: "").replacingOccurrences(of: "\r", with: "").replacingOccurrences(of: "\\", with: "")
         return RTCSessionDescription(type: desc.type, sdp: extractTargetSdpString)
     }
 }
