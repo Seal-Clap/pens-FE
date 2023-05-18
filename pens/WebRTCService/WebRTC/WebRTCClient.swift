@@ -77,7 +77,6 @@ class WebRTCClient: NSObject {
                 print("Failed to set remote description: \(error.localizedDescription)")
                 return
             }
-
             self.createAnswer()
         })
     }
@@ -92,6 +91,17 @@ class WebRTCClient: NSObject {
                 self.setLocalSDP(sdpDescription)
             })
     }
+
+    func receivedAnswer(_ remoteSdp: RTCSessionDescription) {
+        let sdp = self.extractDesc(desc: remoteSdp)
+        self.peerConnection?.setRemoteDescription(sdp, completionHandler: { (error) in
+            if let error = error {
+                print("Failed to set remote description: \(error.localizedDescription)")
+                return
+            }
+        })
+    }
+
 
 
 
@@ -117,14 +127,14 @@ class WebRTCClient: NSObject {
         })
         guard let jsonData = sdpDescription.jsonData() else { return }
         switch sdpDescription.type {
-            case .offer:
-                self.delegate?.webRTCClient(self, sendData: jsonData, type: "offer")
-            case .answer:
-                self.delegate?.webRTCClient(self, sendData: jsonData, type: "answer")
-            default:
-                dLog("type not define")
+        case .offer:
+            self.delegate?.webRTCClient(self, sendData: jsonData, type: "offer")
+        case .answer:
+            self.delegate?.webRTCClient(self, sendData: jsonData, type: "answer")
+        default:
+            dLog("type not define")
         }
-        
+
 //            self.delegate?.webRTCClient(self, sendData: data)
         //                    WebSocketClient().send(data: jsonData)
         dLog("Send Local SDP")
@@ -206,6 +216,12 @@ extension WebRTCClient {
 //                guard let sdp = self?.extractDesc(desc: desc) else { return }
                 self?.receivedOffer(sdp)
             }
+            if desc.type == .answer,
+                self?.peerConnection?.localDescription == nil {
+//                self?.createAnswer()
+//                guard let sdp = self?.extractDesc(desc: desc) else { return }
+                self?.receivedAnswer(sdp)
+            }
         })
     }
 
@@ -245,82 +261,42 @@ extension WebRTCClient {
     }
 }
 
-//extension WebRTCClient: RTCPeerConnectionDelegate {
-//    func peerConnection(_ peerConnection: RTCPeerConnection, didChange stateChanged: RTCSignalingState) {
-//        dLog("\(stateChanged.rawValue)")
-//    }
-//
-//    func peerConnection(_ peerConnection: RTCPeerConnection, didAdd stream: RTCMediaStream) {
-//        dLog("")
-//    }
-//
-//    func peerConnection(_ peerConnection: RTCPeerConnection, didRemove stream: RTCMediaStream) {
-//        dLog("")
-//    }
-//
-//    func peerConnectionShouldNegotiate(_ peerConnection: RTCPeerConnection) {
-//        dLog("")
-//    }
-//
-//    func peerConnection(_ peerConnection: RTCPeerConnection, didChange newState: RTCIceConnectionState) {
-//        dLog("\(newState.rawValue)")
-//    }
-//
-//    func peerConnection(_ peerConnection: RTCPeerConnection, didChange newState: RTCIceGatheringState) {
-//        dLog("")
-//    }
-//
-//    func peerConnection(_ peerConnection: RTCPeerConnection, didGenerate candidate: RTCIceCandidate) {
-//        //TODO
-//        guard let message = candidate.jsonData() else { return }
-//        delegate?.webRTCClient(self, sendData: message, type: "ice")
-//        dLog("")
-//    }
-//
-//    func peerConnection(_ peerConnection: RTCPeerConnection, didRemove candidates: [RTCIceCandidate]) {
-//        dLog("")
-//    }
-//
-//    func peerConnection(_ peerConnection: RTCPeerConnection, didOpen dataChannel: RTCDataChannel) {
-//        dLog("")
-//    }
-//}
 
 extension WebRTCClient: RTCPeerConnectionDelegate {
-    
+
     func peerConnection(_ peerConnection: RTCPeerConnection, didChange stateChanged: RTCSignalingState) {
         debugPrint("peerConnection new signaling state: \(stateChanged)")
     }
-    
+
     func peerConnection(_ peerConnection: RTCPeerConnection, didAdd stream: RTCMediaStream) {
         debugPrint("peerConnection did add stream")
     }
-    
+
     func peerConnection(_ peerConnection: RTCPeerConnection, didRemove stream: RTCMediaStream) {
         debugPrint("peerConnection did remove stream")
     }
-    
+
     func peerConnectionShouldNegotiate(_ peerConnection: RTCPeerConnection) {
         debugPrint("peerConnection should negotiate")
     }
-    
+
     func peerConnection(_ peerConnection: RTCPeerConnection, didChange newState: RTCIceConnectionState) {
         debugPrint("peerConnection new connection state: \(newState)")
         self.delegate?.webRTCClient(self, didChangeConnectionState: newState)
     }
-    
+
     func peerConnection(_ peerConnection: RTCPeerConnection, didChange newState: RTCIceGatheringState) {
         debugPrint("peerConnection new gathering state: \(newState)")
     }
-    
+
     func peerConnection(_ peerConnection: RTCPeerConnection, didGenerate candidate: RTCIceCandidate) {
         self.delegate?.webRTCClient(self, didDiscoverLocalCandidate: candidate)
     }
-    
+
     func peerConnection(_ peerConnection: RTCPeerConnection, didRemove candidates: [RTCIceCandidate]) {
         debugPrint("peerConnection did remove candidate(s)")
     }
-    
+
     func peerConnection(_ peerConnection: RTCPeerConnection, didOpen dataChannel: RTCDataChannel) {
         dLog("")
     }
