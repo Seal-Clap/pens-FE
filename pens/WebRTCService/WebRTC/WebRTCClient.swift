@@ -188,10 +188,10 @@ extension WebRTCClient {
         }
 
         hasReceivedSdp = true
-        var extractDesc =
-
+//        var extractDesc =
+        let sdp = extractDesc(desc: desc)
         //TODO
-        peerConnection.setRemoteDescription(desc, completionHandler: { [weak self](error) in
+        peerConnection.setRemoteDescription(sdp, completionHandler: { [weak self](error) in
             if let error = error {
                 dLog(error)
             }
@@ -199,7 +199,7 @@ extension WebRTCClient {
             if desc.type == .offer,
                 self?.peerConnection?.localDescription == nil {
 //                self?.createAnswer()
-                guard let sdp = self?.extractDesc(desc: desc) else { return }
+//                guard let sdp = self?.extractDesc(desc: desc) else { return }
                 self?.receivedOffer(sdp)
             }
         })
