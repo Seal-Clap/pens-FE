@@ -13,7 +13,7 @@ fileprivate let defaultIceServers = ["stun:stun.l.google.com:19302",
                                      "stun:stun3.l.google.com:19302",
                                      "stun:stun4.l.google.com:19302"]
 
-fileprivate let defaultSignalingServer = "ws://13.209.120.19:8080"
+fileprivate let defaultSignalingServer = "ws://13.209.120.19:8080/ws/signal"
 
 struct Config {
     let signalingServer: String
