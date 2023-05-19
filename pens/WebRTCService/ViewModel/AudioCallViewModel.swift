@@ -130,7 +130,7 @@ extension AudioCallViewModel {
 //MARK: webSocketClientDelegate
 extension AudioCallViewModel: WebSocketClientDelegate {
     func connectToWebSocket(roomId: String) -> Void {
-        guard let webSocketURL = URL(string: APIContants.signalingServerURL + "?roomId=" + roomId) else {
+        guard let webSocketURL = URL(string: Config.default.signalingServer + "?roomId=" + roomId) else {
             return
         }
         guard let webSocket = _webSocket else {
