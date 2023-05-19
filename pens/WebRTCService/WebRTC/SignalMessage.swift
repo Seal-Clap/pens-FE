@@ -27,8 +27,10 @@ enum SignalMessage {
                 if let type = dict["type"] as? String {
                     
                     if type == "ice",
-                       let candidateDict = messageDict["candidate"] as? [String: Any],
-                       let candidate = RTCIceCandidate.candidate(from: messageDict) {
+//                       let candidateDict = messageDict["candidate"] as? [String: Any],
+//                       let candidate = RTCIceCandidate.candidate(from: candidateDict) {
+//                        return .ice(candidate)
+                        let candidate = RTCIceCandidate.candidate(from: messageDict) {
                         return .ice(candidate)
                     } else if type == "answer",
                               let sdp = messageDict["sdp"] as? String {
