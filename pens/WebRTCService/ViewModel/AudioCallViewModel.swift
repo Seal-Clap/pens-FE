@@ -170,8 +170,9 @@ extension AudioCallViewModel: WebRTCClientDelegate {
         print("discovered local candidate")
 //            self.localCandidateCount += 1
 //        self._webRTCClient?.delegate?.webRTCClient(_webRTCClient!, sendData: candidate, type: "ice")
-        guard let message = candidate.jsonData() else { return }
-        self._webRTCClient?.delegate?.webRTCClient(_webRTCClient!, sendData: message, type: "ice")
+        
+//        guard let message = candidate.jsonData() else { return }
+//        self._webRTCClient?.delegate?.webRTCClient(_webRTCClient!, sendData: message, type: "ice")
     }
 
     func webRTCClient(_ client: WebRTCClient, didChangeConnectionState state: RTCIceConnectionState) {
