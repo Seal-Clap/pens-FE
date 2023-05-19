@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		057539BD2A172F000086AFEE /* DrawingConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 057539BC2A172F000086AFEE /* DrawingConfig.swift */; };
+		05887F452A1536EE00280826 /* DrawingClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05887F442A1536EE00280826 /* DrawingClient.swift */; };
+		05887F472A16185800280826 /* WebSocketDrawingClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05887F462A16185800280826 /* WebSocketDrawingClient.swift */; };
 		05C752D02A11E34E0070D16B /* GroupUsersView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05C752CF2A11E34E0070D16B /* GroupUsersView.swift */; };
 		05C752D22A11E3700070D16B /* GroupUsers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05C752D12A11E3700070D16B /* GroupUsers.swift */; };
 		05EE4B2729E545E50088B6AF /* AuthNavigationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05EE4B2629E545E50088B6AF /* AuthNavigationView.swift */; };
@@ -71,6 +74,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		057539BC2A172F000086AFEE /* DrawingConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrawingConfig.swift; sourceTree = "<group>"; };
+		05887F442A1536EE00280826 /* DrawingClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrawingClient.swift; sourceTree = "<group>"; };
+		05887F462A16185800280826 /* WebSocketDrawingClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebSocketDrawingClient.swift; sourceTree = "<group>"; };
 		05C752CF2A11E34E0070D16B /* GroupUsersView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GroupUsersView.swift; sourceTree = "<group>"; };
 		05C752D12A11E3700070D16B /* GroupUsers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GroupUsers.swift; sourceTree = "<group>"; };
 		05EE4B2629E545E50088B6AF /* AuthNavigationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthNavigationView.swift; sourceTree = "<group>"; };
@@ -155,6 +161,16 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		057539B92A1727840086AFEE /* WebSocketDrawingService */ = {
+			isa = PBXGroup;
+			children = (
+				05887F462A16185800280826 /* WebSocketDrawingClient.swift */,
+				05887F442A1536EE00280826 /* DrawingClient.swift */,
+				057539BC2A172F000086AFEE /* DrawingConfig.swift */,
+			);
+			path = WebSocketDrawingService;
+			sourceTree = "<group>";
+		};
 		125CBC30FA4D8748B5E8472D /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -237,6 +253,7 @@
 		18A92A0829BF0917009820F6 /* pens */ = {
 			isa = PBXGroup;
 			children = (
+				057539B92A1727840086AFEE /* WebSocketDrawingService */,
 				1891A2902A10D1C3001C5BA9 /* WebRTCService */,
 				BC95CFD629D6E80600AE3037 /* Method */,
 				BC95CFD529D6E28A00AE3037 /* pens--Info.plist */,
@@ -580,6 +597,7 @@
 				BC5B927E29E2CDFE00F52228 /* HomeView.swift in Sources */,
 				BCE32D2B29CD7DC40096F899 /* LoginView.swift in Sources */,
 				1891A29A2A10E2EF001C5BA9 /* Logger.swift in Sources */,
+				05887F472A16185800280826 /* WebSocketDrawingClient.swift in Sources */,
 				BC95CFD429D6DFBC00AE3037 /* APIContants.swift in Sources */,
 				BCE32D2D29CD81000096F899 /* ResisterView.swift in Sources */,
 				BC74703E29EBDA07003C541C /* AddGroupView.swift in Sources */,
@@ -595,6 +613,7 @@
 				BCDE22D62A136D33009F3F46 /* DrawView.swift in Sources */,
 				BC11A21D2A11F0780081D58D /* FileUpload.swift in Sources */,
 				BC74703829EBB7FD003C541C /* LoginToken.swift in Sources */,
+				057539BD2A172F000086AFEE /* DrawingConfig.swift in Sources */,
 				FD290E6E2A00364D00CD2835 /* GroupRowView.swift in Sources */,
 				BCBAD9842A14CCC300D4CA73 /* FileListShow.swift in Sources */,
 				BCBAD9862A14E45600D4CA73 /* FileDownload.swift in Sources */,
@@ -607,6 +626,7 @@
 				05C752D22A11E3700070D16B /* GroupUsers.swift in Sources */,
 				BCDE22D42A136641009F3F46 /* DrawFile.swift in Sources */,
 				186FF4A22A0BA120008D26EC /* LoadGroupList.swift in Sources */,
+				05887F452A1536EE00280826 /* DrawingClient.swift in Sources */,
 				1891A29C2A10E327001C5BA9 /* RoomClient.swift in Sources */,
 				1891A2AB2A10E8D5001C5BA9 /* WebRTCClient.swift in Sources */,
 			);

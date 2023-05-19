@@ -49,15 +49,15 @@ struct RoomClient {
 // MARK: URL Path
 extension RoomClient {
     func roomURL(roomID: String) -> String {
-        let base = Config.default.signalingServer + "/room"
+        let base = Config.default.signalingServer + "/signal"
         return base
     }
     func leaveURL(roomID: String) -> String {
-        let base = Config.default.signalingServer + "/room/"
+        let base = Config.default.signalingServer + "/signal"
         return base + "?roomId=\(roomID)"
     }
     func messageURL(roomID: String) -> String {
-        let base = Config.default.signalingServer + "/room/"
+        let base = Config.default.signalingServer + "/signal"
         return base + "?roomId=\(roomID)"
     }
 }
