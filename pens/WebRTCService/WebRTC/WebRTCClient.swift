@@ -64,21 +64,39 @@ class WebRTCClient: NSObject {
                     print("Failed to create offer: \(error?.localizedDescription ?? "")")
                     return
                 }
+            let sdpDescription = self.extractDesc(desc: sdp)
+            
+                self.peerConnection?.setLocalDescription(sdpDescription, completionHandler: { (error) in
+                    if let error = error {
+                        debugPrint(error)
+                    }
+                })
 
-                let sdpDescription = self.extractDesc(desc: sdp)
-                self.setLocalSDP(sdpDescription)
+//                self.setLocalSDP(sdpDescription)
+                guard let jsonData = sdpDescription.jsonData() else { return }
+                self.delegate?.webRTCClient(self, sendData: jsonData, type: "offer")
             })
     }
     //remote 추가 필요, 안거침
     func receivedOffer(_ remoteSdp: RTCSessionDescription) {
-        let sdp = self.extractDesc(desc: remoteSdp)
-        self.peerConnection?.setRemoteDescription(sdp, completionHandler: { (error) in
+        let sdpDescription = self.extractDesc(desc: remoteSdp)
+
+        self.peerConnection?.setRemoteDescription(sdpDescription, completionHandler: { (error) in
             if let error = error {
                 print("Failed to set remote description: \(error.localizedDescription)")
                 return
             }
-            self.createAnswer()
         })
+        
+//        self.peerConnection?.setLocalDescription(sdpDescription, completionHandler: { (error) in
+//            if let error = error {
+//                debugPrint(error)
+//            }
+//        })
+
+
+        self.createAnswer()
+
     }
 
     private func createAnswer() {
@@ -88,7 +106,15 @@ class WebRTCClient: NSObject {
                     return
                 }
                 let sdpDescription = self.extractDesc(desc: sdp)
-                self.setLocalSDP(sdpDescription)
+//                self.setLocalSDP(sdpDescription)
+            self.peerConnection?.setLocalDescription(sdpDescription, completionHandler: { (error) in
+                if let error = error {
+                    debugPrint(error)
+                }
+            })
+                guard let jsonData = sdpDescription.jsonData() else { return }
+                self.delegate?.webRTCClient(self, sendData: jsonData, type: "answer")
+
             })
     }
 
@@ -112,33 +138,33 @@ class WebRTCClient: NSObject {
     }
 
 
-    private func setLocalSDP(_ sdp: RTCSessionDescription) {
-        guard let peerConnection = peerConnection else {
-            dLog("Check PeerConnection")
-            return
-        }
-
-        let sdpDescription = self.extractDesc(desc: sdp)
-
-        peerConnection.setLocalDescription(sdpDescription, completionHandler: { (error) in
-            if let error = error {
-                debugPrint(error)
-            }
-        })
-        guard let jsonData = sdpDescription.jsonData() else { return }
-        switch sdpDescription.type {
-        case .offer:
-            self.delegate?.webRTCClient(self, sendData: jsonData, type: "offer")
-        case .answer:
-            self.delegate?.webRTCClient(self, sendData: jsonData, type: "answer")
-        default:
-            dLog("type not define")
-        }
-
-//            self.delegate?.webRTCClient(self, sendData: data)
-        //                    WebSocketClient().send(data: jsonData)
-        dLog("Send Local SDP")
-    }
+//    private func setLocalSDP(_ sdp: RTCSessionDescription) {
+//        guard let peerConnection = peerConnection else {
+//            dLog("Check PeerConnection")
+//            return
+//        }
+//
+//        let sdpDescription = self.extractDesc(desc: sdp)
+//
+//        peerConnection.setLocalDescription(sdpDescription, completionHandler: { (error) in
+//            if let error = error {
+//                debugPrint(error)
+//            }
+//        })
+//        guard let jsonData = sdpDescription.jsonData() else { return }
+//        switch sdpDescription.type {
+//        case .offer:
+//            self.delegate?.webRTCClient(self, sendData: jsonData, type: "offer")
+//        case .answer:
+//            self.delegate?.webRTCClient(self, sendData: jsonData, type: "answer")
+//        default:
+//            dLog("type not define")
+//        }
+//
+////            self.delegate?.webRTCClient(self, sendData: data)
+//        //                    WebSocketClient().send(data: jsonData)
+//        dLog("Send Local SDP")
+//    }
 }
 
 
