@@ -39,6 +39,8 @@ struct APIContants{
     //file 다운로드
     static let fileDownloadURl = baseURL + "/file/download"
     // signaling server
-    static let signalingServerURL = "ws://13.209.120.19:8080/room"
+    static let signalingServerURL = "ws://13.209.120.19:8080/ws/signal"
+    // drawing server
+    static let drawingServerURL = "ws://13.209.120.19:8080/ws/draw"
 
 }
