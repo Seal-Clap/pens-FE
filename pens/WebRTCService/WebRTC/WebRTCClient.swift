@@ -94,7 +94,7 @@ class WebRTCClient: NSObject {
 
     func receivedAnswer(_ remoteSdp: RTCSessionDescription) {
         let sdp = self.extractDesc(desc: remoteSdp)
-        self.peerConnection?.setLocalDescription(sdp, completionHandler: { (error) in
+        self.peerConnection?.setRemoteDescription(sdp, completionHandler: { (error) in
             if let error = error {
                 print("Failed to set remote description: \(error.localizedDescription)")
                 return
