@@ -42,5 +42,6 @@ struct APIContants{
     static let signalingServerURL = "ws://13.209.120.19:8080/ws/signal"
     // drawing server
     static let drawingServerURL = "ws://13.209.120.19:8080/ws/draw"
-
+    // get channels by groupId
+    static let channelListURL = baseURL + "/channels"
 }
