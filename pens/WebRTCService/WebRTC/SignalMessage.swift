@@ -44,7 +44,6 @@ enum SignalMessage {
                     if type == "init" {
                         let sender = dict["sender"] as? String
                         return .`init`(sender: sender!)
-//                        dLog(messageDict["sender"] as? String)
                     }
                 }
             }
