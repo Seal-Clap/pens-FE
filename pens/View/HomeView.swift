@@ -65,7 +65,7 @@ struct HomeView: View {
                         self.groups = groups
                     }, userId)
                     groups.sort { $0.groupId > $1.groupId }
-                }.listStyle(SidebarListStyle())
+                }.listStyle(InsetGroupedListStyle())
                 
                 
                     .onAppear {
