@@ -38,6 +38,7 @@ struct VoiceChannelView: View {
                     }
                         .padding(.leading)
                         .onTapGesture {
+                            self.viewModel.disconnect()
                             self.viewModel.connectRoom(roomID: String(channel.channelId))
                     }
                 }
