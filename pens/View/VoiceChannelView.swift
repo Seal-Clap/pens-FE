@@ -22,7 +22,7 @@ struct VoiceChannel: Identifiable, Decodable {
         case channelId
     }
 }
-//Button(action: {self.viewModel.connectRoom(roomID: "1")}) { Text("Connect")}
+
 //Button(action: {self.viewModel.startVoiceChat()}) { Text("StartVoiceChat")}
 
 struct VoiceChannelView: View {

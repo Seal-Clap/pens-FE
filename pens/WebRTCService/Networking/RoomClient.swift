@@ -31,16 +31,6 @@ struct RoomClient {
         } catch let error {
             print("JSONSerialization error: \(error)")
         }
-
-
-
-        //        AF.request(messageURL(roomID: roomId), method: .post, parameters: jsonString, encoding: JSONEncoding.default).response { response in
-        //            if let data = response.data {
-        //                dLog("\(data.prettyPrintedJSONString)")
-        //            } else if let error = response.error {
-        //                dLog(error)
-        //            }
-
         completion()
     }
 }

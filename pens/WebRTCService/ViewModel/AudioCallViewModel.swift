@@ -51,7 +51,6 @@ extension AudioCallViewModel {
         guard let _roomClient = _roomClient else {
             return
         }
-//        _roomClient.join(roomID: roomID)
         connectToWebSocket(roomId: roomID)
     }
 
@@ -168,9 +167,6 @@ extension AudioCallViewModel: WebRTCClientDelegate {
 
     func webRTCClient(_ client: WebRTCClient, didDiscoverLocalCandidate candidate: RTCIceCandidate) {
         print("discovered local candidate")
-//            self.localCandidateCount += 1
-//        self._webRTCClient?.delegate?.webRTCClient(_webRTCClient!, sendData: candidate, type: "ice")
-        
         guard let message = candidate.jsonData() else { return }
         self._webRTCClient?.delegate?.webRTCClient(_webRTCClient!, sendData: message, type: "ice")
     }
