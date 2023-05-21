@@ -57,6 +57,7 @@ struct HomeView: View {
                             }
                         }
                     }
+                    // duplicated request TODO
                 }.onAppear {
                     print("get Group \(groups)")
                     getGroups(completion: { (groups) in
@@ -99,7 +100,6 @@ struct HomeView: View {
                 .padding()
                 Divider()
                 List {
-                    VStack {
                         Button(action: {
                             let destination: DownloadRequest.Destination = { _, _ in
                                 let documentsURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
@@ -119,9 +119,7 @@ struct HomeView: View {
                                 }
                             }
                         }) {Text("Test file download")}
-                    }
                     
-                    VStack {
                         Button(action: {
                             let documentsURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
                             let fileURL = documentsURL.appendingPathComponent("testfile.pdf")
@@ -134,14 +132,14 @@ struct HomeView: View {
                             }
                         }) {Text("access testfile.pdf")}
                         //
-                    }
-                    VStack {
                         Button(action: {self.viewModel.connectRoom(roomID: "1")}) { Text("Connect")}
-                    }
-                    VStack {
                         Button(action: {self.viewModel.startVoiceChat()}) { Text("StartVoiceChat")}
-                    }
-                }
+
+                    
+
+                    
+                }.listStyle(InsetGroupedListStyle())
+                VoiceChannelView(groupId: $selectedGroup.groupId)
                 Divider()
                 //파일 목록 보기
                 Button(action: {

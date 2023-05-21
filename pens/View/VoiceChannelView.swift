@@ -11,16 +11,39 @@ import Alamofire
 
 struct VoiceChannel: Identifiable, Decodable {
     var id = UUID()
-    var name: String
+    var groupId: Int
+    var channelName: String
     var channelId: Int
-    var isEnabled: Bool
+//    var isEnabled: Bool
+    enum CodingKeys: String, CodingKey {
+        case groupId
+        case channelName
+        case channelId
+    }
 }
 
 struct VoiceChannelView: View {
     @Binding var groupId: Int
+    @State var voiceChannels: [VoiceChannel] = []
     var body: some View {
-        VStack {
-            
+        List {
+            Section(header: Text("음성채널").font(.title)) {
+                ForEach(voiceChannels, id: \.channelId) { channel in
+                    VStack(alignment: .leading) {
+                        Text("\(channel.channelName)").font(.title3)
+                    }
+                        .padding(.leading)
+                        .onTapGesture {
+                        //
+                    }
+                }
+            }
+        }.listStyle(InsetGroupedListStyle())
+            .onChange(of: groupId) { newGroupId in
+            getChannels(completion: { (channels) in
+                self.voiceChannels = channels
+                self.voiceChannels.sort { $0.channelId > $1.channelId }
+            }, newGroupId)
         }
     }
 }
@@ -28,8 +51,12 @@ struct VoiceChannelView: View {
 func getChannels(completion: @escaping ([VoiceChannel]) -> (), _ groupId: Int) {
     let param = ["groupId": groupId]
     AF.request(APIContants.channelListURL, method: .get, parameters: param, encoding: URLEncoding.default).validate(statusCode: 200..<300).responseDecodable(of: [VoiceChannel].self) { (response) in
-        guard let channels = response.value else {return}
-        completion(channels)
+        switch response.result {
+        case .success(let channels):
+            completion(channels)
+        case .failure(let error):
+            print("Error: \(error)")
+        }
     }
 }
 
