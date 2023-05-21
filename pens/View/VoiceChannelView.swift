@@ -8,6 +8,7 @@
 import Foundation
 import SwiftUI
 import Alamofire
+import Combine
 
 struct VoiceChannel: Identifiable, Decodable {
     var id = UUID()
@@ -21,9 +22,12 @@ struct VoiceChannel: Identifiable, Decodable {
         case channelId
     }
 }
+//Button(action: {self.viewModel.connectRoom(roomID: "1")}) { Text("Connect")}
+//Button(action: {self.viewModel.startVoiceChat()}) { Text("StartVoiceChat")}
 
 struct VoiceChannelView: View {
     @Binding var groupId: Int
+    @ObservedObject var viewModel: AudioCallViewModel
     @State var voiceChannels: [VoiceChannel] = []
     var body: some View {
         List {
@@ -34,7 +38,7 @@ struct VoiceChannelView: View {
                     }
                         .padding(.leading)
                         .onTapGesture {
-                        //
+                            self.viewModel.connectRoom(roomID: String(channel.channelId))
                     }
                 }
             }
@@ -63,8 +67,9 @@ func getChannels(completion: @escaping ([VoiceChannel]) -> (), _ groupId: Int) {
 struct VoiceChannleView_Previews: PreviewProvider {
     struct PriviewWrapper: View {
         @State private var groupId: Int = 0
+        @State private var viewModel: AudioCallViewModel = AudioCallViewModel()
         var body: some View {
-            VoiceChannelView(groupId: $groupId)
+            VoiceChannelView(groupId: $groupId, viewModel: viewModel)
         }
     }
     static var previews: some View {

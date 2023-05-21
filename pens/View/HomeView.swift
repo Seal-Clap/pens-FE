@@ -7,6 +7,7 @@
 
 import SwiftUI
 import Alamofire
+import Combine
 
 struct HomeView: View {
     //로그아웃 위해
@@ -135,11 +136,8 @@ struct HomeView: View {
                         Button(action: {self.viewModel.connectRoom(roomID: "1")}) { Text("Connect")}
                         Button(action: {self.viewModel.startVoiceChat()}) { Text("StartVoiceChat")}
 
-                    
-
-                    
                 }.listStyle(InsetGroupedListStyle())
-                VoiceChannelView(groupId: $selectedGroup.groupId)
+                VoiceChannelView(groupId: $selectedGroup.groupId, viewModel: viewModel)
                 Divider()
                 //파일 목록 보기
                 Button(action: {
