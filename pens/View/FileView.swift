@@ -16,14 +16,12 @@ enum DownloadState {
 }
 
 class FileViewModel: ObservableObject {
-    @Published var fileURLs = [URL]()
-    var cancellables = Set<AnyCancellable>()
+    @Published var downloadedFileURL: URL?
 }
 
 struct FileView: View {
     @State private var isImporting: Bool = false
     @State private var fileURL: URL?
-    //@Binding var groupId : Int
     @Binding var selectedGroup: GroupElement //userId위해
     //
     let columns: [GridItem] = Array(repeating: .init(.flexible()), count: 5)
@@ -34,17 +32,16 @@ struct FileView: View {
     
     @ObservedObject var viewModel: AudioCallViewModel
     //
-    @State private var fileId = ""
     @State private var showDownloadAlert = false
     //
     @ObservedObject var fileViewModel = FileViewModel()
     var downloader = DownloadAllFiles()
     @State private var groups = [GroupElement]()
-    //private var cancellables = Set<AnyCancellable>()
-    @State private var refresh = UUID()
     //
     @State var files: [FileList] = []
-    
+    @State private var selectedFile: FileList?
+    @State private var isShowingPdf = false
+
     var body: some View {
         VStack{
             HStack{
@@ -66,47 +63,22 @@ struct FileView: View {
                         .font(.system(size: 30))
                 }.foregroundColor(.black)
                     .padding()
-                .fileImporter(
-                    isPresented: $isImporting,
-                    allowedContentTypes: [.pdf, .presentation, .image],
-                    allowsMultipleSelection: false
-                ) { result in
-                    do {
-                        let selectedFiles = try result.get()
-                        fileURL = selectedFiles.first
-                        uploadFile(groupId: selectedGroup.groupId, fileUrl: fileURL!)
-                        //uploadFile(groupId: groupId, fileUrl: fileURL!)
-                    } catch {
-                        // Handle error
-                    }
-                }
-            //download
-                Button(action : {
-                    FileDownloadView.getFileId { fileId in
-                        downloadFile(n: fileId) { url in
-                            fileViewModel.fileURLs.append(url)
+                    .fileImporter(
+                        isPresented: $isImporting,
+                        allowedContentTypes: [.pdf, .presentation, .image],
+                        allowsMultipleSelection: false
+                    ) { result in
+                        do {
+                            let selectedFiles = try result.get()
+                            fileURL = selectedFiles.first
+                            uploadFile(groupId: selectedGroup.groupId, fileUrl: fileURL!)
+                            //uploadFile(groupId: groupId, fileUrl: fileURL!)
+                        } catch {
+                            // Handle error
                         }
                     }
-                }
-                ){
-                    VStack{
-                        Image(systemName: "arrow.down.doc").font(.system(size: 30))
-                    }.foregroundColor(.black)
-                }
-            }.padding()
-//            //파일 목록 - 다운로드
-//            ScrollView {
-//                LazyVGrid(columns: columns) {
-//                    ForEach(fileViewModel.fileURLs, id: \.self) { url in
-//                        NavigationLink(destination: PDF_FileView(url: url)) {
-//                            VStack {
-//                                Image(systemName: "doc.plaintext").font(.system(size: 100))
-//                                Text(url.lastPathComponent)
-//                            }.foregroundColor(.black)
-//                        }
-//                    }
-//                }
-//            }
+            }
+            .padding()
             //걍 파일 목록 보여주기
             ScrollView{
                 LazyVGrid(columns: columns){
@@ -117,22 +89,21 @@ struct FileView: View {
                                 Text("\(file.fileId)")
                                 Text("\(file.fileName)")
                             }
+                        }.onTapGesture {
+                            self.selectedFile = file
+                            downloadFile(n: file.fileId, fileName: file.fileName) { url in
+                                fileViewModel.downloadedFileURL = url
+                                self.isShowingPdf = true
+                            }
+                        }
+                        .fullScreenCover(isPresented: $isShowingPdf) {
+                            if let url = fileViewModel.downloadedFileURL {
+                                PDF_FileView(url: url)
+                            }
                         }
                     }
                 }
             }
-//            ScrollView {
-//                LazyVGrid(columns: columns) {
-//                    ForEach(fileURLs, id: \.self) { url in
-//                        NavigationLink(destination: PDF_FileView(url: url)) {
-//                            VStack {
-//                                Image(systemName: "doc.plaintext").font(.system(size: 100))
-//                                Text(url.lastPathComponent)
-//                            }.foregroundColor(.black)
-//                        }
-//                    }
-//                }
-//            }
             //빈 노트
             ScrollView{
                 LazyVGrid(columns: columns) {
@@ -157,71 +128,8 @@ struct FileView: View {
                 self.files = fileList
             }, selectedGroup.groupId)
         }
-        //다운로드관련
-//        .onChange(of: selectedGroup) { newGroup in
-//            fetchAndDownloadFiles(groupId: newGroup.groupId)
-//            print("바뀐 화면 ----- \(newGroup.groupId)")
-//            //
-//        }.onAppear {
-//            fetchAndDownloadFiles(groupId: selectedGroup.groupId)
-//        }.onChange(of: fileViewModel.fileURLs) { newValue in
-//            self.refresh = UUID()
-//        }
-        
-//        .onAppear {
-//            fetchAndDownloadFiles(groupId: groupId)
-//        }
-        
     }
     //
-    func fetchAndDownloadFiles(groupId : Int) {
-        downloader.fetchFileList(groupId: groupId) { fileList in
-            let convertedFileList = fileList.map { FileElement(fileName: $0.fileName, fileId: $0.fileId) }
-            downloader.downloadFiles(fileList: convertedFileList)
-                .sink(receiveCompletion: { [weak fileViewModel] completion in
-                    switch completion {
-                    case .failure(let error):
-                        print("Error while downloading files: \(error)")
-                    case .finished:
-                        print("All files downloaded.")
-                    }
-                }, receiveValue: { [weak fileViewModel] url in
-                    DispatchQueue.main.async {
-                        guard let fileViewModel = fileViewModel else {
-                            return
-                        }
-                        guard !fileViewModel.fileURLs.contains(url) else {
-                            return // 중복된 URL인 경우 추가하지 않음
-                        }
-                        fileViewModel.fileURLs.append(url)
-
-                        // 파일 존재 여부 확인 코드 추가
-                        do {
-                            var isDirectory: ObjCBool = false
-                            if FileManager.default.fileExists(atPath: url.path, isDirectory: &isDirectory) {
-                                if isDirectory.boolValue {
-                                    // url points to a directory
-                                    print("The directory \(url.path) exists")
-                                } else {
-                                    // url points to a file
-                                    print("The file \(url.path) exists")
-                                }
-                            } else {
-                                print("The item \(url.path) does not exist")
-                            }
-                        } catch let error as NSError {
-                            print("An error took place: \(error)")
-                        }
-
-                        print("fetchAndDownloadFiles ---- url: \(url)")
-                        print("fetchAndDownloadFiles ---- fileURLs: \(fileViewModel.fileURLs)")
-                    }
-                })
-                .store(in: &self.fileViewModel.cancellables)
-        }
-    }
-
-    
 }
 
 //struct FileView_Previews: PreviewProvider {
@@ -236,32 +144,3 @@ struct FileView: View {
 //    }
 //}
 
-/*
- func fetchAndDownloadFiles(groupId : Int) {
-     downloader.fetchFileList(groupId: groupId) { fileList in
-         let convertedFileList = fileList.map { FileElement(fileName: $0.fileName, fileId: $0.fileId) }
-         downloader.downloadFiles(fileList: convertedFileList)
-             .sink(receiveCompletion: { [weak fileViewModel] completion in
-                 switch completion {
-                 case .failure(let error):
-                     print("Error while downloading files: \(error)")
-                 case .finished:
-                     print("All files downloaded.")
-                 }
-             }, receiveValue: { [weak fileViewModel] url in
-                 DispatchQueue.main.async {
-                     guard let fileViewModel = fileViewModel else {
-                         return
-                     }
-                     guard !fileViewModel.fileURLs.contains(url) else {
-                         return // 중복 url 추가x
-                     }
-                     fileViewModel.fileURLs.append(url)
-                     print("fetchAndDownloadFiles ---- url: \(url)")
-                     print("fetchAndDownloadFiles ---- fileURLs: \(fileViewModel.fileURLs)")
-                 }
-             })
-             .store(in: &self.fileViewModel.cancellables)
-     }
- }
- */
