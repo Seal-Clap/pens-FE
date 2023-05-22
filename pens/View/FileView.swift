@@ -7,11 +7,16 @@
 
 import SwiftUI
 import Alamofire
+import Combine
+
+class FileViewModel: ObservableObject {
+    @Published var downloadedFileURL: URL?
+}
 
 struct FileView: View {
     @State private var isImporting: Bool = false
     @State private var fileURL: URL?
-    @Binding var groupId : Int
+    @Binding var selectedGroup: GroupElement //userId위해
     //
     let columns: [GridItem] = Array(repeating: .init(.flexible()), count: 5)
     @State private var newDrawName: String = ""
@@ -21,10 +26,15 @@ struct FileView: View {
     
     @ObservedObject var viewModel: AudioCallViewModel
     //
-    @State private var fileId = ""
     @State private var showDownloadAlert = false
-    @State private var fileURLs: [URL] = []
-    
+    //
+    @ObservedObject var fileViewModel = FileViewModel()
+    @State private var groups = [GroupElement]()
+    //
+    @State var files: [FileList] = []
+    @State private var selectedFile: FileList?
+    @State private var isShowingPdf = false
+
     var body: some View {
         VStack{
             HStack{
@@ -46,42 +56,43 @@ struct FileView: View {
                         .font(.system(size: 30))
                 }.foregroundColor(.black)
                     .padding()
-                .fileImporter(
-                    isPresented: $isImporting,
-                    allowedContentTypes: [.pdf, .presentation, .image],
-                    allowsMultipleSelection: false
-                ) { result in
-                    do {
-                        let selectedFiles = try result.get()
-                        fileURL = selectedFiles.first
-                        uploadFile(groupId: groupId, fileUrl: fileURL!)
-                    } catch {
-                        // Handle error
-                    }
-                }
-            //download
-                Button(action : {
-                    FileDownloadView.getFileId { fileId in
-                        downloadFile(n: fileId) { url in
-                            self.fileURLs.append(url)
+                    .fileImporter(
+                        isPresented: $isImporting,
+                        allowedContentTypes: [.pdf, .presentation, .image],
+                        allowsMultipleSelection: false
+                    ) { result in
+                        do {
+                            let selectedFiles = try result.get()
+                            fileURL = selectedFiles.first
+                            uploadFile(groupId: selectedGroup.groupId, fileUrl: fileURL!)
+                            //uploadFile(groupId: groupId, fileUrl: fileURL!)
+                        } catch {
+                            // Handle error
                         }
                     }
-
-                }){
-                    VStack{
-                        Image(systemName: "arrow.down.doc").font(.system(size: 30))
-                    }.foregroundColor(.black)
-                }
-            }.padding()
-            //파일 목록
-            ScrollView {
-                LazyVGrid(columns: columns) {
-                    ForEach(fileURLs, id: \.self) { url in
-                        NavigationLink(destination: PDF_FileView(url: url)) {
-                            VStack {
-                                Image(systemName: "doc.plaintext").font(.system(size: 100))
-                                Text(url.lastPathComponent)
-                            }.foregroundColor(.black)
+            }
+            .padding()
+            //걍 파일 목록 보여주기
+            ScrollView{
+                LazyVGrid(columns: columns){
+                    ForEach(files) { file in
+                        VStack{
+                            Image(systemName: "doc.plaintext").font(.system(size: 100))
+                            HStack{
+                                Text("\(file.fileId)")
+                                Text("\(file.fileName)")
+                            }
+                        }.onTapGesture {
+                            self.selectedFile = file
+                            downloadFile(n: file.fileId, fileName: file.fileName) { url in
+                                fileViewModel.downloadedFileURL = url
+                                self.isShowingPdf = true
+                            }
+                        }
+                        .fullScreenCover(isPresented: $isShowingPdf) {
+                            if let url = fileViewModel.downloadedFileURL {
+                                PDF_FileView(url: url)
+                            }
                         }
                     }
                 }
@@ -100,20 +111,29 @@ struct FileView: View {
                 }
             }
         }
+        //단순 목록 보여주기
+        .onAppear {
+            showFileList(completion: { fileList in
+                self.files = fileList
+            }, selectedGroup.groupId)
+        }.onChange(of: selectedGroup) { newGroup in
+            showFileList(completion: { fileList in
+                self.files = fileList
+            }, selectedGroup.groupId)
+        }
     }
     //
 }
 
-struct FileView_Previews: PreviewProvider {
-    struct PreviewWrapper: View {
-        @State private var groupId: Int = 0
-        var body: some View {
-            FileView(groupId: $groupId, draws: .constant([]) , isPresented : .constant(false), viewModel: AudioCallViewModel())
-        }
-    }
-    static var previews: some View {
-        PreviewWrapper()
-    }
-}
-
+//struct FileView_Previews: PreviewProvider {
+//    struct PreviewWrapper: View {
+//        @State private var groupId: Int = 0
+//        var body: some View {
+//            FileView(groupId: $groupId, draws: .constant([]) , isPresented : .constant(false), viewModel: AudioCallViewModel())
+//        }
+//    }
+//    static var previews: some View {
+//        PreviewWrapper()
+//    }
+//}
 
