@@ -104,7 +104,8 @@ extension AudioCallViewModel {
         case .ice(let candidate):
             webRTCClient.handleCandidateMessage(candidate)
             dLog("Receive candidate")
-        case .answer(let answer):
+        case .answer(let answer, let sender):
+            self._sender = sender
             webRTCClient.handleRemoteDescription(answer)
             dLog("Recevie Answer")
         case .offer(let offer, let sender):

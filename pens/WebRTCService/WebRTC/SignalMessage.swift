@@ -12,7 +12,7 @@ enum SignalMessage {
     case none
     case `init`(sender: String)
     case ice(_ message: RTCIceCandidate)
-    case answer(_ message: RTCSessionDescription)
+    case answer(_ message: RTCSessionDescription, sender: String)
     case offer(_ message: RTCSessionDescription, sender: String)
     case bye
 
@@ -31,7 +31,7 @@ enum SignalMessage {
                         return .ice(candidate)
                     } else if type == "answer",
                         let sdp = messageDict["sdp"] as? String {
-                        return .answer(RTCSessionDescription(type: .answer, sdp: sdp))
+                        return .answer(RTCSessionDescription(type: .answer, sdp: sdp), sender: sender!)
                     } else if type == "offer",
                         let sdp = messageDict["sdp"] as? String {
                         return .offer(RTCSessionDescription(type: .offer, sdp: sdp), sender: sender!)
