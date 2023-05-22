@@ -42,9 +42,7 @@ struct DrawView: View {
         }
         .onDisappear{
             DrawFileManager.shared.saveDrawing(canvas, withID: drawID)
-            drawingClient.disconnect(roomID: drawID.uuidString) {
                 webSocketDrawingClient.disconnect()
-            }
         }
     }
 }

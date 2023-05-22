@@ -17,29 +17,29 @@ protocol WebSocketClientDelegate: AnyObject {
 class WebSocketClient: NSObject {
     weak var delegate: WebSocketClientDelegate?
     var socket: SRWebSocket?
-    
+
     var isConnected: Bool {
         return socket != nil
     }
-    
+
     func connect(url: URL) {
         socket = SRWebSocket(url: url)
         socket?.delegate = self
         socket?.open()
     }
-    
+
     func disconnect() {
         socket?.close()
         socket = nil
         self.delegate?.webSocketDidDisconnect(self)
     }
-    
+
     func send(data: Data) {
         guard let socket = socket else {
             dLog("Check Socket connection")
             return
         }
-        
+
         dLog(data.prettyPrintedJSONString)
         guard let stringData = String(data: data, encoding: .utf8) else {
             return
@@ -55,17 +55,17 @@ extension WebSocketClient: SRWebSocketDelegate {
             delegate?.webSocket(self, didReceive: message)
         }
     }
-    
+
     func webSocketDidOpen(_ webSocket: SRWebSocket!) {
         delegate?.webSocketDidConnect(self)
     }
-    
+
     func webSocket(_ webSocket: SRWebSocket!, didFailWithError error: Error!) {
         debugPrint("did Fail to connect websocket")
         debugPrint(error)
         self.disconnect()
     }
-    
+
     func webSocket(_ webSocket: SRWebSocket!, didCloseWithCode code: Int, reason: String!, wasClean: Bool) {
         debugPrint("did close websocket")
         self.disconnect()
