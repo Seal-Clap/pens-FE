@@ -101,13 +101,19 @@ struct CanvasView: UIViewRepresentable {
     func makeUIView(context: Context) -> UIScrollView {
         let scrollView = UIScrollView()
         scrollView.minimumZoomScale = 0.1
-        scrollView.maximumZoomScale = 10.0
+        scrollView.maximumZoomScale = 1
         scrollView.delegate = context.coordinator
         scrollView.addSubview(canvas)
         
         canvas.drawingPolicy = .anyInput
-        canvas.frame = CGRect(x: 0, y: 0, width: 1000, height: 1000)
-        
+        canvas.frame = CGRect(x: 0, y: 0, width: 10000, height: 10000)
+        canvas.showsVerticalScrollIndicator = false
+        canvas.showsHorizontalScrollIndicator = false
+        let canvasSize: CGFloat = 10000
+        let centerOffsetX = (canvasSize - scrollView.bounds.size.width) / 2
+        let centerOffsetY = (canvasSize - scrollView.bounds.size.height) / 2
+        scrollView.contentOffset = CGPoint(x: centerOffsetX, y: centerOffsetY)
+
         return scrollView
     }
     
