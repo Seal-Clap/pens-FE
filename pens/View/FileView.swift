@@ -9,12 +9,6 @@ import SwiftUI
 import Alamofire
 import Combine
 
-enum DownloadState {
-    case notStarted
-    case inProgress
-    case completed
-}
-
 class FileViewModel: ObservableObject {
     @Published var downloadedFileURL: URL?
 }
@@ -35,7 +29,6 @@ struct FileView: View {
     @State private var showDownloadAlert = false
     //
     @ObservedObject var fileViewModel = FileViewModel()
-    var downloader = DownloadAllFiles()
     @State private var groups = [GroupElement]()
     //
     @State var files: [FileList] = []
