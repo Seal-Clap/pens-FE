@@ -9,7 +9,7 @@ import Foundation
 import Alamofire
 
 
-struct GroupElement: Codable, Identifiable{
+struct GroupElement: Codable, Identifiable, Equatable{
     let id = UUID()
     var groupId: Int
     let groupName: String

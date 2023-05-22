@@ -45,6 +45,7 @@
 		BCBAD9862A14E45600D4CA73 /* FileDownloadAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCBAD9852A14E45600D4CA73 /* FileDownloadAlert.swift */; };
 		BCBAD98A2A151FE000D4CA73 /* FileDownload.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCBAD9892A151FE000D4CA73 /* FileDownload.swift */; };
 		BCBAD98C2A15234100D4CA73 /* PDF_FileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCBAD98B2A15234100D4CA73 /* PDF_FileView.swift */; };
+		BCBAD98E2A1A18C100D4CA73 /* DownloadAllFiles.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCBAD98D2A1A18C100D4CA73 /* DownloadAllFiles.swift */; };
 		BCC985832A0795DB002A17E3 /* InviteGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCC985822A0795DB002A17E3 /* InviteGroup.swift */; };
 		BCDE22D42A136641009F3F46 /* DrawFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCDE22D32A136641009F3F46 /* DrawFile.swift */; };
 		BCDE22D62A136D33009F3F46 /* DrawView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCDE22D52A136D33009F3F46 /* DrawView.swift */; };
@@ -125,6 +126,7 @@
 		BCBAD9852A14E45600D4CA73 /* FileDownloadAlert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileDownloadAlert.swift; sourceTree = "<group>"; };
 		BCBAD9892A151FE000D4CA73 /* FileDownload.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileDownload.swift; sourceTree = "<group>"; };
 		BCBAD98B2A15234100D4CA73 /* PDF_FileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDF_FileView.swift; sourceTree = "<group>"; };
+		BCBAD98D2A1A18C100D4CA73 /* DownloadAllFiles.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DownloadAllFiles.swift; sourceTree = "<group>"; };
 		BCC985822A0795DB002A17E3 /* InviteGroup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InviteGroup.swift; sourceTree = "<group>"; };
 		BCDE22D32A136641009F3F46 /* DrawFile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrawFile.swift; sourceTree = "<group>"; };
 		BCDE22D52A136D33009F3F46 /* DrawView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrawView.swift; sourceTree = "<group>"; };
@@ -322,6 +324,7 @@
 				BCBAD9832A14CCC300D4CA73 /* FileListShow.swift */,
 				BCBAD9852A14E45600D4CA73 /* FileDownloadAlert.swift */,
 				BCBAD9892A151FE000D4CA73 /* FileDownload.swift */,
+				BCBAD98D2A1A18C100D4CA73 /* DownloadAllFiles.swift */,
 			);
 			path = Method;
 			sourceTree = "<group>";
@@ -603,6 +606,7 @@
 				FD1C79CA29E397930055F52C /* Login.swift in Sources */,
 				05C752D02A11E34E0070D16B /* GroupUsersView.swift in Sources */,
 				BC95CFD829D6E81900AE3037 /* Register.swift in Sources */,
+				BCBAD98E2A1A18C100D4CA73 /* DownloadAllFiles.swift in Sources */,
 				BC5B927E29E2CDFE00F52228 /* HomeView.swift in Sources */,
 				BCE32D2B29CD7DC40096F899 /* LoginView.swift in Sources */,
 				1891A29A2A10E2EF001C5BA9 /* Logger.swift in Sources */,
@@ -800,7 +804,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"pens/Preview Content\"";
-				DEVELOPMENT_TEAM = LV8N2952A2;
+				DEVELOPMENT_TEAM = CBF7HZWZB2;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "pens--Info.plist";
@@ -817,7 +821,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.example.pens-";
+				PRODUCT_BUNDLE_IDENTIFIER = com.example.pens;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
@@ -837,7 +841,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"pens/Preview Content\"";
-				DEVELOPMENT_TEAM = LV8N2952A2;
+				DEVELOPMENT_TEAM = CBF7HZWZB2;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "pens--Info.plist";
@@ -854,7 +858,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.example.pens-";
+				PRODUCT_BUNDLE_IDENTIFIER = com.example.pens;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
