@@ -19,6 +19,7 @@ class AudioCallViewModel: ObservableObject {
     // MARK: Room
 //    var _roomInfo: JoinResponseParam?
     var _roomId: String = ""
+    var _senderQueue: [String] = [String]()
     var _sender: String = ""
     var _webSocket: WebSocketClient?
     var _messageQueue = [String]()
@@ -66,7 +67,7 @@ extension AudioCallViewModel {
 
         roomClient.disconnect(roomID: roomID) { [weak self] in
             self?._roomId = ""
-            self?._sender = ""
+            self?._senderQueue = []
         }
 
         let message = ["type": "bye"]
@@ -99,17 +100,17 @@ extension AudioCallViewModel {
         let signalMessage = SignalMessage.from(message: message)
         switch signalMessage {
         case .`init`(let sender):
-            self._sender = sender
+            self._senderQueue.append(sender)
             webRTCClient.createOffer()
         case .ice(let candidate):
             webRTCClient.handleCandidateMessage(candidate)
             dLog("Receive candidate")
         case .answer(let answer, let sender):
-            self._sender = sender
+            self._senderQueue.append(sender)
             webRTCClient.handleRemoteDescription(answer)
             dLog("Recevie Answer")
         case .offer(let offer, let sender):
-            self._sender = sender
+            self._senderQueue.append(sender)
             webRTCClient.handleRemoteDescription(offer)
             dLog("Recevie Offer")
         case .bye:
@@ -167,6 +168,7 @@ extension AudioCallViewModel: WebSocketClientDelegate {
 //MARK: WebRTCClientDelegate
 extension AudioCallViewModel: WebRTCClientDelegate {
     func webRTCClient(_ client: WebRTCClient, sendData data: Data, type: String) {
+        _sender = _senderQueue.remove(at: 0)
         sendSignalingMessage(data, type: type, receiver: _sender)
     }
 
