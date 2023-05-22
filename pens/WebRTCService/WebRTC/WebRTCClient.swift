@@ -72,12 +72,10 @@ class WebRTCClient: NSObject {
                     }
                 })
 
-//                self.setLocalSDP(sdpDescription)
                 guard let jsonData = sdpDescription.jsonData() else { return }
                 self.delegate?.webRTCClient(self, sendData: jsonData, type: "offer")
             })
     }
-    //remote 추가 필요, 안거침
     func receivedOffer(_ remoteSdp: RTCSessionDescription) {
         let sdpDescription = self.extractDesc(desc: remoteSdp)
 
@@ -87,16 +85,7 @@ class WebRTCClient: NSObject {
                 return
             }
         })
-
-//        self.peerConnection?.setLocalDescription(sdpDescription, completionHandler: { (error) in
-//            if let error = error {
-//                debugPrint(error)
-//            }
-//        })
-
-
         self.createAnswer()
-
     }
 
     private func createAnswer() {
@@ -106,7 +95,6 @@ class WebRTCClient: NSObject {
                     return
                 }
                 let sdpDescription = self.extractDesc(desc: sdp)
-//                self.setLocalSDP(sdpDescription)
                 self.peerConnection?.setLocalDescription(sdpDescription, completionHandler: { (error) in
                     if let error = error {
                         debugPrint(error)
@@ -114,7 +102,6 @@ class WebRTCClient: NSObject {
                 })
                 guard let jsonData = sdpDescription.jsonData() else { return }
                 self.delegate?.webRTCClient(self, sendData: jsonData, type: "answer")
-
             })
     }
 
@@ -137,34 +124,6 @@ class WebRTCClient: NSObject {
         peerConnection = nil
     }
 
-
-//    private func setLocalSDP(_ sdp: RTCSessionDescription) {
-//        guard let peerConnection = peerConnection else {
-//            dLog("Check PeerConnection")
-//            return
-//        }
-//
-//        let sdpDescription = self.extractDesc(desc: sdp)
-//
-//        peerConnection.setLocalDescription(sdpDescription, completionHandler: { (error) in
-//            if let error = error {
-//                debugPrint(error)
-//            }
-//        })
-//        guard let jsonData = sdpDescription.jsonData() else { return }
-//        switch sdpDescription.type {
-//        case .offer:
-//            self.delegate?.webRTCClient(self, sendData: jsonData, type: "offer")
-//        case .answer:
-//            self.delegate?.webRTCClient(self, sendData: jsonData, type: "answer")
-//        default:
-//            dLog("type not define")
-//        }
-//
-////            self.delegate?.webRTCClient(self, sendData: data)
-//        //                    WebSocketClient().send(data: jsonData)
-//        dLog("Send Local SDP")
-//    }
 }
 
 
@@ -228,27 +187,13 @@ extension WebRTCClient {
         }
 
         hasReceivedSdp = true
-//        var extractDesc =
         let sdp = extractDesc(desc: desc)
-//        //TODO
-//        peerConnection.setRemoteDescription(sdp, completionHandler: { [weak self](error) in
-//            if let error = error {
-//                dLog(error)
-//            }
-//            dLog(desc)
         if desc.type == .offer {
-
-            //                self?.createAnswer()
-            //                guard let sdp = self?.extractDesc(desc: desc) else { return }
             self.receivedOffer(sdp)
         }
-        if desc.type == .answer {
-            //  self?.peerConnection?.localDescription == nil {
-            //self?.createAnswer()
-            // guard let sdp = self?.extractDesc(desc: desc) else { return }
+        else if desc.type == .answer {
             self.receivedAnswer(sdp)
         }
-//        })
     }
 
     func drainMessageQueue() {

@@ -22,9 +22,9 @@ struct RoomClient {
         }
     }
 
-    func sendMessage(_ message: Data, roomId: String, type: String, websocket: WebSocketClient, completion: @escaping (() -> Void)) {
+    func sendMessage(_ message: Data, roomId: String, type: String, receiver: String, websocket: WebSocketClient, completion: @escaping (() -> Void)) {
         let stringMessage = String(data: message, encoding: .utf8)
-        let jsonData: [String: Any] = ["roomId": roomId, "type": type, "data": stringMessage]
+        let jsonData: [String: Any] = ["roomId": roomId, "type": type, "receiver": receiver, "data": stringMessage]
         do {
             let data = try JSONSerialization.data(withJSONObject: jsonData)
             websocket.send(data: data)

@@ -10,9 +10,10 @@ import WebRTC
 
 enum SignalMessage {
     case none
+    case `init`(sender: String)
     case ice(_ message: RTCIceCandidate)
     case answer(_ message: RTCSessionDescription)
-    case offer(_ message: RTCSessionDescription)
+    case offer(_ message: RTCSessionDescription, sender: String)
     case bye
 
     static func from(message: String) -> SignalMessage {
@@ -23,9 +24,8 @@ enum SignalMessage {
                 let messageStr = dict["data"] as? String,
                 let messageData = messageStr.data(using: .utf8),
                 let messageDict = try? JSONSerialization.jsonObject(with: messageData, options: []) as? [String: Any] {
-
+                let sender = dict["sender"] as? String
                 if let type = dict["type"] as? String {
-
                     if type == "ice",
                         let candidate = RTCIceCandidate.candidate(from: messageDict) {
                         return .ice(candidate)
@@ -34,9 +34,16 @@ enum SignalMessage {
                         return .answer(RTCSessionDescription(type: .answer, sdp: sdp))
                     } else if type == "offer",
                         let sdp = messageDict["sdp"] as? String {
-                        return .offer(RTCSessionDescription(type: .offer, sdp: sdp))
+                        return .offer(RTCSessionDescription(type: .offer, sdp: sdp), sender: sender!)
                     } else if type == "bye" {
                         return .bye
+                    }
+                }
+            } else {
+                if let type = dict["type"] as? String {
+                    if type == "init" {
+                        let sender = dict["sender"] as? String
+                        return .`init`(sender: sender!)
                     }
                 }
             }
