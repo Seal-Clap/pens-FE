@@ -42,6 +42,8 @@ struct FileView: View {
     @State private var groups = [GroupElement]()
     //private var cancellables = Set<AnyCancellable>()
     @State private var refresh = UUID()
+    //
+    @State var files: [FileList] = []
     
     var body: some View {
         VStack{
@@ -92,15 +94,29 @@ struct FileView: View {
                     }.foregroundColor(.black)
                 }
             }.padding()
-            //파일 목록
-            ScrollView {
-                LazyVGrid(columns: columns) {
-                    ForEach(fileViewModel.fileURLs, id: \.self) { url in
-                        NavigationLink(destination: PDF_FileView(url: url)) {
-                            VStack {
-                                Image(systemName: "doc.plaintext").font(.system(size: 100))
-                                Text(url.lastPathComponent)
-                            }.foregroundColor(.black)
+//            //파일 목록 - 다운로드
+//            ScrollView {
+//                LazyVGrid(columns: columns) {
+//                    ForEach(fileViewModel.fileURLs, id: \.self) { url in
+//                        NavigationLink(destination: PDF_FileView(url: url)) {
+//                            VStack {
+//                                Image(systemName: "doc.plaintext").font(.system(size: 100))
+//                                Text(url.lastPathComponent)
+//                            }.foregroundColor(.black)
+//                        }
+//                    }
+//                }
+//            }
+            //걍 파일 목록 보여주기
+            ScrollView{
+                LazyVGrid(columns: columns){
+                    ForEach(files) { file in
+                        VStack{
+                            Image(systemName: "doc.plaintext").font(.system(size: 100))
+                            HStack{
+                                Text("\(file.fileId)")
+                                Text("\(file.fileName)")
+                            }
                         }
                     }
                 }
@@ -131,15 +147,27 @@ struct FileView: View {
                 }
             }
         }
-        .onChange(of: selectedGroup) { newGroup in
-            fetchAndDownloadFiles(groupId: newGroup.groupId)
-            print("바뀐 화면 ----- \(newGroup.groupId)")
-            //
-        }.onAppear {
-            fetchAndDownloadFiles(groupId: selectedGroup.groupId)
-        }.onChange(of: fileViewModel.fileURLs) { newValue in
-            self.refresh = UUID()
+        //단순 목록 보여주기
+        .onAppear {
+            showFileList(completion: { fileList in
+                self.files = fileList
+            }, selectedGroup.groupId)
+        }.onChange(of: selectedGroup) { newGroup in
+            showFileList(completion: { fileList in
+                self.files = fileList
+            }, selectedGroup.groupId)
         }
+        //다운로드관련
+//        .onChange(of: selectedGroup) { newGroup in
+//            fetchAndDownloadFiles(groupId: newGroup.groupId)
+//            print("바뀐 화면 ----- \(newGroup.groupId)")
+//            //
+//        }.onAppear {
+//            fetchAndDownloadFiles(groupId: selectedGroup.groupId)
+//        }.onChange(of: fileViewModel.fileURLs) { newValue in
+//            self.refresh = UUID()
+//        }
+        
 //        .onAppear {
 //            fetchAndDownloadFiles(groupId: groupId)
 //        }
@@ -208,7 +236,7 @@ struct FileView: View {
 //    }
 //}
 
-/**
+/*
  func fetchAndDownloadFiles(groupId : Int) {
      downloader.fetchFileList(groupId: groupId) { fileList in
          let convertedFileList = fileList.map { FileElement(fileName: $0.fileName, fileId: $0.fileId) }
