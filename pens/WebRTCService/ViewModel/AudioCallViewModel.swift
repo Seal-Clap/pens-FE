@@ -100,13 +100,12 @@ extension AudioCallViewModel {
         let signalMessage = SignalMessage.from(message: message)
         switch signalMessage {
         case .`init`(let sender):
-            self._senderQueue.append(sender)
+            _sender = sender
             webRTCClient.createOffer()
         case .ice(let candidate):
             webRTCClient.handleCandidateMessage(candidate)
             dLog("Receive candidate")
-        case .answer(let answer, let sender):
-            self._senderQueue.append(sender)
+        case .answer(let answer):
             webRTCClient.handleRemoteDescription(answer)
             dLog("Recevie Answer")
         case .offer(let offer, let sender):
@@ -168,8 +167,17 @@ extension AudioCallViewModel: WebSocketClientDelegate {
 //MARK: WebRTCClientDelegate
 extension AudioCallViewModel: WebRTCClientDelegate {
     func webRTCClient(_ client: WebRTCClient, sendData data: Data, type: String) {
-        _sender = _senderQueue.remove(at: 0)
-        sendSignalingMessage(data, type: type, receiver: _sender)
+//        _sender = _senderQueue.remove(at: 0)
+        switch type {
+        case "offer":
+            sendSignalingMessage(data, type: type, receiver: _sender)
+        case "answer":
+            _sender = _senderQueue.remove(at: 0)
+            sendSignalingMessage(data, type: type, receiver: _sender)
+        default:
+            sendSignalingMessage(data, type: type, receiver: _sender)
+        }
+        
     }
 
     func webRTCClient(_ client: WebRTCClient, didDiscoverLocalCandidate candidate: RTCIceCandidate) {
