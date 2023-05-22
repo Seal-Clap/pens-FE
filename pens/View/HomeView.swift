@@ -66,15 +66,6 @@ struct HomeView: View {
                     }, userId)
                     groups.sort { $0.groupId > $1.groupId }
                 }.listStyle(InsetGroupedListStyle())
-                
-                
-                    .onAppear {
-                        print("get Group \(groups)")
-                        getGroups(completion: { (groups) in
-                            self.groups = groups
-                        }, userId)
-                    }
-                    .listStyle(SidebarListStyle())
                 Button(action: {
                     showAddGroup = true
                 }, label: { Text("그룹 추가").font(.title2) })
@@ -99,55 +90,7 @@ struct HomeView: View {
                 }
                 .background(RoundedRectangle(cornerRadius: 8).fill(Color.gray))
                 .padding()
-                Divider()
-                List {
-                        Button(action: {
-                            let destination: DownloadRequest.Destination = { _, _ in
-                                let documentsURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
-                                let fileURL = documentsURL.appendingPathComponent("testfile.pdf")
-                                
-                                return (fileURL, [.removePreviousFile, .createIntermediateDirectories])
-                            }
-                            AF.download(
-                                APIContants.baseURL+"/file/download?groupId=1000&fileName=testfile.pdf",
-                                to: destination)
-                            .downloadProgress { progress in
-                                print("Download Progress: \(progress.fractionCompleted)")
-                            }
-                            .response { response in
-                                if response.error == nil, let filePath = response.fileURL?.path {
-                                    print("File downloaded successfully: \(filePath)")
-                                }
-                            }
-                        }) {Text("Test file download")}
-                    
-                        Button(action: {
-                            let documentsURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
-                            let fileURL = documentsURL.appendingPathComponent("testfile.pdf")
-                            do {
-                                let fileData = try Data(contentsOf: fileURL)
-                                print("file data is empty: \(fileData.isEmpty), \(fileData.description)")
-                                // file data 접근 하는 부분
-                            } catch {
-                                print("Error loading data: \(error)")
-                            }
-                        }) {Text("access testfile.pdf")}
-                        //
-                        Button(action: {self.viewModel.connectRoom(roomID: "1")}) { Text("Connect")}
-                        Button(action: {self.viewModel.startVoiceChat()}) { Text("StartVoiceChat")}
-
-                }.listStyle(InsetGroupedListStyle())
                 VoiceChannelView(groupId: $selectedGroup.groupId, viewModel: viewModel)
-                Divider()
-                //파일 목록 보기
-                Button(action: {
-                    showFileList = true
-                }){
-                    Text("그룹 파일 목록").font(.title3)
-                        .padding()
-                        .foregroundColor(.white)
-                        .frame(height: 25)
-                }.background(RoundedRectangle(cornerRadius: 6).fill(Color.black))
                 //그룹 목록 보기
                 Button(action: {
                     showGroupUsers = true
