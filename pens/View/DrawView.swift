@@ -109,18 +109,19 @@ struct CanvasView: UIViewRepresentable {
         canvas.frame = CGRect(x: 0, y: 0, width: 10000, height: 10000)
         canvas.showsVerticalScrollIndicator = false
         canvas.showsHorizontalScrollIndicator = false
-        let canvasSize: CGFloat = 10000
-        let centerOffsetX = (canvasSize - scrollView.bounds.size.width) / 2
-        let centerOffsetY = (canvasSize - scrollView.bounds.size.height) / 2
-        scrollView.contentOffset = CGPoint(x: centerOffsetX, y: centerOffsetY)
-
+        
+        DispatchQueue.main.async {
+            let canvasCenter = CGPoint(x: self.canvas.frame.midX - scrollView.bounds.midX, y: self.canvas.frame.midY - scrollView.bounds.midY)
+            scrollView.setContentOffset(canvasCenter, animated: false)
+        }
+        
         return scrollView
     }
     
     func updateUIView(_ scrollView: UIScrollView, context: Context) {
         scrollView.frame = canvas.frame
-        }
     }
+}
     
     class Coordinator: NSObject, UIScrollViewDelegate, PKCanvasViewDelegate{
         var parent: CanvasView
