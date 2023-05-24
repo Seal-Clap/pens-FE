@@ -8,18 +8,13 @@
 import Foundation
 import SwiftUI
 
-struct Draw: Identifiable{
-    var id = UUID()
-    var drawFileName: String
-}
-
 struct DrawFileName {
-    static func setDrawFileName(draws: Binding<[Draw]>, isPresented: Binding<Bool>) {
+    static func setDrawFileName(isPresented: Binding<Bool>, groupId: Int) {
         let alert = UIAlertController(title: "새 문서", message: "새 문서의 이름을 입력하세요", preferredStyle: .alert)
         alert.addTextField()
         alert.addAction(UIAlertAction(title: "추가", style: .default) { _ in
             if let text = alert.textFields?.first?.text {
-                draws.wrappedValue.append(Draw(drawFileName: text))
+                DrawFileManager.shared.initDrawing(fileName: "\(text).draw", groupId: groupId)
             }
             isPresented.wrappedValue = false
         })

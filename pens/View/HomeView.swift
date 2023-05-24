@@ -31,7 +31,6 @@ struct HomeView: View {
     
     @ObservedObject var viewModel: AudioCallViewModel
     @State private var addFileView : Bool = false
-    @State private var draws: [Draw] = []
     //
     @State private var showFileList = false
     
@@ -123,7 +122,7 @@ struct HomeView: View {
                 }
             }
             VStack{
-                FileView(selectedGroup: $selectedGroup, draws: $draws, isPresented: $addFileView, viewModel: AudioCallViewModel())
+                FileView(selectedGroup: $selectedGroup, isPresented: $addFileView, viewModel: AudioCallViewModel())
                 //FileView(groupId : $selectedGroup.groupId,draws : $draws, isPresented: $addFileView,viewModel: AudioCallViewModel())
             }.navigationTitle("\(selectedGroup.groupId) : 문서")
         }.overlay(

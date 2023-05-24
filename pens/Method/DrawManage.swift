@@ -15,8 +15,8 @@ struct DrawFileManager {
 
     private init() {}
 
-    func saveDrawing(_ canvas: PKCanvasView, withID id: UUID) {
-        let fileURL = documentDirectory.appendingPathComponent("\(id.uuidString).draw")
+    func saveDrawing(_ canvas: PKCanvasView, fileName: String, groupId: Int) {
+        let fileURL = documentDirectory.appendingPathComponent("\(fileName)")
 
         do {
             let drawingData = canvas.drawing.dataRepresentation()
@@ -24,10 +24,12 @@ struct DrawFileManager {
         } catch {
             print("Error saving drawing: \(error)")
         }
+        
+        uploadFile(groupId: groupId, fileUrl: fileURL)
     }
 
-    func loadDrawing(into canvas: PKCanvasView, withID id: UUID) {
-        let fileURL = documentDirectory.appendingPathComponent("\(id.uuidString).draw")
+    func loadDrawing(into canvas: PKCanvasView, fileName: String) {
+        let fileURL = documentDirectory.appendingPathComponent("\(fileName)")
 
         do {
             let drawingData = try Data(contentsOf: fileURL)
@@ -36,5 +38,17 @@ struct DrawFileManager {
         } catch {
             print("Error loading drawing: \(error)")
         }
+    }
+    
+    func initDrawing(fileName: String, groupId: Int) {
+        let fileURL = documentDirectory.appendingPathComponent("\(fileName)")
+        let emptyDrawing = PKDrawing()
+        do {
+            let drawingData = emptyDrawing.dataRepresentation()
+            try drawingData.write(to: fileURL)
+        } catch {
+            print("Error init drawing: \(error)")
+        }
+        uploadFile(groupId: groupId, fileUrl: fileURL)
     }
 }

@@ -9,40 +9,54 @@ import SwiftUI
 import PencilKit
 
 struct DrawView: View {
-    var drawID: UUID
-    var drawName: String
+    var fileId: Int
+    var fileName: String
+    var url: URL
+    var groupId: Int
     
     @State private var canvas = PKCanvasView()
     @State private var toolPicker = PKToolPicker()
     let drawingClient = DrawingClient()
     let webSocketDrawingClient = WebSocketDrawingClient()
     @State private var webSocketDelegate: DrawViewWebSocketDelegate?
+    @Environment(\.presentationMode) var presentationMode
     
     
     var body: some View {
-        VStack {
-            Text("\(drawName)")
-            CanvasView(canvas: $canvas, toolPicker: $toolPicker, drawingClient: drawingClient, webSocketDrawingClient: webSocketDrawingClient, roomId: drawID.uuidString)
-                .frame(maxWidth: .infinity, maxHeight: .infinity)
-                .onAppear {
-                    self.webSocketDelegate = DrawViewWebSocketDelegate(canvas: canvas)
-                    webSocketDrawingClient.delegate = webSocketDelegate
-                }
-        }
-        .onAppear {
-            toolPicker.setVisible(true, forFirstResponder: canvas)
-            toolPicker.addObserver(canvas)
-            canvas.becomeFirstResponder()
-            DrawFileManager.shared.loadDrawing(into: canvas, withID: drawID)
-            
-            if let url = URL(string: drawingClient.roomURL(roomID: "1")) {
-                //print("debug1 \(drawID.uuidString)")
-                webSocketDrawingClient.connect(url: url)
+        NavigationView {
+            VStack {
+                Text("\(fileName)")
+                CanvasView(canvas: $canvas, toolPicker: $toolPicker, drawingClient: drawingClient, webSocketDrawingClient: webSocketDrawingClient, roomId: String(fileId))
+                    .frame(maxWidth: .infinity, maxHeight: .infinity)
+                    .onAppear {
+                        self.webSocketDelegate = DrawViewWebSocketDelegate(canvas: canvas)
+                        webSocketDrawingClient.delegate = webSocketDelegate
+                    }
             }
-        }
-        .onDisappear{
-            DrawFileManager.shared.saveDrawing(canvas, withID: drawID)
+            .onAppear {
+                toolPicker.setVisible(true, forFirstResponder: canvas)
+                toolPicker.addObserver(canvas)
+                canvas.becomeFirstResponder()
+                DrawFileManager.shared.loadDrawing(into: canvas, fileName: fileName)
+                
+                if let url = URL(string: drawingClient.roomURL(roomID: String(fileId))) {
+                    //print("debug1 \(drawID.uuidString)")
+                    webSocketDrawingClient.connect(url: url)
+                }
+            }
+            .onDisappear{
+                DrawFileManager.shared.saveDrawing(canvas, fileName: fileName, groupId: groupId)
                 webSocketDrawingClient.disconnect()
+            }
+            .edgesIgnoringSafeArea(.all)
+            .navigationBarItems(leading: Button(action: {
+                presentationMode.wrappedValue.dismiss()
+            }) {
+                HStack {
+                    Image(systemName: "arrow.left")
+                    Text("Back")
+                }
+            })
         }
     }
 }
@@ -156,6 +170,6 @@ struct CanvasView: UIViewRepresentable {
 
 struct DrawView_Previews: PreviewProvider {
     static var previews: some View {
-        DrawView(drawID: UUID(), drawName: "Test Drawing")
+        DrawView(fileId: 1, fileName: "temp", url: URL(string: "")!, groupId: 1)
     }
 }

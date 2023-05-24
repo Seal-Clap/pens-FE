@@ -11,6 +11,8 @@ import Combine
 
 class FileViewModel: ObservableObject {
     @Published var downloadedFileURL: URL?
+    @Published var fileId: Int?
+    @Published var fileName: String?
 }
 
 struct FileView: View {
@@ -21,7 +23,6 @@ struct FileView: View {
     let columns: [GridItem] = Array(repeating: .init(.flexible()), count: 5)
     @State private var newDrawName: String = ""
     @State private var showingPrompt = false
-    @Binding var draws: [Draw]
     @Binding var isPresented: Bool
     
     @ObservedObject var viewModel: AudioCallViewModel
@@ -34,6 +35,7 @@ struct FileView: View {
     @State var files: [FileList] = []
     @State private var selectedFile: FileList?
     @State private var isShowingPdf = false
+    @State private var isShowingDraw = false
 
     var body: some View {
         VStack{
@@ -41,7 +43,7 @@ struct FileView: View {
                 Spacer()
                 //새노트
                 Button(action : {
-                    DrawFileName.setDrawFileName(draws: $draws, isPresented: $isPresented)
+                    DrawFileName.setDrawFileName(isPresented: $isPresented, groupId: selectedGroup.groupId)
                 }){
                     VStack{
                         Image(systemName: "note.text").font(.system(size: 30))
@@ -77,7 +79,11 @@ struct FileView: View {
                 LazyVGrid(columns: columns){
                     ForEach(files) { file in
                         VStack{
-                            Image(systemName: "doc.plaintext").font(.system(size: 100))
+                            if file.fileName.hasSuffix(".draw") {
+                                Image(systemName: "doc.richtext").font(.system(size: 100))
+                            } else {
+                                Image(systemName: "doc.plaintext").font(.system(size: 100))
+                            }
                             HStack{
                                 Text("\(file.fileId)")
                                 Text("\(file.fileName)")
@@ -86,30 +92,41 @@ struct FileView: View {
                             self.selectedFile = file
                             downloadFile(n: file.fileId, fileName: file.fileName) { url in
                                 fileViewModel.downloadedFileURL = url
-                                self.isShowingPdf = true
+                                fileViewModel.fileId = file.fileId
+                                fileViewModel.fileName = file.fileName
+                                if file.fileName.hasSuffix(".draw") {
+                                    self.isShowingDraw = true
+                                } else {
+                                    self.isShowingPdf = true
+                                }
                             }
                         }
                         .fullScreenCover(isPresented: $isShowingPdf) {
+                                        if let url = fileViewModel.downloadedFileURL {
+                                            PDF_FileView(url: url)
+                                        }
+                                    }
+                        .fullScreenCover(isPresented: $isShowingDraw) {
                             if let url = fileViewModel.downloadedFileURL {
-                                PDF_FileView(url: url)
+                                DrawView(fileId: fileViewModel.fileId!, fileName: fileViewModel.fileName!, url: url, groupId: selectedGroup.groupId)
                             }
                         }
                     }
                 }
             }
             //빈 노트
-            ScrollView{
-                LazyVGrid(columns: columns) {
-                    ForEach(draws) { draw in
-                        NavigationLink(destination: DrawView(drawID: draw.id, drawName : draw.drawFileName)) {
-                            VStack {
-                                Image(systemName: "doc.richtext").font(.system(size: 100))
-                                Text(draw.drawFileName)
-                            }.foregroundColor(.black)
-                        }
-                    }
-                }
-            }
+//            ScrollView{
+//                LazyVGrid(columns: columns) {
+//                    ForEach(draws) { draw in
+//                        NavigationLink(destination: DrawView(drawID: draw.id, drawName : draw.drawFileName)) {
+//                            VStack {
+//                                Image(systemName: "doc.richtext").font(.system(size: 100))
+//                                Text(draw.drawFileName)
+//                            }.foregroundColor(.black)
+//                        }
+//                    }
+//                }
+//            }
         }
         //단순 목록 보여주기
         .onAppear {
