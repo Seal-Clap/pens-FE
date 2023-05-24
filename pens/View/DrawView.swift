@@ -29,7 +29,7 @@ struct DrawView: View {
                 CanvasView(canvas: $canvas, toolPicker: $toolPicker, drawingClient: drawingClient, webSocketDrawingClient: webSocketDrawingClient, roomId: String(fileId))
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
                     .onAppear {
-                        self.webSocketDelegate = DrawViewWebSocketDelegate(canvas: canvas)
+                        self.webSocketDelegate = DrawViewWebSocketDelegate(canvas: canvas, drawingClient: drawingClient, webSocketDrawingClient: webSocketDrawingClient, roomId: String(fileId))
                         webSocketDrawingClient.delegate = webSocketDelegate
                     }
             }
@@ -63,13 +63,19 @@ struct DrawView: View {
 
 class DrawViewWebSocketDelegate: WebSocketDrawingClientDelegate {
     var canvas: PKCanvasView
+    var drawingClient: DrawingClient
+    var webSocketDrawingClient: WebSocketDrawingClient
     var receivingDrawing: Bool = false
+    var roomId: String
     
-    init(canvas: PKCanvasView) {
+    init(canvas: PKCanvasView, drawingClient: DrawingClient, webSocketDrawingClient: WebSocketDrawingClient, roomId: String) {
         self.canvas = canvas
+        self.drawingClient = drawingClient
+        self.webSocketDrawingClient = webSocketDrawingClient
+        self.roomId = roomId
     }
     func webSocket(_ webSocket: WebSocketDrawingClient, didReceive data: Data) {
-        print("websocket handling")
+        print("DrawView: websocket byte data handling")
         DispatchQueue.main.async {
         
             self.receivingDrawing = true
@@ -85,6 +91,16 @@ class DrawViewWebSocketDelegate: WebSocketDrawingClientDelegate {
         }
     }
     
+    func webSocket(_ webSocket: WebSocketDrawingClient, didReceive data: String) {
+        print("DrawView: websocket string data handling")
+        DispatchQueue.main.async {
+            let drawData = self.canvas.drawing.dataRepresentation()
+            self.drawingClient.sendDrawingData(drawData, roomId: self.roomId, type: "drawing", websocket: self.webSocketDrawingClient) {
+                print("send drawData[\(drawData)] for init user")
+            }
+        }
+    }
+    
     // Implementation for WebSocketClientDelegate
     func webSocketDidConnect(_ webSocket: WebSocketDrawingClient) {
         // Handle WebSocket connection event
@@ -92,10 +108,6 @@ class DrawViewWebSocketDelegate: WebSocketDrawingClientDelegate {
     
     func webSocketDidDisconnect(_ webSocket: WebSocketDrawingClient) {
         // Handle WebSocket disconnection event
-    }
-    
-    func webSocket(_ webSocket: WebSocketDrawingClient, didReceive data: String) {
-        // Handle incoming message event
     }
 }
 

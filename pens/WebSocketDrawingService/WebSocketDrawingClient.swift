@@ -59,14 +59,25 @@ class WebSocketDrawingClient: NSObject {
 }
 
 extension WebSocketDrawingClient: SRWebSocketDelegate {
-    func webSocket(_ webSocket: SRWebSocket!, didReceiveMessageWith data: Data) {
-        delegate?.webSocket(self, didReceive: data)
+    func webSocket(_ webSocket: SRWebSocket, didReceiveMessage message: Any) {
+        if let text = message as? String {
+            delegate?.webSocket(self, didReceive: text)
+        } else if let data = message as? Data {
+            delegate?.webSocket(self, didReceive: data)
+        }
     }
     
-    func webSocket(_ webSocket: SRWebSocket!, didReceiveMessage message: String) {
-        dLog(message)
-        delegate?.webSocket(self, didReceive: message)
-    }
+//    func webSocket(_ webSocket: SRWebSocket, didReceiveMessageWith data: Data) {
+//        delegate?.webSocket(self, didReceive: data)
+//    }
+//    func webSocket(_ webSocket: SRWebSocket!, didReceiveMessageWith data: Data) {
+//        delegate?.webSocket(self, didReceive: data)
+//    }
+//
+//    func webSocket(_ webSocket: SRWebSocket!, didReceiveMessage message: String) {
+//        dLog(message)
+//        delegate?.webSocket(self, didReceive: message)
+//    }
     
     func webSocketDidOpen(_ webSocket: SRWebSocket!) {
         delegate?.webSocketDidConnect(self)
