@@ -31,18 +31,15 @@ struct VoiceChannelView: View {
     @State var voiceChannels: [VoiceChannel] = []
     var body: some View {
         List {
-            Section(header: Text("음성채널").font(.title)) {
                 ForEach(voiceChannels, id: \.channelId) { channel in
-                    VStack(alignment: .leading) {
-                        Text("\(channel.channelName)").font(.title3)
+                    Section(header: Text("\(channel.channelName)").font(.title2)){
+                        VStack() {Text("hi")}
+                    }.onTapGesture {
+                        self.viewModel.disconnect()
+                        self.viewModel.connectRoom(roomID: String(channel.channelId))
                     }
-                        .padding(.leading)
-                        .onTapGesture {
-                            self.viewModel.disconnect()
-                            self.viewModel.connectRoom(roomID: String(channel.channelId))
-                    }
-                }
             }
+//                .padding(.leading)
         }.listStyle(InsetGroupedListStyle())
             .onChange(of: groupId) { newGroupId in
             getChannels(completion: { (channels) in
