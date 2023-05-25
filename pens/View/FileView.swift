@@ -46,7 +46,7 @@ struct FileView: View {
                     DrawFileName.setDrawFileName(isPresented: $isPresented, groupId: selectedGroup.groupId)
                 }){
                     VStack{
-                        Image(systemName: "pencil.tip.crop.circle.badge.plus").font(.system(size: 40))
+                        Image(systemName: "pencil.tip.crop.circle.badge.plus").font(.system(size: 25))
                     }.foregroundColor(.gray)
                 }
                 //파일 업로드
@@ -54,7 +54,7 @@ struct FileView: View {
                     isImporting = true
                 }) {
                     Image(systemName: "doc.badge.plus")
-                        .font(.system(size: 40))
+                        .font(.system(size: 25))
                 }.foregroundColor(.gray)
                     .padding()
                     .fileImporter(
@@ -79,13 +79,14 @@ struct FileView: View {
                     ForEach(files) { file in
                         VStack{
                             if file.fileName.hasSuffix(".draw") {
-                                Image(systemName: "doc.richtext").font(.system(size: 100))
+                                Image(systemName: "doc.richtext").font(.system(size: 100, weight: .ultraLight))
+                                    .foregroundColor(Color.cyan).padding(.top)
                             } else {
-                                Image(systemName: "doc.plaintext").font(.system(size: 100))
+                                Image(systemName: "doc.plaintext").font(.system(size: 100, weight: .ultraLight))
+                                    .foregroundColor(Color.cyan).padding(.top)
                             }
                             HStack{
-                                Text("\(file.fileId)")
-                                Text("\(file.fileName)")
+                                Text("\(file.fileName)").font(.system(size: 15, weight: .light))
                             }
                         }.onTapGesture {
                             self.selectedFile = file

@@ -32,17 +32,24 @@ struct HomeView: View {
     @State private var addFileView : Bool = false
     //
     @State private var showMenu : Bool = false
+  
+  
     
     var body: some View {
         NavigationView {
             //그룹 목록부분
             VStack {
-                Text("그룹 목록").font(.title)
+                HStack{
+                    Image(systemName: "person.line.dotted.person").font(.system(size: 30, weight: .light))
+                        .foregroundColor(Color.cyan)
+                    Text("그룹").font(.title2)
+                        .fontWeight(.regular)
+                }
                 List {
                     ForEach(groups, id: \.groupId) { group in
                         // Text("Group ID: \(group.groupId)")
                         VStack(alignment: .leading) {
-                            Text("\(group.groupName)").font(.title2)
+                            Text("\(group.groupName)").font(.system(size: 15, weight : .light))
                         }
                         .padding(.leading)
                         .onTapGesture {
@@ -66,38 +73,34 @@ struct HomeView: View {
                 }.listStyle(InsetGroupedListStyle())
                 Button(action: {
                     showAddGroup = true
-                }, label: { Text("그룹 추가").font(.title2) })
+                }, label: { Text("그룹 추가").font(.system(size : 15, weight: .regular)) })
             }
             //음셩채팅부분
             VStack {
-                Text("User ID: \(userId ?? 0)")
-                    .onAppear {
-                        userId = getUserId()
-                    }
+//                Text("User ID: \(userId ?? 0)")
+//                    .onAppear {
+//                        userId = getUserId()
+//                    }
                 HStack{
+                    Text(selectedGroup.groupName)
+                        .font(.title2)
+                        .fontWeight(.regular)
                     Button(action: {
                         showMenu = true
                     })
                     {
-                        Image(systemName: "list.bullet.circle")
-                            .font(.system(size: 40))
-                            .foregroundColor(Color.gray)
-                    }
-                    Text(selectedGroup.groupName)
-                        .font(.title)
-                        .padding()
-                    
-                }.padding()
+                        Image(systemName: "ellipsis")
+                            .font(.system(size: 25, weight : .thin))
+                            .foregroundColor(Color.cyan)
+                    }.padding(.leading, 10)
+                }
                 VoiceChannelView(groupId: $selectedGroup.groupId, viewModel: viewModel)
                 //로그아웃
                 Button(action: {
                     showingLogoutAlert = true
                 }) {
                     Text("로그아웃")
-                        .font(.title3)
-                        .padding()
-                        .foregroundColor(.blue)
-                        .frame(height: 25)
+                        .font(.system(size : 15, weight: .regular))
                 }.alert(isPresented: $showingLogoutAlert) {
                     Alert(
                         title: Text("로그아웃 확인"),
@@ -112,8 +115,11 @@ struct HomeView: View {
             }
             VStack{
                 FileView(selectedGroup: $selectedGroup, isPresented: $addFileView, viewModel: AudioCallViewModel())
-            }.navigationTitle("\(selectedGroup.groupId) : 문서")
-        }.overlay(
+            }.navigationBarTitle("문서")
+        }.onAppear{
+            userId = getUserId()
+        }
+        .overlay(
             Group {
                 if showMenu {
                     GroupMenuView(isPresented: $showMenu, selectedGroup: $selectedGroup)

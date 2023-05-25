@@ -17,17 +17,18 @@ struct AuthNavigationView: View {
             VStack(spacing: 0) {
                 // StartImage
                 Image(systemName: "pencil.line")
-                    .font(.system(size: 140))
+                    .font(.system(size: 140, weight: .light))
+                    .fontDesign(.serif)
                 HStack{
                     Text("Pens'")
                         .font(.title)
-                        .fontWeight(.bold)
+                        .fontWeight(.light)
                 }
                 // login
                 NavigationLink(destination: LoginView(loginState: $loginState), label: {
                     HStack {
                         Spacer()
-                        Text("로그인")
+                        Text("로그인").fontWeight(.light)
                         Spacer()
                     }
                     .padding()
@@ -40,7 +41,7 @@ struct AuthNavigationView: View {
                 NavigationLink(destination: ResisterView(isRegistered: $isRegistered, showAlert: $showAlert), label: {
                     HStack {
                         Spacer()
-                        Text("회원가입")
+                        Text("회원가입").fontWeight(.light)
                         Spacer()
                     }
                     .padding()

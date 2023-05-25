@@ -42,7 +42,7 @@ struct ResisterView: View {
                     })
                 }
             }
-        }.navigationTitle("Sign Up")
+        }.navigationTitle("회원가입").font(.system(size: 15, weight: .light))
             .alert(isPresented: $showAlert) {
                 if isRegistered {
                     return Alert(title: Text("회원가입 완료"), message: Text("회원가입이 완료되었습니다."), dismissButton: .default(Text("확인")))

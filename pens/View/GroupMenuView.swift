@@ -20,21 +20,22 @@ struct GroupMenuView: View {
             VStack {
                 HStack{
                     Text(selectedGroup.groupName)
-                        .font(.title)
+                        .font(.title3)
+                        .fontWeight(.light)
                         .padding()
                 }
                 List{
                         Button(action: {
                             showInviteGroupMember = true
                         }) {
-                            Text("그룹 멤버 초대하기")
+                            Text("그룹 멤버 초대하기").font(.system(size: 15, weight: .light))
                         }
                         
                         Button(action: {
                             showGroupUsers = true
                            
                         }) {
-                            Text("그룹 멤버 목록보기")
+                            Text("그룹 멤버 목록보기").font(.system(size: 15, weight: .light))
                         }
                     
                 }
@@ -42,6 +43,7 @@ struct GroupMenuView: View {
                     isPresented = false
                 }) {
                     Text("닫기")
+                        .font(.system(size: 15, weight: .light))
                         .padding()
                         .background(Color.red)
                         .foregroundColor(.white)

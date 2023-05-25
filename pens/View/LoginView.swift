@@ -55,7 +55,8 @@ struct LoginView: View {
                     }
                 }
             }
-        }.navigationTitle("Sign In")
+        }.navigationBarTitle("로그인")
+            .font(.system(size: 15, weight: .light))
     }
 }
 
