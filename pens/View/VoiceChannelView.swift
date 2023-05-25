@@ -15,13 +15,17 @@ struct VoiceChannel: Identifiable, Decodable {
     var groupId: Int
     var channelName: String
     var channelId: Int
+    var users: [String]
 //    var isEnabled: Bool
     enum CodingKeys: String, CodingKey {
         case groupId
         case channelName
         case channelId
+        case users
     }
 }
+
+
 
 
 //Button(action: {self.viewModel.startVoiceChat()}) { Text("StartVoiceChat")}
@@ -36,11 +40,15 @@ struct VoiceChannelView: View {
         List {
             ForEach(voiceChannels, id: \.channelId) { channel in
                 Section(header: Text("\(channel.channelName)").font(.title2)) {
-                    VStack() { Text("hi") } // user list 들어갈 위치
+//                    VStack() { Text("hi") } // user list 들어갈 위치
+                    ForEach(channel.users, id: \.self) { user in
+                        Text(user)
+                    }
                 }
                     .onTapGesture {
                     self.viewModel.disconnect()
                     self.viewModel.connectRoom(roomID: String(channel.channelId))
+                    enterChannel(userId: userId, channelId: channel.channelId)
                 }
             }
         }.listStyle(InsetGroupedListStyle())
@@ -57,6 +65,7 @@ func getChannels(completion: @escaping ([VoiceChannel]) -> (), _ groupId: Int) {
     AF.request(APIContants.channelURL, method: .get, parameters: param, encoding: URLEncoding.default).validate(statusCode: 200..<300).responseDecodable(of: [VoiceChannel].self) { (response) in
         switch response.result {
         case .success(let channels):
+            dLog(channels)
             completion(channels)
         case .failure(let error):
             print("Error: \(error)")
@@ -64,7 +73,7 @@ func getChannels(completion: @escaping ([VoiceChannel]) -> (), _ groupId: Int) {
     }
 }
 
-func enterChannel(_ userId: Int, _ channelId: Int) {
+func enterChannel(userId: Int?, channelId: Int) {
     let param = ["userId": userId, "channelId": channelId]
     AF.request(APIContants.enterChannelURL, method: .post, parameters: param, encoding: URLEncoding.default).responseData(completionHandler: { response in
         switch response.result {
