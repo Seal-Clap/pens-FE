@@ -9,16 +9,8 @@ import Foundation
 import Alamofire
 
 func uploadFile(groupId: Int, fileUrl: URL) {
-    let url = URL(string: "\(APIContants.fileUploadURL)?groupId=\(groupId)")!
-    
-    // Start accessing a security-scoped resource.
-    guard fileUrl.startAccessingSecurityScopedResource() else {
-        // Handle the failure here.
-        return
-    }
-    
-    // Make sure you release the security-scoped resource when you finish.
-    defer { fileUrl.stopAccessingSecurityScopedResource() }
+    guard let url = URL(string: "\(APIContants.fileUploadURL)?groupId=\(groupId)")
+        else { return }
     
     do {
         let fileData = try Data(contentsOf: fileUrl)
