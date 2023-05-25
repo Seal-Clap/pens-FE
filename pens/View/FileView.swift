@@ -46,17 +46,16 @@ struct FileView: View {
                     DrawFileName.setDrawFileName(isPresented: $isPresented, groupId: selectedGroup.groupId)
                 }){
                     VStack{
-                        Image(systemName: "note.text").font(.system(size: 30))
-                        Text("새 노트")
-                    }.foregroundColor(.black)
+                        Image(systemName: "pencil.tip.crop.circle.badge.plus").font(.system(size: 40))
+                    }.foregroundColor(.gray)
                 }
                 //파일 업로드
                 Button(action: { // file upload button
                     isImporting = true
                 }) {
                     Image(systemName: "doc.badge.plus")
-                        .font(.system(size: 30))
-                }.foregroundColor(.black)
+                        .font(.system(size: 40))
+                }.foregroundColor(.gray)
                     .padding()
                     .fileImporter(
                         isPresented: $isImporting,

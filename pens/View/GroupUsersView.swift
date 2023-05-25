@@ -19,7 +19,7 @@ struct GroupUsersView: View {
             
             VStack {
                 Text("유저 목록")
-                    .font(.title)
+                    .font(.title).padding()
                 List {
                     ForEach(users, id: \.userEmail) { user in
                         VStack(alignment: .leading) {
@@ -37,16 +37,16 @@ struct GroupUsersView: View {
                 Button(action: {
                     isPresented = false
                 }) {
-                    Text("취소")
+                    Text("닫기")
                         .padding()
-                        .background(Color.gray)
+                        .background(Color.red)
                         .foregroundColor(.white)
                         .cornerRadius(8)
                 }
                 .padding()
             }
         }
-        .frame(width: 300, height: 600)
+        .frame(width: 300, height: 450)
     }
     
     struct GroupUsersView_Previews: PreviewProvider {

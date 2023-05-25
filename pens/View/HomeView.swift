@@ -20,7 +20,7 @@ struct HomeView: View {
     @State private var showGroupUsers = false
     private let groupLoade = GroupLoader()
     //
-    @State private var selectedGroup: GroupElement = GroupElement(groupId: 0, groupName: "local")
+    @State private var selectedGroup: GroupElement = GroupElement(groupId: 0, groupName: "pens'")
     @State private var showingGroupLeaveAlert = false
     //
     @State private var userId: Int? = nil
@@ -32,7 +32,7 @@ struct HomeView: View {
     @ObservedObject var viewModel: AudioCallViewModel
     @State private var addFileView : Bool = false
     //
-    @State private var showFileList = false
+    @State private var showMenu : Bool = false
     
     var body: some View {
         NavigationView {
@@ -75,31 +75,42 @@ struct HomeView: View {
                     .onAppear {
                         userId = getUserId()
                     }
-                Text(selectedGroup.groupName)
-                    .font(.title)
-                    .padding(.leading)
-                Button(action: {
-                    showInviteGroupMember = true
-                }) {
-                    Text("초대")
-                        .font(.title2)
+                HStack{
+                    Button(action: {
+                        showMenu = true
+                    })
+                    {
+                        Image(systemName: "list.bullet.circle")
+                            .font(.system(size: 40))
+                            .foregroundColor(Color.gray)
+                    }
+                    Text(selectedGroup.groupName)
+                        .font(.title)
                         .padding()
-                        .foregroundColor(.white)
-                        .frame(width: 200, height: 50)
-                }
-                .background(RoundedRectangle(cornerRadius: 8).fill(Color.gray))
-                .padding()
+                    
+                }.padding()
+//                Button(action: {
+//                    showInviteGroupMember = true
+//                }) {
+//                    Text("초대")
+//                        .font(.title2)
+//                        .padding()
+//                        .foregroundColor(.white)
+//                        .frame(width: 200, height: 50)
+//                }
+//                .background(RoundedRectangle(cornerRadius: 8).fill(Color.gray))
+//                .padding()
                 VoiceChannelView(groupId: $selectedGroup.groupId, viewModel: viewModel)
                 //그룹 목록 보기
-                Button(action: {
-                    showGroupUsers = true
-                }) {
-                    Text("그룹 멤버 보기")
-                        .font(.title3)
-                        .padding()
-                        .foregroundColor(.white)
-                        .frame(height: 25)
-                }.background(RoundedRectangle(cornerRadius: 6).fill(Color.black))
+//                Button(action: {
+//                    showGroupUsers = true
+//                }) {
+//                    Text("그룹 멤버 보기")
+//                        .font(.title3)
+//                        .padding()
+//                        .foregroundColor(.white)
+//                        .frame(height: 25)
+//                }.background(RoundedRectangle(cornerRadius: 6).fill(Color.black))
                 //로그아웃
                 Button(action: {
                     showingLogoutAlert = true
@@ -127,9 +138,12 @@ struct HomeView: View {
             }.navigationTitle("\(selectedGroup.groupId) : 문서")
         }.overlay(
             Group {
-                if showInviteGroupMember {
-                    InviteGroupMemberView(isPresented: $showInviteGroupMember, groupId: selectedGroup.groupId)
+                if showMenu {
+                    GroupMenuView(isPresented: $showMenu, selectedGroup: $selectedGroup)
                 }
+//                if showInviteGroupMember {
+//                    InviteGroupMemberView(isPresented: $showInviteGroupMember, groupId: selectedGroup.groupId)
+//                }
                 if showAddGroup {
                     AddGroupView(isPresented: $showAddGroup, onAddGroup: { groupID in
                         getGroups(completion: { (groups) in
@@ -138,12 +152,9 @@ struct HomeView: View {
                         groups.sort { $0.groupId > $1.groupId }
                     })
                 }
-                if showGroupUsers {
-                    GroupUsersView(isPresented: $showGroupUsers, groupId: selectedGroup.groupId)
-                }
-                if showFileList {
-                    FileListView(isPresented: $showFileList, groupId: selectedGroup.groupId)
-                }
+//                if showGroupUsers {
+//                    GroupUsersView(isPresented: $showGroupUsers, groupId: selectedGroup.groupId)
+//                }
             }
         )
     }

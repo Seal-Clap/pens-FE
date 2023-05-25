@@ -18,10 +18,11 @@ struct AuthNavigationView: View {
                 // StartImage
                 Image(systemName: "pencil.line")
                     .font(.system(size: 140))
-                Text("Pens'")
-                    .font(.title)
-                    .fontWeight(.bold)
-                    .padding()
+                HStack{
+                    Text("Pens'")
+                        .font(.title)
+                        .fontWeight(.bold)
+                }
                 // login
                 NavigationLink(destination: LoginView(loginState: $loginState), label: {
                     HStack {
@@ -30,7 +31,7 @@ struct AuthNavigationView: View {
                         Spacer()
                     }
                     .padding()
-                    .background(Color.black)
+                    .background(Color.blue)
                     .foregroundColor(.white)
                     .clipShape(RoundedRectangle(cornerRadius: 12))
                     .frame(width: 250)
@@ -43,7 +44,7 @@ struct AuthNavigationView: View {
                         Spacer()
                     }
                     .padding()
-                    .background(Color.gray)
+                    .background(Color.cyan)
                     .foregroundColor(.white)
                     .clipShape(RoundedRectangle(cornerRadius: 12))
                     .frame(width: 250)
