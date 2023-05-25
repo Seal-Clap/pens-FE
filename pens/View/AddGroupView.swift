@@ -24,41 +24,41 @@ struct AddGroupView: View {
                 Text("그룹 추가하기")
                     .font(.title)
                     .padding()
-
+                
                 TextField("그룹 이름 입력", text: $groupName)
                     .padding()
                     .textFieldStyle(RoundedBorderTextFieldStyle())
-
-                Button(action: {
-                    groupAPI.createGroup(groupName: groupName) { result in // createGroup 메소드 호출 수정
-                        switch result {
-                        case .success(let groupID):
-                            print("+++++++++++++그룹 생성 성공+++++++++++++: \(groupID)")
-                            onAddGroup(groupName) // 콜백 함수 호출
-                        case .failure(let error):
-                            print("그룹 생성 실패: \(error)")
+                HStack{
+                    Button(action: {
+                        groupAPI.createGroup(groupName: groupName) { result in // createGroup 메소드 호출 수정
+                            switch result {
+                            case .success(let groupID):
+                                print("+++++++++++++그룹 생성 성공+++++++++++++: \(groupID)")
+                                onAddGroup(groupName) // 콜백 함수 호출
+                            case .failure(let error):
+                                print("그룹 생성 실패: \(error)")
+                            }
+                            isPresented = false
                         }
+                    }) {
+                        Text("추가")
+                            .padding()
+                            .background(Color.blue)
+                            .foregroundColor(.white)
+                            .cornerRadius(8)
+                    }.padding()
+                    
+                    Button(action: {
                         isPresented = false
+                    }) {
+                        Text("취소")
+                            .padding()
+                            .background(Color.cyan)
+                            .foregroundColor(.white)
+                            .cornerRadius(8)
                     }
-                }) {
-                    Text("그룹 추가")
-                        .padding()
-                        .background(Color.black)
-                        .foregroundColor(.white)
-                        .cornerRadius(8)
-                }.padding()
-
-                Button(action: {
-                    isPresented = false
-                }) {
-                    Text("취소")
-                        .padding()
-                        .background(Color.gray)
-                        .foregroundColor(.white)
-                        .cornerRadius(8)
                 }
             }
-            .padding()
         }
         .frame(width: 300, height: 300) // 높이를 증가시켜서 그룹 관리자 이름 입력 필드를 포함하도록 수정
     }

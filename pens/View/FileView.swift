@@ -44,17 +44,16 @@ struct FileView: View {
                     DrawFileName.setDrawFileName(draws: $draws, isPresented: $isPresented)
                 }){
                     VStack{
-                        Image(systemName: "note.text").font(.system(size: 30))
-                        Text("새 노트")
-                    }.foregroundColor(.black)
+                        Image(systemName: "pencil.tip.crop.circle.badge.plus").font(.system(size: 40))
+                    }.foregroundColor(.gray)
                 }
                 //파일 업로드
                 Button(action: { // file upload button
                     isImporting = true
                 }) {
                     Image(systemName: "doc.badge.plus")
-                        .font(.system(size: 30))
-                }.foregroundColor(.black)
+                        .font(.system(size: 40))
+                }.foregroundColor(.gray)
                     .padding()
                     .fileImporter(
                         isPresented: $isImporting,
@@ -77,7 +76,8 @@ struct FileView: View {
                 LazyVGrid(columns: columns){
                     ForEach(files) { file in
                         VStack{
-                            Image(systemName: "doc.plaintext").font(.system(size: 100))
+                            Image(systemName: "doc.richtext").font(.system(size: 100))
+                                .foregroundColor(Color.blue)
                             HStack{
                                 Text("\(file.fileId)")
                                 Text("\(file.fileName)")
@@ -104,6 +104,7 @@ struct FileView: View {
                         NavigationLink(destination: DrawView(drawID: draw.id, drawName : draw.drawFileName)) {
                             VStack {
                                 Image(systemName: "doc.richtext").font(.system(size: 100))
+                                    .foregroundColor(Color.blue)
                                 Text(draw.drawFileName)
                             }.foregroundColor(.black)
                         }

@@ -26,43 +26,44 @@ struct InviteGroupMemberView: View {
                 TextField("이메일 주소 입력", text: $emailAddress)
                     .padding()
                     .textFieldStyle(RoundedBorderTextFieldStyle())
-                Button(action: {
-                    getGroupId(userId: userId, groupId: groupId) { result in
-                        switch result {
-                        case .success(let groupId):
-                            inviteGroup(groupId: groupId, userEmail: emailAddress) { result in
-                                switch result {
-                                case .success(let responseString):
-                                    print("Successfully sent data: \(responseString)")
-                                case .failure(let error):
-                                    print("Error sending data: \(error.localizedDescription)")
+                HStack{
+                    Button(action: {
+                        getGroupId(userId: userId, groupId: groupId) { result in
+                            switch result {
+                            case .success(let groupId):
+                                inviteGroup(groupId: groupId, userEmail: emailAddress) { result in
+                                    switch result {
+                                    case .success(let responseString):
+                                        print("Successfully sent data: \(responseString)")
+                                    case .failure(let error):
+                                        print("Error sending data: \(error.localizedDescription)")
+                                    }
                                 }
+                            case .failure(let error):
+                                print("Error getting groupId: \(error.localizedDescription)")
                             }
-                        case .failure(let error):
-                            print("Error getting groupId: \(error.localizedDescription)")
                         }
+                        print("이메일 주소: \(emailAddress)")
+                        isPresented = false
+                    }) {
+                        Text("초대")
+                            .padding()
+                            .background(Color.blue)
+                            .foregroundColor(.white)
+                            .cornerRadius(8)
                     }
-                    print("이메일 주소: \(emailAddress)")
-                    isPresented = false
-                }) {
-                    Text("초대 보내기")
-                        .padding()
-                        .background(Color.black)
-                        .foregroundColor(.white)
-                        .cornerRadius(8)
-                }.padding()
-
-                Button(action: {
-                    isPresented = false
-                }) {
-                    Text("취소")
-                        .padding()
-                        .background(Color.gray)
-                        .foregroundColor(.white)
-                        .cornerRadius(8)
+                    
+                    Button(action: {
+                        isPresented = false
+                    }) {
+                        Text("취소")
+                            .padding()
+                            .background(Color.cyan)
+                            .foregroundColor(.white)
+                            .cornerRadius(8)
+                    }
                 }
             }
-            .padding()
         }.frame(width: 300, height: 250)
     }
 }
