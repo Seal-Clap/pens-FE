@@ -17,7 +17,6 @@ struct HomeView: View {
     @State private var grouplist: [String] = []
     @State private var showInviteGroupMember = false
     @State private var showAddGroup = false
-    @State private var showGroupUsers = false
     private let groupLoade = GroupLoader()
     //
     @State private var selectedGroup: GroupElement = GroupElement(groupId: 0, groupName: "pens'")
@@ -89,28 +88,7 @@ struct HomeView: View {
                         .padding()
                     
                 }.padding()
-//                Button(action: {
-//                    showInviteGroupMember = true
-//                }) {
-//                    Text("초대")
-//                        .font(.title2)
-//                        .padding()
-//                        .foregroundColor(.white)
-//                        .frame(width: 200, height: 50)
-//                }
-//                .background(RoundedRectangle(cornerRadius: 8).fill(Color.gray))
-//                .padding()
                 VoiceChannelView(groupId: $selectedGroup.groupId, viewModel: viewModel)
-                //그룹 목록 보기
-//                Button(action: {
-//                    showGroupUsers = true
-//                }) {
-//                    Text("그룹 멤버 보기")
-//                        .font(.title3)
-//                        .padding()
-//                        .foregroundColor(.white)
-//                        .frame(height: 25)
-//                }.background(RoundedRectangle(cornerRadius: 6).fill(Color.black))
                 //로그아웃
                 Button(action: {
                     showingLogoutAlert = true
@@ -134,16 +112,12 @@ struct HomeView: View {
             }
             VStack{
                 FileView(selectedGroup: $selectedGroup, isPresented: $addFileView, viewModel: AudioCallViewModel())
-                //FileView(groupId : $selectedGroup.groupId,draws : $draws, isPresented: $addFileView,viewModel: AudioCallViewModel())
             }.navigationTitle("\(selectedGroup.groupId) : 문서")
         }.overlay(
             Group {
                 if showMenu {
                     GroupMenuView(isPresented: $showMenu, selectedGroup: $selectedGroup)
                 }
-//                if showInviteGroupMember {
-//                    InviteGroupMemberView(isPresented: $showInviteGroupMember, groupId: selectedGroup.groupId)
-//                }
                 if showAddGroup {
                     AddGroupView(isPresented: $showAddGroup, onAddGroup: { groupID in
                         getGroups(completion: { (groups) in
@@ -152,9 +126,6 @@ struct HomeView: View {
                         groups.sort { $0.groupId > $1.groupId }
                     })
                 }
-//                if showGroupUsers {
-//                    GroupUsersView(isPresented: $showGroupUsers, groupId: selectedGroup.groupId)
-//                }
             }
         )
     }
