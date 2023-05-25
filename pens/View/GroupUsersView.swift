@@ -19,11 +19,14 @@ struct GroupUsersView: View {
             
             VStack {
                 Text("유저 목록")
-                    .font(.title).padding()
+                    .font(.title3)
+                    .fontWeight(.light)
+                    .padding()
                 List {
                     ForEach(users, id: \.userEmail) { user in
                         VStack(alignment: .leading) {
-                            Text("\(user.userName)").font(.title2)
+                            Text("\(user.userName)")
+                                .font(.system(size: 15, weight: .light))
                         }.padding(.leading)
                     }
                 }
@@ -38,6 +41,7 @@ struct GroupUsersView: View {
                     isPresented = false
                 }) {
                     Text("닫기")
+                        .font(.system(size: 15, weight: .light))
                         .padding()
                         .background(Color.red)
                         .foregroundColor(.white)

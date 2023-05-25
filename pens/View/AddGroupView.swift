@@ -22,7 +22,8 @@ struct AddGroupView: View {
 
             VStack {
                 Text("그룹 추가하기")
-                    .font(.title)
+                    .font(.title3)
+                    .fontWeight(.light)
                     .padding()
                 
                 TextField("그룹 이름 입력", text: $groupName)
@@ -42,6 +43,7 @@ struct AddGroupView: View {
                         }
                     }) {
                         Text("추가")
+                            .font(.system(size: 15, weight: .light))
                             .padding()
                             .background(Color.blue)
                             .foregroundColor(.white)
@@ -52,6 +54,7 @@ struct AddGroupView: View {
                         isPresented = false
                     }) {
                         Text("취소")
+                            .font(.system(size: 15, weight: .light))
                             .padding()
                             .background(Color.cyan)
                             .foregroundColor(.white)

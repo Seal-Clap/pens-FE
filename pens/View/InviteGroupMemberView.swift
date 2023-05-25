@@ -20,7 +20,8 @@ struct InviteGroupMemberView: View {
 
             VStack {
                 Text("이메일로 사용자 초대")
-                    .font(.title)
+                    .font(.title3)
+                    .fontWeight(.light)
                     .padding()
 
                 TextField("이메일 주소 입력", text: $emailAddress)
@@ -47,6 +48,7 @@ struct InviteGroupMemberView: View {
                         isPresented = false
                     }) {
                         Text("초대")
+                            .font(.system(size: 15, weight: .light))
                             .padding()
                             .background(Color.blue)
                             .foregroundColor(.white)
@@ -57,6 +59,7 @@ struct InviteGroupMemberView: View {
                         isPresented = false
                     }) {
                         Text("취소")
+                            .font(.system(size: 15, weight: .light))
                             .padding()
                             .background(Color.cyan)
                             .foregroundColor(.white)
