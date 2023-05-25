@@ -94,7 +94,7 @@ struct HomeView: View {
                             .foregroundColor(Color.cyan)
                     }.padding(.leading, 10)
                 }
-                VoiceChannelView(groupId: $selectedGroup.groupId, viewModel: viewModel)
+                VoiceChannelView(groupId: $selectedGroup.groupId, userId: $userId, viewModel: viewModel)
                 //로그아웃
                 Button(action: {
                     showingLogoutAlert = true
