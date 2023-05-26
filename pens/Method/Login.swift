@@ -129,3 +129,15 @@ func checkTokenAndLogin(completion: @escaping (Bool?) -> Void){
         completion(false)
     }
 }
+
+func getUserNameByUserId(userId: Int?, completion: @escaping (String?) -> Void) {
+    AF.request("\(APIContants.baseURL)/users/\(userId!)/name", method: .get).responseString { response in
+            switch response.result {
+            case .success(let userName):
+                completion(userName)
+            case .failure(let error):
+                print(error)
+                completion(nil)
+            }
+        }
+}

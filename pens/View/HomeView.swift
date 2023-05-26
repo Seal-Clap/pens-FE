@@ -15,15 +15,17 @@ struct HomeView: View {
     @State private var showingLogoutAlert = false
     //그룹
     @State private var grouplist: [String] = []
+    @State private var selectedGroup: GroupElement = GroupElement(groupId: 0, groupName: "pens'")
+    //
     @State private var showInviteGroupMember = false
     @State private var showAddGroup = false
     private let groupLoade = GroupLoader()
     //
-    @State private var selectedGroup: GroupElement = GroupElement(groupId: 0, groupName: "pens'")
+    @State private var groups = [GroupElement]()
     @State private var showingGroupLeaveAlert = false
     //
     @State private var userId: Int? = nil
-    @State private var groups = [GroupElement]()
+    @State private var userName: String? = nil
     //
     @State private var isImporting: Bool = false
     @State private var fileURL: URL?
@@ -33,7 +35,7 @@ struct HomeView: View {
     //
     @State private var showMenu : Bool = false
   
-  
+
     
     var body: some View {
         NavigationView {
@@ -94,7 +96,7 @@ struct HomeView: View {
                             .foregroundColor(Color.cyan)
                     }.padding(.leading, 10)
                 }
-                VoiceChannelView(groupId: $selectedGroup.groupId, userId: $userId, viewModel: viewModel)
+                VoiceChannelView(groupId: $selectedGroup.groupId, userId: $userId, userName: $userName, viewModel: viewModel)
                 //로그아웃
                 Button(action: {
                     showingLogoutAlert = true
@@ -118,6 +120,10 @@ struct HomeView: View {
             }.navigationBarTitle("문서")
         }.onAppear{
             userId = getUserId()
+            getUserNameByUserId(userId: userId, completion: { name in
+                userName = name
+            })
+            
         }
         .overlay(
             Group {

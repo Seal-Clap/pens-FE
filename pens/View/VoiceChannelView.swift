@@ -33,6 +33,7 @@ struct VoiceChannel: Identifiable, Decodable {
 struct VoiceChannelView: View {
     @Binding var groupId: Int
     @Binding var userId: Int?
+    @Binding var userName: String?
     @ObservedObject var viewModel: AudioCallViewModel
 
     @State var voiceChannels: [VoiceChannel] = []
@@ -42,13 +43,26 @@ struct VoiceChannelView: View {
                 Section(header: Text("\(channel.channelName)").font(.title2)) {
 //                    VStack() { Text("hi") } // user list 들어갈 위치
                     ForEach(channel.users, id: \.self) { user in
-                        Text(user)
+                        VStack() { Text(user) }
+                            .swipeActions {  Button(role: .destructive) {
+                                //
+                                if user == userName {
+                                    leaveChannel(userId: userId, channelId: channel.channelId)
+                                }
+                            } label: {
+                                Label("나가기", systemImage: "trash")
+                            }
+                        }
                     }
                 }
                     .onTapGesture {
                     self.viewModel.disconnect()
                     self.viewModel.connectRoom(roomID: String(channel.channelId))
                     enterChannel(userId: userId, channelId: channel.channelId)
+
+                    getChannels(completion: { (channels) in
+                        self.voiceChannels = channels
+                    }, groupId)
                 }
             }
         }.listStyle(InsetGroupedListStyle())
@@ -85,7 +99,7 @@ func enterChannel(userId: Int?, channelId: Int) {
     })
 }
 
-func levaveChannel(_ userId: Int, _ channelId: Int) {
+func leaveChannel(userId: Int?, channelId: Int) {
     let param = ["userId": userId, "channelId": channelId]
     AF.request(APIContants.leaveChannelURL, method: .delete, parameters: param, encoding: URLEncoding.default).responseData(completionHandler: { response in
         switch response.result {

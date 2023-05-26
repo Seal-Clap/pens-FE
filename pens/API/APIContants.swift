@@ -45,7 +45,7 @@ struct APIContants{
     // get channels by groupId
     static let channelURL = baseURL + "/channels"
     //
-    static let enterChannelURL = baseURL + "/enter"
+    static let enterChannelURL = baseURL + "/channels/enter"
     //
-    static let leaveChannelURL = baseURL + "/leave"
+    static let leaveChannelURL = baseURL + "/channels/leave"
 }
