@@ -36,6 +36,8 @@ struct FileView: View {
     @State private var selectedFile: FileList?
     @State private var isShowingPdf = false
     @State private var isShowingDraw = false
+    
+    @State private var showingDeleteAlert = false
 
     var body: some View {
         VStack{
@@ -119,6 +121,26 @@ struct FileView: View {
                                 }
                             }
                         }
+                        .contextMenu { // <- Add this block
+                                        Button(action: {
+                                            self.showingDeleteAlert = true
+                                            self.selectedFile = file
+                                        }) {
+                                            Label("삭제", systemImage: "trash")
+                                        }
+                                    }
+                                    .alert(isPresented: $showingDeleteAlert) {
+                                        Alert(title: Text("파일 삭제"),
+                                              message: Text("이 파일을 서버에서 삭제하시겠습니까?"),
+                                              primaryButton: .destructive(Text("삭제")) {
+                                            deleteFile(groupId: selectedGroup.groupId, fileName: selectedFile!.fileName) {
+                                                showFileList(completion: { fileList in
+                                                    self.files = fileList
+                                                }, selectedGroup.groupId)
+                                            }
+                                              },
+                                              secondaryButton: .cancel(Text("취소")))
+                                    }
                         .fullScreenCover(isPresented: $isShowingPdf) {
                                         if let url = fileViewModel.downloadedFileURL {
                                             PDF_FileView(url: url)

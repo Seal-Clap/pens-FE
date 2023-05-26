@@ -12,6 +12,7 @@
 		05887F472A16185800280826 /* WebSocketDrawingClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05887F462A16185800280826 /* WebSocketDrawingClient.swift */; };
 		05C752D02A11E34E0070D16B /* GroupUsersView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05C752CF2A11E34E0070D16B /* GroupUsersView.swift */; };
 		05C752D22A11E3700070D16B /* GroupUsers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05C752D12A11E3700070D16B /* GroupUsers.swift */; };
+		05DD005B2A2085E1008AFDB3 /* FileDelete.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05DD005A2A2085E1008AFDB3 /* FileDelete.swift */; };
 		05EE4B2729E545E50088B6AF /* AuthNavigationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05EE4B2629E545E50088B6AF /* AuthNavigationView.swift */; };
 		181F73972A121A6700845341 /* SignalMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 181F73962A121A6700845341 /* SignalMessage.swift */; };
 		186FF4A22A0BA120008D26EC /* LoadGroupList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 186FF4A12A0BA120008D26EC /* LoadGroupList.swift */; };
@@ -82,6 +83,7 @@
 		05887F462A16185800280826 /* WebSocketDrawingClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebSocketDrawingClient.swift; sourceTree = "<group>"; };
 		05C752CF2A11E34E0070D16B /* GroupUsersView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GroupUsersView.swift; sourceTree = "<group>"; };
 		05C752D12A11E3700070D16B /* GroupUsers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GroupUsers.swift; sourceTree = "<group>"; };
+		05DD005A2A2085E1008AFDB3 /* FileDelete.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileDelete.swift; sourceTree = "<group>"; };
 		05EE4B2629E545E50088B6AF /* AuthNavigationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthNavigationView.swift; sourceTree = "<group>"; };
 		181F73962A121A6700845341 /* SignalMessage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignalMessage.swift; sourceTree = "<group>"; };
 		186FF4A12A0BA120008D26EC /* LoadGroupList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadGroupList.swift; sourceTree = "<group>"; };
@@ -321,6 +323,7 @@
 				BCDE22D72A14AE38009F3F46 /* DrawManage.swift */,
 				BCBAD9832A14CCC300D4CA73 /* FileListShow.swift */,
 				BCBAD9892A151FE000D4CA73 /* FileDownload.swift */,
+				05DD005A2A2085E1008AFDB3 /* FileDelete.swift */,
 			);
 			path = Method;
 			sourceTree = "<group>";
@@ -630,6 +633,7 @@
 				FD290E6E2A00364D00CD2835 /* GroupRowView.swift in Sources */,
 				BCBAD9842A14CCC300D4CA73 /* FileListShow.swift in Sources */,
 				181F73972A121A6700845341 /* SignalMessage.swift in Sources */,
+				05DD005B2A2085E1008AFDB3 /* FileDelete.swift in Sources */,
 				1891A2982A10E2E0001C5BA9 /* Extensions.swift in Sources */,
 				FD290E6C2A00344100CD2835 /* GroupDeleteUser.swift in Sources */,
 				1891A29E2A10E339001C5BA9 /* Config.swift in Sources */,
