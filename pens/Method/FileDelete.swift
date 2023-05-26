@@ -21,6 +21,7 @@ func deleteFile(groupId: Int, fileName: String, completion: @escaping () -> Void
         AF.request(url, method: .post, parameters: parameters, encoding: JSONEncoding.default).responseJSON { response in
             switch response.result {
             case .success:
+                debugPrint(response)
                 completion()
             case .failure(let error):
                 print(error)
