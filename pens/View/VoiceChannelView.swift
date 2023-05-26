@@ -40,8 +40,7 @@ struct VoiceChannelView: View {
     var body: some View {
         List {
             ForEach(voiceChannels, id: \.channelId) { channel in
-                Section(header: Text("\(channel.channelName)").font(.title2)) {
-//                    VStack() { Text("hi") } // user list 들어갈 위치
+                Section(header: Text("\(channel.channelName)").font(.title2)){
                     ForEach(channel.users, id: \.self) { user in
                         VStack() { Text(user) }
                             .swipeActions {
@@ -57,7 +56,9 @@ struct VoiceChannelView: View {
                     }
                 }
                     .onTapGesture {
-                    self.viewModel.disconnect()
+//                    leaveChannel(userId: userId, channelId: channel.channelId)
+                        // 전에 들어간 채널..? 나가기..?
+//                    self.viewModel.disconnect()
                     self.viewModel.connectRoom(roomID: String(channel.channelId))
                     enterChannel(userId: userId, channelId: channel.channelId)
                     getChannels(completion: { (channels) in
