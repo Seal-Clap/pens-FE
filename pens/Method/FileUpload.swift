@@ -8,7 +8,7 @@
 import Foundation
 import Alamofire
 
-func uploadFile(groupId: Int, fileUrl: URL) {
+func uploadFile(groupId: Int, fileUrl: URL, completion: @escaping () -> Void) {
     guard let url = URL(string: "\(APIContants.fileUploadURL)?groupId=\(groupId)")
         else { return }
     
@@ -19,6 +19,7 @@ func uploadFile(groupId: Int, fileUrl: URL) {
         }, to: url, method: .post).validate(statusCode: 200..<300)
             .response { response in
                 debugPrint(response)
+                completion()
             }
     } catch {
         print("Unable to load data: \(error)")

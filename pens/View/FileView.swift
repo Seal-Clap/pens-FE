@@ -43,7 +43,11 @@ struct FileView: View {
                 Spacer()
                 //새노트
                 Button(action : {
-                    DrawFileName.setDrawFileName(isPresented: $isPresented, groupId: selectedGroup.groupId)
+                    DrawFileName.setDrawFileName(isPresented: $isPresented, groupId: selectedGroup.groupId) {
+                        showFileList(completion: { fileList in
+                            self.files = fileList
+                        }, selectedGroup.groupId)
+                    }
                 }){
                     VStack{
                         Image(systemName: "pencil.tip.crop.circle.badge.plus").font(.system(size: 25))
@@ -65,12 +69,26 @@ struct FileView: View {
                         do {
                             let selectedFiles = try result.get()
                             fileURL = selectedFiles.first
-                            uploadFile(groupId: selectedGroup.groupId, fileUrl: fileURL!)
+                            uploadFile(groupId: selectedGroup.groupId, fileUrl: fileURL!) {
+                                showFileList(completion: { fileList in
+                                    self.files = fileList
+                                }, selectedGroup.groupId)
+                            }
                             //uploadFile(groupId: groupId, fileUrl: fileURL!)
                         } catch {
                             // Handle error
                         }
                     }
+                //파일 목록 서버와 동기화
+                Button(action : {
+                        showFileList(completion: { fileList in
+                            self.files = fileList
+                        }, selectedGroup.groupId)
+                }){
+                    VStack{
+                        Image(systemName: "icloud.and.arrow.down").font(.system(size: 25))
+                    }.foregroundColor(.gray)
+                }
             }
             .padding()
             //걍 파일 목록 보여주기

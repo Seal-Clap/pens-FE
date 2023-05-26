@@ -25,7 +25,7 @@ struct DrawFileManager {
             print("Error saving drawing: \(error)")
         }
         
-        uploadFile(groupId: groupId, fileUrl: fileURL)
+        uploadFile(groupId: groupId, fileUrl: fileURL) {}
     }
 
     func loadDrawing(into canvas: PKCanvasView, fileName: String) {
@@ -40,7 +40,7 @@ struct DrawFileManager {
         }
     }
     
-    func initDrawing(fileName: String, groupId: Int) {
+    func initDrawing(fileName: String, groupId: Int, completion: @escaping() -> Void) {
         let fileURL = documentDirectory.appendingPathComponent("\(fileName)")
         let emptyDrawing = PKDrawing()
         do {
@@ -49,6 +49,6 @@ struct DrawFileManager {
         } catch {
             print("Error init drawing: \(error)")
         }
-        uploadFile(groupId: groupId, fileUrl: fileURL)
+        uploadFile(groupId: groupId, fileUrl: fileURL, completion: completion)
     }
 }
