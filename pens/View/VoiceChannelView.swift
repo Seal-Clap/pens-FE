@@ -44,13 +44,14 @@ struct VoiceChannelView: View {
 //                    VStack() { Text("hi") } // user list 들어갈 위치
                     ForEach(channel.users, id: \.self) { user in
                         VStack() { Text(user) }
-                            .swipeActions {  Button(role: .destructive) {
-                                //
-                                if user == userName {
+                            .swipeActions {
+                            if user == userName {
+                                Button(role: .destructive) {
+                                    self.viewModel.disconnect()
                                     leaveChannel(userId: userId, channelId: channel.channelId)
+                                } label: {
+                                    Label("나가기", systemImage: "phone.down.fill")
                                 }
-                            } label: {
-                                Label("나가기", systemImage: "trash")
                             }
                         }
                     }
@@ -59,7 +60,6 @@ struct VoiceChannelView: View {
                     self.viewModel.disconnect()
                     self.viewModel.connectRoom(roomID: String(channel.channelId))
                     enterChannel(userId: userId, channelId: channel.channelId)
-
                     getChannels(completion: { (channels) in
                         self.voiceChannels = channels
                     }, groupId)
