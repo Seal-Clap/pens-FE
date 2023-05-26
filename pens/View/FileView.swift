@@ -36,6 +36,8 @@ struct FileView: View {
     @State private var selectedFile: FileList?
     @State private var isShowingPdf = false
     @State private var isShowingDraw = false
+    
+    @State private var showingDeleteAlert = false
 
     var body: some View {
         VStack{
@@ -43,7 +45,11 @@ struct FileView: View {
                 Spacer()
                 //새노트
                 Button(action : {
-                    DrawFileName.setDrawFileName(isPresented: $isPresented, groupId: selectedGroup.groupId)
+                    DrawFileName.setDrawFileName(isPresented: $isPresented, groupId: selectedGroup.groupId) {
+                        showFileList(completion: { fileList in
+                            self.files = fileList
+                        }, selectedGroup.groupId)
+                    }
                 }){
                     VStack{
                         Image(systemName: "pencil.tip.crop.circle.badge.plus").font(.system(size: 25))
@@ -65,12 +71,26 @@ struct FileView: View {
                         do {
                             let selectedFiles = try result.get()
                             fileURL = selectedFiles.first
-                            uploadFile(groupId: selectedGroup.groupId, fileUrl: fileURL!)
+                            uploadFile(groupId: selectedGroup.groupId, fileUrl: fileURL!) {
+                                showFileList(completion: { fileList in
+                                    self.files = fileList
+                                }, selectedGroup.groupId)
+                            }
                             //uploadFile(groupId: groupId, fileUrl: fileURL!)
                         } catch {
                             // Handle error
                         }
                     }
+                //파일 목록 서버와 동기화
+                Button(action : {
+                        showFileList(completion: { fileList in
+                            self.files = fileList
+                        }, selectedGroup.groupId)
+                }){
+                    VStack{
+                        Image(systemName: "icloud.and.arrow.down").font(.system(size: 25))
+                    }.foregroundColor(.gray)
+                }
             }
             .padding()
             //걍 파일 목록 보여주기
@@ -101,6 +121,26 @@ struct FileView: View {
                                 }
                             }
                         }
+                        .contextMenu { // <- Add this block
+                                        Button(action: {
+                                            self.showingDeleteAlert = true
+                                            self.selectedFile = file
+                                        }) {
+                                            Label("삭제", systemImage: "trash")
+                                        }
+                                    }
+                                    .alert(isPresented: $showingDeleteAlert) {
+                                        Alert(title: Text("파일 삭제"),
+                                              message: Text("이 파일을 서버에서 삭제하시겠습니까?"),
+                                              primaryButton: .destructive(Text("삭제")) {
+                                            deleteFile(groupId: selectedGroup.groupId, fileName: selectedFile!.fileName) {
+                                                showFileList(completion: { fileList in
+                                                    self.files = fileList
+                                                }, selectedGroup.groupId)
+                                            }
+                                              },
+                                              secondaryButton: .cancel(Text("취소")))
+                                    }
                         .fullScreenCover(isPresented: $isShowingPdf) {
                                         if let url = fileViewModel.downloadedFileURL {
                                             PDF_FileView(url: url)

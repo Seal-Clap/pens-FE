@@ -9,12 +9,12 @@ import Foundation
 import SwiftUI
 
 struct DrawFileName {
-    static func setDrawFileName(isPresented: Binding<Bool>, groupId: Int) {
+    static func setDrawFileName(isPresented: Binding<Bool>, groupId: Int, completion: @escaping () -> Void) {
         let alert = UIAlertController(title: "새 문서", message: "새 문서의 이름을 입력하세요", preferredStyle: .alert)
         alert.addTextField()
         alert.addAction(UIAlertAction(title: "추가", style: .default) { _ in
             if let text = alert.textFields?.first?.text {
-                DrawFileManager.shared.initDrawing(fileName: "\(text).draw", groupId: groupId)
+                DrawFileManager.shared.initDrawing(fileName: "\(text).draw", groupId: groupId, completion: completion)
             }
             isPresented.wrappedValue = false
         })
