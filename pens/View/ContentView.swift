@@ -25,7 +25,7 @@ struct ContentView: View {
             }
             //런치 스크린
             if isLoading {
-                launchScreenView.transition(.opacity).zIndex(1)
+                //launchScreenView.transition(.opacity).zIndex(1)
             }
             //onAppear of Zstack
         }.onAppear{
@@ -44,9 +44,10 @@ extension ContentView {
                                         startPoint: .top, endPoint: .bottom)
                         .edgesIgnoringSafeArea(.all)
             VStack{
-                Image(systemName: "pencil.line").font(.system(size: 450, weight: .ultraLight)).foregroundColor(.blue)
-                Text("pens'").font(.system(size: 75, weight: .ultraLight))
-                    .fontDesign(.monospaced).foregroundColor(.cyan)
+                Image("LaunchImage").resizable()
+//                Image(systemName: "pencil.line").font(.system(size: 450, weight: .ultraLight)).foregroundColor(.blue)
+//                Text("pens'").font(.system(size: 75, weight: .ultraLight))
+//                    .fontDesign(.monospaced).foregroundColor(.cyan)
             }
         }
         
