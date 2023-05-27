@@ -25,7 +25,7 @@ struct ContentView: View {
             }
             //런치 스크린
             if isLoading {
-                //launchScreenView.transition(.opacity).zIndex(1)
+                launchScreenView.transition(.opacity).zIndex(1)
             }
             //onAppear of Zstack
         }.onAppear{
