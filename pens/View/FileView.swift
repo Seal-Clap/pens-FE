@@ -52,16 +52,16 @@ struct FileView: View {
                     }
                 }){
                     VStack{
-                        Image(systemName: "pencil.tip.crop.circle.badge.plus").font(.system(size: 25))
-                    }.foregroundColor(.gray)
+                        Image(systemName: "pencil.tip.crop.circle.badge.plus").font(.system(size: 25, weight: .ultraLight))
+                    }
                 }
                 //파일 업로드
                 Button(action: { // file upload button
                     isImporting = true
                 }) {
                     Image(systemName: "doc.badge.plus")
-                        .font(.system(size: 25))
-                }.foregroundColor(.gray)
+                        .font(.system(size: 25, weight: .ultraLight))
+                }
                     .padding()
                     .fileImporter(
                         isPresented: $isImporting,
@@ -88,8 +88,8 @@ struct FileView: View {
                         }, selectedGroup.groupId)
                 }){
                     VStack{
-                        Image(systemName: "icloud.and.arrow.down").font(.system(size: 25))
-                    }.foregroundColor(.gray)
+                        Image(systemName: "icloud.and.arrow.down").font(.system(size: 25, weight: .ultraLight))
+                    }
                 }
             }
             .padding()
@@ -99,7 +99,7 @@ struct FileView: View {
                     ForEach(files) { file in
                         VStack{
                             if file.fileName.hasSuffix(".draw") {
-                                Image(systemName: "doc.richtext").font(.system(size: 100, weight: .ultraLight))
+                                Image(systemName: "note").font(.system(size: 100, weight: .ultraLight))
                                     .foregroundColor(Color.cyan).padding(.top)
                             } else {
                                 Image(systemName: "doc.plaintext").font(.system(size: 100, weight: .ultraLight))

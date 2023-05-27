@@ -42,7 +42,7 @@ struct HomeView: View {
             //그룹 목록부분
             VStack {
                 HStack{
-                    Image(systemName: "person.line.dotted.person").font(.system(size: 30, weight: .light))
+                    Image(systemName: "person.3.sequence").font(.system(size: 30, weight: .ultraLight))
                         .foregroundColor(Color.cyan)
                     Text("그룹").font(.title2)
                         .fontWeight(.regular)
