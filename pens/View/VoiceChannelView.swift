@@ -57,7 +57,7 @@ struct VoiceChannelView: View {
             .frame(maxWidth: .infinity)
             
             Image(systemName: "arrow.triangle.2.circlepath")
-                .font(.system(size: 25))
+                .font(.system(size: 20, weight: .thin))
                 .foregroundColor(.gray)
                 .padding(.trailing)
                 .onTapGesture {
