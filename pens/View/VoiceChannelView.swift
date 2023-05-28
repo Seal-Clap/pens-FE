@@ -31,47 +31,75 @@ struct VoiceChannel: Identifiable, Decodable {
 //Button(action: {self.viewModel.startVoiceChat()}) { Text("StartVoiceChat")}
 
 struct VoiceChannelView: View {
-    @Binding var groupId: Int
+    @Binding var selectedGroup: GroupElement
     @Binding var userId: Int?
     @Binding var userName: String?
+    @Binding var showMenu: Bool
     @ObservedObject var viewModel: AudioCallViewModel
-
+    
+    
     @State var voiceChannels: [VoiceChannel] = []
     var body: some View {
-        List {
-            ForEach(voiceChannels, id: \.channelId) { channel in
-                Section(header: Text("\(channel.channelName)").font(.title2)){
-                    ForEach(channel.users, id: \.self) { user in
-                        VStack() { Text(user) }
-                            .swipeActions {
-                            if user == userName {
-                                Button(role: .destructive) {
-                                    self.viewModel.disconnect()
-                                    leaveChannel(userId: userId, channelId: channel.channelId)
-                                } label: {
-                                    Label("나가기", systemImage: "phone.down.fill")
-                                }
-                            }
-                        }
-                    }
-                }
-                    .onTapGesture {
-//                    leaveChannel(userId: userId, channelId: channel.channelId)
-                        // 전에 들어간 채널..? 나가기..?
-//                    self.viewModel.disconnect()
-                    self.viewModel.connectRoom(roomID: String(channel.channelId))
-                    enterChannel(userId: userId, channelId: channel.channelId)
+        HStack {
+            HStack {
+                Text(selectedGroup.groupName)
+                    .font(.title2)
+                    .fontWeight(.regular)
+                
+                Button(action: {
+                    showMenu = true
+                }) {
+                    Image(systemName: "ellipsis")
+                        .font(.system(size: 25, weight: .thin))
+                        .foregroundColor(Color.cyan)
+                }.padding(.leading, 10)
+            }
+            .frame(maxWidth: .infinity)
+            
+            Image(systemName: "arrow.triangle.2.circlepath")
+                .font(.system(size: 25))
+                .foregroundColor(.gray)
+                .padding(.trailing)
+                .onTapGesture {
                     getChannels(completion: { (channels) in
                         self.voiceChannels = channels
-                    }, groupId)
+                    }, selectedGroup.groupId)
                 }
-            }
-        }.listStyle(InsetGroupedListStyle())
-            .onChange(of: groupId) { newGroupId in
-            getChannels(completion: { (channels) in
-                self.voiceChannels = channels
-            }, newGroupId)
         }
+            List {
+                ForEach(voiceChannels, id: \.channelId) { channel in
+                    Section(header: Text("\(channel.channelName)").font(.title2)){
+                        ForEach(channel.users, id: \.self) { user in
+                            VStack() { Text(user) }
+                                .swipeActions {
+                                    if user == userName {
+                                        Button(role: .destructive) {
+                                            self.viewModel.disconnect()
+                                            leaveChannel(userId: userId, channelId: channel.channelId)
+                                        } label: {
+                                            Label("나가기", systemImage: "phone.down.fill")
+                                        }
+                                    }
+                                }
+                        }
+                    }
+                    .onTapGesture {
+                        //                    leaveChannel(userId: userId, channelId: channel.channelId)
+                        // 전에 들어간 채널..? 나가기..?
+                        self.viewModel.disconnect()
+                        self.viewModel.connectRoom(roomID: String(channel.channelId))
+                        enterChannel(userId: userId, channelId: channel.channelId)
+//                        getChannels(completion: { (channels) in
+//                            self.voiceChannels = channels
+//                        }, selectedGroup.groupId)
+                    }
+                }
+            }.listStyle(InsetGroupedListStyle())
+            .onChange(of: selectedGroup.groupId) { newGroupId in
+                    getChannels(completion: { (channels) in
+                        self.voiceChannels = channels
+                    }, newGroupId)
+                }
     }
 }
 
