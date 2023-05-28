@@ -19,6 +19,7 @@ class DrawingModel: ObservableObject {
     var url: URL
     var groupId: Int
     var canvasPressing = false
+    var bufferedDrawingData: Data?
     
     init(fileId: Int, fileName: String, url: URL, groupId: Int) {
         self.fileId = fileId
@@ -81,9 +82,18 @@ class DrawViewWebSocketDelegate: WebSocketDrawingClientDelegate {
     
     func webSocket(_ webSocket: WebSocketDrawingClient, didReceive data: Data) {
         print("DrawView: websocket byte data handling")
-        DispatchQueue.main.async {
         
-            //self.receivingDrawing = true
+        //self.receivingDrawing = true
+        if self.drawingModel.canvasPressing {
+            self.drawingModel.bufferedDrawingData = data
+        } else {
+            self.applyDrawingData(data: data)
+        }
+        //self.receivingDrawing = false
+    }
+    
+    func applyDrawingData(data: Data) {
+        DispatchQueue.main.async {
             if let drawing = try? PKDrawing(data: data) {
                 self.drawingModel.canvas.drawing = drawing
                 print("networking drawing success")
@@ -91,8 +101,6 @@ class DrawViewWebSocketDelegate: WebSocketDrawingClientDelegate {
                 // handle error
                 print("networking drawing error")
             }
-            
-            //self.receivingDrawing = false
         }
     }
     
@@ -172,6 +180,10 @@ struct CanvasView: UIViewRepresentable {
         func canvasViewDidEndUsingTool(_ canvasView: PKCanvasView) {
             
             parent.drawingModel.canvasPressing = false
+            if let data = parent.drawingModel.bufferedDrawingData {
+                parent.drawingModel.webSocketDelegate?.applyDrawingData(data: data)
+                parent.drawingModel.bufferedDrawingData = nil
+            }
 //            let drawData = canvasView.drawing.dataRepresentation()
 //            parent.drawingClient.sendDrawingData(drawData, roomId: parent.roomId, type: "drawing", websocket: parent.webSocketDrawingClient) {
 //                print("send drawData[\(drawData)]")
