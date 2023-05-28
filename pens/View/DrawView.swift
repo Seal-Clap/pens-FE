@@ -80,8 +80,7 @@ class DrawViewWebSocketDelegate: WebSocketDrawingClientDelegate {
         
             self.receivingDrawing = true
             if let drawing = try? PKDrawing(data: data) {
-                let newStroke = drawing.strokes.last
-                self.canvas.drawing.strokes.append(newStroke!)
+                self.canvas.drawing = drawing
                 print("networking drawing success")
             } else {
                 // handle error
