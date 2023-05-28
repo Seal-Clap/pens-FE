@@ -153,7 +153,7 @@ struct FileView: View {
                                     }
                         .fullScreenCover(isPresented: $isShowingDraw) {
                             if let url = fileViewModel.downloadedFileURL {
-                                DrawView(fileId: fileViewModel.fileId!, fileName: fileViewModel.fileName!, url: url, groupId: selectedGroup.groupId)
+                                DrawView(drawingModel: DrawingModel(fileId: fileViewModel.fileId!, fileName: fileViewModel.fileName!, url: url, groupId: selectedGroup.groupId))
                             }
                         }
                     }
