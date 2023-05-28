@@ -98,13 +98,18 @@ struct FileView: View {
                 LazyVGrid(columns: columns){
                     ForEach(files) { file in
                         VStack{
-                            if file.fileName.hasSuffix(".draw") {
-                                Image(systemName: "note").font(.system(size: 100, weight: .ultraLight))
-                                    .foregroundColor(Color.cyan).padding(.top)
-                            } else {
-                                Image(systemName: "doc.plaintext").font(.system(size: 100, weight: .ultraLight))
-                                    .foregroundColor(Color.cyan).padding(.top)
-                            }
+//                            if file.fileName.hasSuffix(".draw") {
+//                                Image(systemName: "note").font(.system(size: 100, weight: .ultraLight))
+//                                    .foregroundColor(Color.cyan).padding(.top)
+//                            } else {
+//                                Image(systemName: "doc.plaintext").font(.system(size: 100, weight: .ultraLight))
+//                                    .foregroundColor(Color.cyan).padding(.top)
+//                              }
+
+                            if file.fileName.hasSuffix(".draw") { Image("drawFile").resizable().frame(width:100, height:100)}
+                            else if file.fileName.hasSuffix(".pdf") { Image("pdfFile").resizable().frame(width:100, height:100) }
+                                else {}
+                            
                             HStack{
                                 Text("\(file.fileName)").font(.system(size: 15, weight: .light))
                             }

@@ -44,9 +44,10 @@ extension ContentView {
                                         startPoint: .top, endPoint: .bottom)
                         .edgesIgnoringSafeArea(.all)
             VStack{
-                Image(systemName: "pencil.line").font(.system(size: 450, weight: .ultraLight)).foregroundColor(.blue)
-                Text("pens'").font(.system(size: 75, weight: .ultraLight))
-                    .fontDesign(.monospaced).foregroundColor(.cyan)
+                Image("LaunchImage").resizable()
+//                Image(systemName: "pencil.line").font(.system(size: 450, weight: .ultraLight)).foregroundColor(.blue)
+//                Text("pens'").font(.system(size: 75, weight: .ultraLight))
+//                    .fontDesign(.monospaced).foregroundColor(.cyan)
             }
         }
         

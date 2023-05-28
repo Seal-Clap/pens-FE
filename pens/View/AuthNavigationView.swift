@@ -16,9 +16,10 @@ struct AuthNavigationView: View {
         NavigationView {
             VStack(spacing: 0) {
                 // StartImage
-                Image(systemName: "pencil.line")
-                    .font(.system(size: 140, weight: .light))
-                    .fontDesign(.serif)
+                Image("menu").resizable().frame(width:200, height:200)
+//                Image(systemName: "pencil.line")
+//                    .font(.system(size: 140, weight: .light))
+//                    .fontDesign(.serif)
                 HStack{
                     Text("Pens'")
                         .font(.title)
