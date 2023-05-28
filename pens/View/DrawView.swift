@@ -8,6 +8,29 @@
 import SwiftUI
 import PencilKit
 
+class DrawingModel: ObservableObject {
+    @Published var canvas = PKCanvasView()
+    @Published var toolPicker = PKToolPicker()
+    let drawingClient = DrawingClient()
+    let webSocketDrawingClient = WebSocketDrawingClient()
+    var webSocketDelegate: DrawViewWebSocketDelegate? = nil
+    var fileId: Int
+    var fileName: String
+    var url: URL
+    var groupId: Int
+    
+    init(fileId: Int, fileName: String, url: URL, groupId: Int) {
+        self.fileId = fileId
+        self.fileName = fileName
+        self.url = url
+        self.groupId = groupId
+        
+        // Configure the delegate with the new canvas reference
+        self.webSocketDelegate = DrawViewWebSocketDelegate(canvas: self.canvas, drawingClient: self.drawingClient, webSocketDrawingClient: self.webSocketDrawingClient, roomId: String(self.fileId))
+        self.webSocketDrawingClient.delegate = self.webSocketDelegate
+    }
+}
+
 struct DrawView: View {
     var fileId: Int
     var fileName: String
@@ -78,7 +101,7 @@ class DrawViewWebSocketDelegate: WebSocketDrawingClientDelegate {
         print("DrawView: websocket byte data handling")
         DispatchQueue.main.async {
         
-            self.receivingDrawing = true
+            //self.receivingDrawing = true
             if let drawing = try? PKDrawing(data: data) {
                 self.canvas.drawing = drawing
                 print("networking drawing success")
@@ -87,7 +110,7 @@ class DrawViewWebSocketDelegate: WebSocketDrawingClientDelegate {
                 print("networking drawing error")
             }
             
-            self.receivingDrawing = false
+            //self.receivingDrawing = false
         }
     }
     
@@ -151,6 +174,8 @@ struct CanvasView: UIViewRepresentable {
     
     class Coordinator: NSObject, UIScrollViewDelegate, PKCanvasViewDelegate{
         var parent: CanvasView
+        var localDrawing = false
+        var canvasPressing = false
         
         init(_ parent: CanvasView) {
             self.parent = parent
@@ -160,22 +185,32 @@ struct CanvasView: UIViewRepresentable {
             return parent.canvas
         }
         
-        /*
+        func canvasViewDidBeginUsingTool(_ canvasView: PKCanvasView) {
+            canvasPressing = true
+        }
+        
         func canvasViewDidEndUsingTool(_ canvasView: PKCanvasView) {
-            let drawData = canvasView.drawing.dataRepresentation()
-            parent.drawingClient.sendDrawingData(drawData, roomId: "1", type: "drawing", websocket: parent.webSocketDrawingClient) {
-                print("send drawData[\(drawData)]")
-            }
-        }*/
-        func canvasViewDrawingDidChange(_ canvasView: PKCanvasView) {
-            guard let delegate = parent.webSocketDrawingClient.delegate as? DrawViewWebSocketDelegate,
-                  !delegate.receivingDrawing else {
-                return
-            }
             
-            let drawData = canvasView.drawing.dataRepresentation()
-            parent.drawingClient.sendDrawingData(drawData, roomId: "1", type: "drawing", websocket: parent.webSocketDrawingClient) {
-                print("send drawData[\(drawData)]")
+            canvasPressing = false
+//            let drawData = canvasView.drawing.dataRepresentation()
+//            parent.drawingClient.sendDrawingData(drawData, roomId: parent.roomId, type: "drawing", websocket: parent.webSocketDrawingClient) {
+//                print("send drawData[\(drawData)]")
+//            }
+            localDrawing = true
+            
+        }
+        func canvasViewDrawingDidChange(_ canvasView: PKCanvasView) {
+//            guard let delegate = parent.webSocketDrawingClient.delegate as? DrawViewWebSocketDelegate,
+//                  !delegate.receivingDrawing else {
+//                return
+//            }
+            
+            if(localDrawing) {
+                let drawData = canvasView.drawing.dataRepresentation()
+                parent.drawingClient.sendDrawingData(drawData, roomId: parent.roomId, type: "drawing", websocket: parent.webSocketDrawingClient) {
+                    print("send drawData[\(drawData)]")
+                }
+                localDrawing = false
             }
         }
     }
