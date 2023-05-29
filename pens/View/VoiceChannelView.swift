@@ -55,7 +55,6 @@ struct VoiceChannelView: View {
                 }.padding(.leading, 10)
             }
             .frame(maxWidth: .infinity)
-            
             Image(systemName: "arrow.triangle.2.circlepath")
                 .font(.system(size: 20, weight: .thin))
                 .foregroundColor(.gray)
@@ -75,11 +74,11 @@ struct VoiceChannelView: View {
 //                        } else { Image("voiceON").resizable().scaledToFit().frame(width:30, height:30) }
                         //Text("\(channel.channelName)").font(.title2)
                         if(channel.users.contains(userName ?? "")) {
-                            Image("voiceON").resizable().scaledToFit().frame(width:30, height:30)
-                            Text("\(channel.channelName)").font(.system(size: 22, weight: .bold)).foregroundColor(.black).frame(maxWidth: .infinity)
+                            Image(systemName: "speaker.wave.2.fill").font(.system(size: 20, weight: .light)).foregroundColor(.black)
+                            Text("\(channel.channelName)").font(.system(size: 22, weight: .light)).foregroundColor(.black).frame(maxWidth: .infinity)
                         } else {
-                            Image("voiceOFF").resizable().scaledToFit().frame(width:30, height:30)
-                            Text("\(channel.channelName)").font(.system(size: 22, weight: .regular)).frame(maxWidth: .infinity)
+                            Image(systemName: "speaker.slash.fill").font(.system(size: 20, weight: .light))
+                            Text("\(channel.channelName)").font(.system(size: 22, weight: .thin)).frame(maxWidth: .infinity)
                         }
                     })
                         {
