@@ -44,21 +44,20 @@ struct DrawView: View {
                 Text("\(drawingModel.fileName)")
                 CanvasView(drawingModel: drawingModel)
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
-                    .onAppear {
-                        self.drawingModel.toolPicker.setVisible(true, forFirstResponder: self.drawingModel.canvas)
-                        self.drawingModel.toolPicker.addObserver(self.drawingModel.canvas)
-                        self.drawingModel.canvas.becomeFirstResponder()
-                        DrawFileManager.shared.loadDrawing(into: self.drawingModel.canvas, fileName: self.drawingModel.fileName)
-                        
-                        if let url = URL(string: self.drawingModel.drawingClient.roomURL(roomID: String(self.drawingModel.fileId))) {
-                            self.drawingModel.webSocketDrawingClient.connect(url: url)
-                        }
-                    }
+            }
+            .onAppear {
+                self.drawingModel.toolPicker.setVisible(true, forFirstResponder: self.drawingModel.canvas)
+                self.drawingModel.toolPicker.addObserver(self.drawingModel.canvas)
+                self.drawingModel.canvas.becomeFirstResponder()
+                DrawFileManager.shared.loadDrawing(into: self.drawingModel.canvas, fileName: self.drawingModel.fileName)
+                
+                if let url = URL(string: self.drawingModel.drawingClient.roomURL(roomID: String(self.drawingModel.fileId))) {
+                    self.drawingModel.webSocketDrawingClient.connect(url: url)
+                }
             }
             .onDisappear{
                 DrawFileManager.shared.saveDrawing(self.drawingModel.canvas, fileName: self.drawingModel.fileName, groupId: self.drawingModel.groupId)
-                    self.drawingModel.webSocketDrawingClient.disconnect()
-                    }
+                self.drawingModel.webSocketDrawingClient.disconnect()
             }
             .edgesIgnoringSafeArea(.all)
             .navigationBarItems(leading: Button(action: {
@@ -71,7 +70,7 @@ struct DrawView: View {
             })
         }
     }
-
+}
 
 class DrawViewWebSocketDelegate: WebSocketDrawingClientDelegate {
     var drawingModel: DrawingModel
@@ -174,11 +173,12 @@ struct CanvasView: UIViewRepresentable {
         }
         
         func canvasViewDidBeginUsingTool(_ canvasView: PKCanvasView) {
+            print("canvasViewDidBeginUsingTool")
             parent.drawingModel.canvasPressing = true
         }
         
         func canvasViewDidEndUsingTool(_ canvasView: PKCanvasView) {
-            
+            print("canvasViewDidEndUsingTool")
             parent.drawingModel.canvasPressing = false
             if let data = parent.drawingModel.bufferedDrawingData {
                 parent.drawingModel.webSocketDelegate?.applyDrawingData(data: data)
@@ -192,6 +192,7 @@ struct CanvasView: UIViewRepresentable {
             
         }
         func canvasViewDrawingDidChange(_ canvasView: PKCanvasView) {
+            print("canvasViewDrawingDidChange")
 //            guard let delegate = parent.webSocketDrawingClient.delegate as? DrawViewWebSocketDelegate,
 //                  !delegate.receivingDrawing else {
 //                return
