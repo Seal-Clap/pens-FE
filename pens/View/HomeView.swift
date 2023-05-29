@@ -42,29 +42,50 @@ struct HomeView: View {
             //그룹 목록부분
             VStack {
                 HStack{
-                    Image(systemName: "person.3.sequence").font(.system(size: 30, weight: .ultraLight))
-                        .foregroundColor(Color.cyan)
+//                    Image(systemName: "person.3.sequence").font(.system(size: 30, weight: .ultraLight))
+//                        .foregroundColor(Color.cyan)
+                    Image("menu").resizable().frame(width: 45, height:45)
                     Text("그룹").font(.title2)
                         .fontWeight(.regular)
                 }
                 List {
-                    ForEach(groups, id: \.groupId) { group in
-                        // Text("Group ID: \(group.groupId)")
-                        VStack(alignment: .leading) {
-                            Text("\(group.groupName)").font(.system(size: 15, weight: .light))
-                        }
-                            .padding(.leading)
-                            .onTapGesture {
-                            selectedGroup = group
-
-                        }.swipeActions {
-                            Button(role: .destructive) {
-                                delete(group, groups, userId!)
-                            } label: {
-                                Label("나가기", systemImage: "trash")
+                    ForEach(Array(groups.enumerated()), id: \.element.groupId) { index, group in
+                        VStack(alignment: .leading){
+                            HStack{
+                                Image(systemName: "fish.circle")
+                                    .font(.system(size: 10, weight: .ultraLight))
+                                    .foregroundColor(index % 2 == 0 ? .cyan : .mint)
+                                Text("\(group.groupName)")
                             }
-                        }
+                        }.padding(.leading)
+                            .onTapGesture {
+                                selectedGroup = group
+                                
+                            }.swipeActions {
+                                Button(role: .destructive) {
+                                    delete(group, groups, userId!)
+                                } label: {
+                                    Label("나가기", systemImage: "trash")
+                                }
+                            }
                     }
+//                    ForEach(groups, id: \.groupId) { group in
+//                        // Text("Group ID: \(group.groupId)")
+//                        VStack(alignment: .leading) {
+//                            Text("\(group.groupName)").font(.system(size: 15, weight: .light))
+//                        }
+//                            .padding(.leading)
+//                            .onTapGesture {
+//                            selectedGroup = group
+//
+//                        }.swipeActions {
+//                            Button(role: .destructive) {
+//                                delete(group, groups, userId!)
+//                            } label: {
+//                                Label("나가기", systemImage: "trash")
+//                            }
+//                        }
+//                    }
                     // duplicated request TODO
                 }.onAppear {
                     print("get Group \(groups)")
