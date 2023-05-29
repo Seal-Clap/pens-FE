@@ -21,7 +21,7 @@ struct DrawingClient {
         }
     }
 
-    func sendDrawingData(_ drawingData: Data, roomId: String, type: String, websocket: WebSocketDrawingClient, completion: @escaping (() -> Void)) {
+    func sendDrawingData(_ drawingData: Data, websocket: WebSocketDrawingClient, completion: @escaping (() -> Void)) {
         //let stringMessage = String(data: message, encoding: .utf8)
         
         websocket.sendBytes(data: drawingData)

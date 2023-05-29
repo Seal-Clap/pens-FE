@@ -68,14 +68,32 @@ struct VoiceChannelView: View {
         }
             List {
                 ForEach(voiceChannels, id: \.channelId) { channel in
-                    Section(header: Text("\(channel.channelName)").font(.title2)){
+                    Section(header:
+                                HStack {
+//                        if(channel.users.isEmpty) {
+//                            Image("voiceOFF").resizable().scaledToFit().frame(width:30, height:30)
+//                        } else { Image("voiceON").resizable().scaledToFit().frame(width:30, height:30) }
+                        //Text("\(channel.channelName)").font(.title2)
+                        if(channel.users.contains(userName ?? "")) {
+                            Image("voiceON").resizable().scaledToFit().frame(width:30, height:30)
+                            Text("\(channel.channelName)").font(.system(size: 22, weight: .bold)).foregroundColor(.black).frame(maxWidth: .infinity)
+                        } else {
+                            Image("voiceOFF").resizable().scaledToFit().frame(width:30, height:30)
+                            Text("\(channel.channelName)").font(.system(size: 22, weight: .regular)).frame(maxWidth: .infinity)
+                        }
+                    })
+                        {
                         ForEach(channel.users, id: \.self) { user in
                             VStack() { Text(user) }
                                 .swipeActions {
                                     if user == userName {
                                         Button(role: .destructive) {
                                             self.viewModel.disconnect()
-                                            leaveChannel(userId: userId, channelId: channel.channelId)
+                                            leaveChannel(userId: userId, channelId: channel.channelId) {
+                                                getChannels(completion: { (channels) in
+                                                    self.voiceChannels = channels
+                                                }, selectedGroup.groupId)
+                                            }
                                         } label: {
                                             Label("나가기", systemImage: "phone.down.fill")
                                         }
@@ -86,12 +104,30 @@ struct VoiceChannelView: View {
                     .onTapGesture {
                         //                    leaveChannel(userId: userId, channelId: channel.channelId)
                         // 전에 들어간 채널..? 나가기..?
+                        for channel in voiceChannels {
+                            if (channel.users.contains(userName ?? "")) {
+                                leaveChannel(userId: userId, channelId: channel.channelId) {}
+                            }
+                        }
+                        
+                        
                         self.viewModel.disconnect()
-                        self.viewModel.connectRoom(roomID: String(channel.channelId))
-                        enterChannel(userId: userId, channelId: channel.channelId)
-//                        getChannels(completion: { (channels) in
-//                            self.voiceChannels = channels
-//                        }, selectedGroup.groupId)
+                        
+                        if(channel.users.contains(userName ?? "")) {
+                            leaveChannel(userId: userId, channelId: channel.channelId) {
+                                getChannels(completion: { (channels) in
+                                    self.voiceChannels = channels
+                                }, selectedGroup.groupId)
+                            }
+                        }
+                        else {
+                            self.viewModel.connectRoom(roomID: String(channel.channelId))
+                            enterChannel(userId: userId, channelId: channel.channelId) {
+                                getChannels(completion: { (channels) in
+                                    self.voiceChannels = channels
+                                }, selectedGroup.groupId)
+                            }
+                        }
                     }
                 }
             }.listStyle(InsetGroupedListStyle())
@@ -116,24 +152,26 @@ func getChannels(completion: @escaping ([VoiceChannel]) -> (), _ groupId: Int) {
     }
 }
 
-func enterChannel(userId: Int?, channelId: Int) {
+func enterChannel(userId: Int?, channelId: Int, completion: @escaping () -> Void) {
     let param = ["userId": userId, "channelId": channelId]
     AF.request(APIContants.enterChannelURL, method: .post, parameters: param, encoding: URLEncoding.default).responseData(completionHandler: { response in
         switch response.result {
         case .success(let res):
             dLog(res)
+            completion()
         case .failure(let err):
             dLog(err)
         }
     })
 }
 
-func leaveChannel(userId: Int?, channelId: Int) {
+func leaveChannel(userId: Int?, channelId: Int, completion: @escaping () -> Void) {
     let param = ["userId": userId, "channelId": channelId]
     AF.request(APIContants.leaveChannelURL, method: .delete, parameters: param, encoding: URLEncoding.default).responseData(completionHandler: { response in
         switch response.result {
         case .success(let res):
             dLog(res)
+            completion()
         case .failure(let err):
             dLog(err)
         }
