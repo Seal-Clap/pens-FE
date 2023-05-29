@@ -23,13 +23,29 @@ struct GroupUsersView: View {
                     .fontWeight(.light)
                     .padding()
                 List {
-                    ForEach(users, id: \.userEmail) { user in
+                    ForEach(Array(users.enumerated()), id: \.element.userEmail) { index, user in
                         VStack(alignment: .leading) {
-                            Text("\(user.userName)")
-                                .font(.system(size: 15, weight: .light))
+                            HStack{
+                                Image(systemName: "fish.circle")
+                                    .font(.system(size: 10, weight: .ultraLight))
+                                    .foregroundColor(index % 2 == 0 ? .cyan : .mint)
+                                Text("\(user.userName)")
+                                    .font(.system(size: 15, weight: .light))
+                            }
                         }.padding(.leading)
                     }
                 }
+//                List {
+//                    ForEach(users, id: \.userEmail) { user in
+//                        VStack(alignment: .leading) {
+//                            HStack{
+//                                Image(systemName: "circle.fill").font(.system(size: 5, weight: .ultraLight)).foregroundColor(.cyan)
+//                                Text("\(user.userName)")
+//                                    .font(.system(size: 15, weight: .light))
+//                            }
+//                        }.padding(.leading)
+//                    }
+//                }
                 .onAppear {
                     print("getusers(\(groupId))")
                     getUsers(completion: { (fetchedUsers) in
