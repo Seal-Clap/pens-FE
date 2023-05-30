@@ -110,7 +110,7 @@ struct VoiceChannelView: View {
                         }
 
 
-//                        self.viewModel.disconnect()
+                        self.viewModel.disconnect()
 
                         if(channel.users.contains(userName ?? "")) {
                             leaveChannel(userId: userId, channelId: channel.channelId) {

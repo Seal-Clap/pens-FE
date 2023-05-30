@@ -49,9 +49,9 @@ class AudioCallViewModel: ObservableObject {
 
 extension AudioCallViewModel {
     func join(roomID: String) -> Void {
-        guard let _roomClient = _roomClient else {
-            return
-        }
+//        guard let _roomClient = _roomClient else {
+//            return
+//        }
         connectToWebSocket(roomId: roomID)
     }
 
@@ -61,20 +61,20 @@ extension AudioCallViewModel {
 
     func disconnect() -> Void {
         let roomID = _roomId
-        guard let roomClient = _roomClient,
-            let webSocket = _webSocket,
+//        guard let roomClient = _roomClient,
+        guard let webSocket = _webSocket,
             let webRTCClient = _webRTCClient else { return }
+        self._roomId = ""
+        self._senderQueue = []
+//        roomClient.disconnect(roomID: roomID) { [weak self] in
+//        }
 
-        roomClient.disconnect(roomID: roomID) { [weak self] in
-            self?._roomId = ""
-            self?._senderQueue = []
-        }
+//        let message = ["type": "bye"]
+//
+//        if let data = message.JSONData {
+//            webSocket.send(data: data)
+//        }
 
-        let message = ["type": "bye"]
-
-        if let data = message.JSONData {
-            webSocket.send(data: data)
-        }
         webSocket.delegate = nil
         webRTCClient.disconnect()
 
@@ -177,7 +177,7 @@ extension AudioCallViewModel: WebRTCClientDelegate {
         default:
             sendSignalingMessage(data, type: type, receiver: _sender)
         }
-        
+
     }
 
     func webRTCClient(_ client: WebRTCClient, didDiscoverLocalCandidate candidate: RTCIceCandidate) {
