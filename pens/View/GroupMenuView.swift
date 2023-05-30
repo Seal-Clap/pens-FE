@@ -13,6 +13,9 @@ struct GroupMenuView: View {
     @State private var showInviteGroupMember : Bool = false
     @State private var showGroupUsers : Bool = false
     @State private var showCreateChannel : Bool = false
+    
+    @ObservedObject var voiceChannelModel: VoiceChannelModel
+    
     var body: some View {
         ZStack {
             RoundedRectangle(cornerRadius: 25)
@@ -69,16 +72,16 @@ struct GroupMenuView: View {
                         GroupUsersView(isPresented: $showGroupUsers, groupId: selectedGroup.groupId)
                     }
                     if showCreateChannel{
-                        CreateVoiceChannelView(isPresented : $showCreateChannel, groupId: selectedGroup.groupId)
+                        CreateVoiceChannelView(voiceChannelModel: voiceChannelModel, isPresented : $showCreateChannel, groupId: selectedGroup.groupId)
                     }
                 }
             }
     }
 }
 
-struct GroupMenuView_Previews: PreviewProvider {
-    static var selectedGroup: GroupElement = GroupElement(groupId: 0, groupName: "pens'")
-    static var previews: some View {
-        GroupMenuView(isPresented: .constant(false), selectedGroup: .constant(selectedGroup))
-    }
-}
+//struct GroupMenuView_Previews: PreviewProvider {
+//    static var selectedGroup: GroupElement = GroupElement(groupId: 0, groupName: "pens'")
+//    static var previews: some View {
+//        GroupMenuView(isPresented: .constant(false), selectedGroup: .constant(selectedGroup))
+//    }
+//}

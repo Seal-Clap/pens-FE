@@ -35,7 +35,7 @@ struct HomeView: View {
     //
     @State private var showMenu: Bool = false
 
-
+    @StateObject var voiceChannelModel = VoiceChannelModel()
 
     var body: some View {
         NavigationView {
@@ -106,7 +106,7 @@ struct HomeView: View {
 //                        userId = getUserId()
 //                    }
 
-                VoiceChannelView(selectedGroup: $selectedGroup, userId: $userId, userName: $userName, showMenu: $showMenu, viewModel: viewModel)
+                VoiceChannelView(selectedGroup: $selectedGroup, userId: $userId, userName: $userName, showMenu: $showMenu, viewModel: viewModel, voiceChannelModel: voiceChannelModel)
                 //로그아웃
                 Button(action: {
                     showingLogoutAlert = true
@@ -138,7 +138,7 @@ struct HomeView: View {
             .overlay(
             Group {
                 if showMenu {
-                    GroupMenuView(isPresented: $showMenu, selectedGroup: $selectedGroup)
+                    GroupMenuView(isPresented: $showMenu, selectedGroup: $selectedGroup, voiceChannelModel: voiceChannelModel)
                 }
                 if showAddGroup {
                     AddGroupView(isPresented: $showAddGroup, onAddGroup: { groupID in

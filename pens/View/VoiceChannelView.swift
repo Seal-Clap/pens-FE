@@ -30,6 +30,10 @@ struct VoiceChannel: Identifiable, Decodable {
 
 //Button(action: {self.viewModel.startVoiceChat()}) { Text("StartVoiceChat")}
 
+class VoiceChannelModel: ObservableObject {
+    @Published var voiceChannels: [VoiceChannel] = []
+}
+
 struct VoiceChannelView: View {
     @Binding var selectedGroup: GroupElement
     @Binding var userId: Int?
@@ -37,8 +41,8 @@ struct VoiceChannelView: View {
     @Binding var showMenu: Bool
     @ObservedObject var viewModel: AudioCallViewModel
     
+    @ObservedObject var voiceChannelModel: VoiceChannelModel
     
-    @State var voiceChannels: [VoiceChannel] = []
     var body: some View {
         HStack {
             HStack {
@@ -61,12 +65,12 @@ struct VoiceChannelView: View {
                 .padding(.trailing)
                 .onTapGesture {
                     getChannels(completion: { (channels) in
-                        self.voiceChannels = channels
+                        self.voiceChannelModel.voiceChannels = channels
                     }, selectedGroup.groupId)
                 }
         }
             List {
-                ForEach(voiceChannels, id: \.channelId) { channel in
+                ForEach(voiceChannelModel.voiceChannels, id: \.channelId) { channel in
                     Section(header:
                                 HStack {
 //                        if(channel.users.isEmpty) {
@@ -90,7 +94,7 @@ struct VoiceChannelView: View {
                                             self.viewModel.disconnect()
                                             leaveChannel(userId: userId, channelId: channel.channelId) {
                                                 getChannels(completion: { (channels) in
-                                                    self.voiceChannels = channels
+                                                    self.voiceChannelModel.voiceChannels = channels
                                                 }, selectedGroup.groupId)
                                             }
                                         } label: {
@@ -103,7 +107,7 @@ struct VoiceChannelView: View {
                     .onTapGesture {
                         //                    leaveChannel(userId: userId, channelId: channel.channelId)
                         // 전에 들어간 채널..? 나가기..?
-                        for channel in voiceChannels {
+                        for channel in voiceChannelModel.voiceChannels {
                             if (channel.users.contains(userName ?? "")) {
                                 leaveChannel(userId: userId, channelId: channel.channelId) {}
                             }
@@ -115,7 +119,7 @@ struct VoiceChannelView: View {
                         if(channel.users.contains(userName ?? "")) {
                             leaveChannel(userId: userId, channelId: channel.channelId) {
                                 getChannels(completion: { (channels) in
-                                    self.voiceChannels = channels
+                                    self.voiceChannelModel.voiceChannels = channels
                                 }, selectedGroup.groupId)
                             }
                         }
@@ -123,7 +127,7 @@ struct VoiceChannelView: View {
                             self.viewModel.connectRoom(roomID: String(channel.channelId))
                             enterChannel(userId: userId, channelId: channel.channelId) {
                                 getChannels(completion: { (channels) in
-                                    self.voiceChannels = channels
+                                    self.voiceChannelModel.voiceChannels = channels
                                 }, selectedGroup.groupId)
                             }
                         }
@@ -132,7 +136,7 @@ struct VoiceChannelView: View {
             }.listStyle(InsetGroupedListStyle())
             .onChange(of: selectedGroup.groupId) { newGroupId in
                     getChannels(completion: { (channels) in
-                        self.voiceChannels = channels
+                        self.voiceChannelModel.voiceChannels = channels
                     }, newGroupId)
                 }
     }
