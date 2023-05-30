@@ -139,6 +139,11 @@ struct VoiceChannelView: View {
                         self.voiceChannelModel.voiceChannels = channels
                     }, newGroupId)
                 }
+            .onChange(of: viewModel.signalReceived) { flag in
+                    getChannels(completion: { (channels) in
+                        self.voiceChannelModel.voiceChannels = channels
+                    }, selectedGroup.groupId)
+            }
     }
 }
 
