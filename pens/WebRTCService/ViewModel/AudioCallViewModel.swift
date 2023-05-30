@@ -12,6 +12,12 @@ struct WebSocketMessage: Decodable {
 
 }
 
+struct Offer {
+    let sender: String
+    let offer: RTCSessionDescription
+}
+
+
 class AudioCallViewModel: ObservableObject {
 
     var _roomClient: RoomClient?
@@ -23,6 +29,9 @@ class AudioCallViewModel: ObservableObject {
     var _sender: String = ""
     var _webSocket: WebSocketClient?
     var _messageQueue = [String]()
+
+    var _offers: [Offer] = []
+    var _processingOffer: Bool = false
 
     //MARK: WebRTC
     var _webRTCClient: WebRTCClient?
@@ -106,18 +115,40 @@ extension AudioCallViewModel {
             webRTCClient.handleCandidateMessage(candidate)
             dLog("Receive candidate")
         case .answer(let answer):
+//            webRTCClient.handleRemoteDescription(answer)
             webRTCClient.handleRemoteDescription(answer)
+            _processingOffer = false // Finish processing the current offer
+            processNextOffer() // Process the next offer in the queue, if any
+            dLog("Receive Answer")
             dLog("Recevie Answer")
         case .offer(let offer, let sender):
-            self._senderQueue.append(sender)
-            webRTCClient.handleRemoteDescription(offer)
-            dLog("Recevie Offer")
+//            self._senderQueue.append(sender)
+//            webRTCClient.handleRemoteDescription(offer)
+//            dLog("Recevie Offer")
+            self._offers.append(Offer(sender: sender, offer: offer))
+            if !_processingOffer {
+                processNextOffer() // If no offer is currently being processed, process the next offer
+            }
+            dLog("Receive Offer")
+
         case .bye:
             disconnect()
         default:
             break
         }
     }
+
+    private func processNextOffer() {
+            guard !_offers.isEmpty else {
+                return
+            }
+
+            let offer = _offers.removeFirst() // Remove the next offer from the queue
+            _sender = offer.sender
+            _webRTCClient?.handleRemoteDescription(offer.offer)
+            _processingOffer = true // Start processing the new offer
+        }
+
 
     func sendSignalingMessage(_ message: Data, type: String, receiver: String) {
         guard let roomClient = _roomClient,
