@@ -27,7 +27,7 @@ struct GroupUsersView: View {
                         VStack(alignment: .leading) {
                             HStack{
                                 Image(systemName: "fish.circle")
-                                    .font(.system(size: 10, weight: .ultraLight))
+                                    .font(.system(size: 15, weight: .ultraLight))
                                     .foregroundColor(index % 2 == 0 ? .cyan : .mint)
                                 Text("\(user.userName)")
                                     .font(.system(size: 15, weight: .light))
