@@ -88,23 +88,46 @@ class WebRTCClient: NSObject {
         self.createAnswer()
     }
 
+//    private func createAnswer() {
+//        self.peerConnection?.answer(for: RTCMediaConstraints(mandatoryConstraints: mediaConstraints, optionalConstraints: nil), completionHandler: { (sdp, error) in
+//                guard let sdp = sdp else {
+//                    print("Failed to create answer: \(error?.localizedDescription ?? "")")
+//                    return
+//                }
+//                let sdpDescription = self.extractDesc(desc: sdp)
+//                self.peerConnection?.setLocalDescription(sdpDescription, completionHandler: { (error) in
+//                    if let error = error {
+//                        debugPrint(error)
+//                    }
+//                })
+//                guard let jsonData = sdpDescription.jsonData() else { return }
+//                self.delegate?.webRTCClient(self, sendData: jsonData, type: "answer")
+//            })
+//    }
     private func createAnswer() {
         self.peerConnection?.answer(for: RTCMediaConstraints(mandatoryConstraints: mediaConstraints, optionalConstraints: nil), completionHandler: { (sdp, error) in
-                guard let sdp = sdp else {
-                    print("Failed to create answer: \(error?.localizedDescription ?? "")")
-                    return
+            guard let sdp = sdp else {
+                print("Failed to create answer: \(error?.localizedDescription ?? "")")
+                return
+            }
+
+            // Modify the SDP to change setup:active to setup:passive
+            let modifiedSDPString = sdp.sdp.replacingOccurrences(of: "a=setup:active", with: "a=setup:passive")
+            let modifiedSDP = RTCSessionDescription(type: sdp.type, sdp: modifiedSDPString)
+
+            let sdpDescription = self.extractDesc(desc: modifiedSDP)
+
+            self.peerConnection?.setLocalDescription(sdpDescription, completionHandler: { (error) in
+                if let error = error {
+                    debugPrint(error)
                 }
-                let sdpDescription = self.extractDesc(desc: sdp)
-                self.peerConnection?.setLocalDescription(sdpDescription, completionHandler: { (error) in
-                    if let error = error {
-                        debugPrint(error)
-                    }
-                })
-                guard let jsonData = sdpDescription.jsonData() else { return }
-                self.delegate?.webRTCClient(self, sendData: jsonData, type: "answer")
             })
+            guard let jsonData = sdpDescription.jsonData() else { return }
+            self.delegate?.webRTCClient(self, sendData: jsonData, type: "answer")
+        })
     }
 
+    
     func receivedAnswer(_ remoteSdp: RTCSessionDescription) {
         let sdp = self.extractDesc(desc: remoteSdp)
         self.peerConnection?.setRemoteDescription(sdp, completionHandler: { (error) in
