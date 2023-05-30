@@ -33,9 +33,9 @@ struct DrawingClient {
 
 // MARK: URL Path
 extension DrawingClient {
-    func roomURL(roomID: String) -> String {
+    func roomURL(roomID: String, userId: String) -> String {
         let base = DrawingConfig.default.drawingServer + "/draw"
-        return base + "?roomId=\(roomID)"
+        return base + "?roomId=\(roomID)&userId=\(userId)"
     }
     func leaveURL(roomID: String) -> String {
         let base = DrawingConfig.default.drawingServer + "/draw"

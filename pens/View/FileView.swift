@@ -38,6 +38,7 @@ struct FileView: View {
     @State private var isShowingDraw = false
     
     @State private var showingDeleteAlert = false
+    @Binding var userId: Int?
 
     var body: some View {
         VStack{
@@ -153,7 +154,7 @@ struct FileView: View {
                                     }
                         .fullScreenCover(isPresented: $isShowingDraw) {
                             if let url = fileViewModel.downloadedFileURL {
-                                DrawView(drawingModel: DrawingModel(fileId: fileViewModel.fileId!, fileName: fileViewModel.fileName!, url: url, groupId: selectedGroup.groupId))
+                                DrawView(drawingModel: DrawingModel(fileId: fileViewModel.fileId!, fileName: fileViewModel.fileName!, url: url, groupId: selectedGroup.groupId, userId: userId! ))
                             }
                         }
                     }

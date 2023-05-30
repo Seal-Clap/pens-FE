@@ -20,12 +20,14 @@ class DrawingModel: ObservableObject {
     var groupId: Int
     var canvasPressing = false
     var bufferedDrawingData: Data?
+    var userId: Int
     
-    init(fileId: Int, fileName: String, url: URL, groupId: Int) {
+    init(fileId: Int, fileName: String, url: URL, groupId: Int, userId: Int) {
         self.fileId = fileId
         self.fileName = fileName
         self.url = url
         self.groupId = groupId
+        self.userId = userId
         
         // Configure the delegate with the new canvas reference
         self.webSocketDelegate = DrawViewWebSocketDelegate(drawingModel: self)
@@ -51,7 +53,7 @@ struct DrawView: View {
                 self.drawingModel.canvas.becomeFirstResponder()
                 DrawFileManager.shared.loadDrawing(into: self.drawingModel.canvas, fileName: self.drawingModel.fileName)
                 
-                if let url = URL(string: self.drawingModel.drawingClient.roomURL(roomID: String(self.drawingModel.fileId))) {
+                if let url = URL(string: self.drawingModel.drawingClient.roomURL(roomID: String(self.drawingModel.fileId), userId: String(self.drawingModel.userId))) {
                     self.drawingModel.webSocketDrawingClient.connect(url: url)
                 }
             }
@@ -105,6 +107,15 @@ class DrawViewWebSocketDelegate: WebSocketDrawingClientDelegate {
     
     func webSocket(_ webSocket: WebSocketDrawingClient, didReceive data: String) {
         print("DrawView: websocket string data handling")
+        
+        if let data = data.data(using: .utf8),
+           let dict = try? JSONSerialization.jsonObject(with: data, options: []) as? [String: Any] {
+            if dict.keys.contains("data"),
+               let listString = dict["data"] as? String {
+                print(listString)
+            }
+        }
+               
         DispatchQueue.main.async {
             let drawData = self.drawingModel.canvas.drawing.dataRepresentation()
             self.drawingModel.drawingClient.sendDrawingData(drawData, websocket: self.drawingModel.webSocketDrawingClient) {
@@ -210,6 +221,6 @@ struct CanvasView: UIViewRepresentable {
 
 struct DrawView_Previews: PreviewProvider {
     static var previews: some View {
-        DrawView(drawingModel: DrawingModel(fileId: 1, fileName: "", url: URL(string:"")!, groupId: 1))
+        DrawView(drawingModel: DrawingModel(fileId: 1, fileName: "", url: URL(string:"")!, groupId: 1, userId: 1))
     }
 }

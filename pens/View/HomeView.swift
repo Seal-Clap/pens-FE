@@ -125,7 +125,7 @@ struct HomeView: View {
                 }
             }
             VStack {
-                FileView(selectedGroup: $selectedGroup, isPresented: $addFileView, viewModel: AudioCallViewModel())
+                FileView(selectedGroup: $selectedGroup, isPresented: $addFileView, viewModel: AudioCallViewModel(), userId: $userId)
             }.navigationBarTitle("문서")
         }.onAppear {
             userId = getUserId()
