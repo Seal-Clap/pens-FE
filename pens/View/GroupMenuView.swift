@@ -12,6 +12,7 @@ struct GroupMenuView: View {
     @Binding var selectedGroup: GroupElement
     @State private var showInviteGroupMember : Bool = false
     @State private var showGroupUsers : Bool = false
+    @State private var showCreateChannel : Bool = false
     var body: some View {
         ZStack {
             RoundedRectangle(cornerRadius: 25)
@@ -25,18 +26,26 @@ struct GroupMenuView: View {
                         .padding()
                 }
                 List{
+                    //초대
                         Button(action: {
                             showInviteGroupMember = true
                         }) {
                             Text("그룹 멤버 초대하기").font(.system(size: 15, weight: .light))
                         }
-                        
+                    //멤버 목록보기
                         Button(action: {
                             showGroupUsers = true
                            
                         }) {
                             Text("그룹 멤버 목록보기").font(.system(size: 15, weight: .light))
                         }
+                    //채널 생성
+                    Button(action: {
+                       showCreateChannel = true
+                    }) {
+                        Text("음성 채널 생성하기").font(.system(size: 15, weight: .light))
+                    }
+
                     
                 }
                 Button(action: {
@@ -50,7 +59,7 @@ struct GroupMenuView: View {
                         .cornerRadius(8)
                 }.padding()
             }
-        }.frame(width: 300, height: 300)
+        }.frame(width: 300, height: 350)
             .overlay{
                 Group{
                     if showInviteGroupMember {
@@ -58,6 +67,9 @@ struct GroupMenuView: View {
                     }
                     if showGroupUsers {
                         GroupUsersView(isPresented: $showGroupUsers, groupId: selectedGroup.groupId)
+                    }
+                    if showCreateChannel{
+                        CreateVoiceChannelView(isPresented : $showCreateChannel, groupId: selectedGroup.groupId)
                     }
                 }
             }
