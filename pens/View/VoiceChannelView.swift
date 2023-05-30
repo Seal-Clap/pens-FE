@@ -79,10 +79,10 @@ struct VoiceChannelView: View {
                         //Text("\(channel.channelName)").font(.title2)
                         if(channel.users.contains(userName ?? "")) {
                             Image(systemName: "speaker.wave.2.fill").font(.system(size: 20, weight: .light)).foregroundColor(.black)
-                            Text("\(channel.channelName)").font(.system(size: 22, weight: .light)).foregroundColor(.black).frame(maxWidth: .infinity)
+                            Text("\(channel.channelName)").font(.system(size: 22, weight: .light)).foregroundColor(.black).padding(.leading)
                         } else {
                             Image(systemName: "speaker.slash.fill").font(.system(size: 20, weight: .light))
-                            Text("\(channel.channelName)").font(.system(size: 22, weight: .thin)).frame(maxWidth: .infinity)
+                            Text("\(channel.channelName)").font(.system(size: 22, weight: .thin)).padding(.leading)
                         }
                     })
                         {
