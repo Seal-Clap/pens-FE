@@ -203,7 +203,7 @@ extension AudioCallViewModel: WebRTCClientDelegate {
         case "offer":
             sendSignalingMessage(data, type: type, receiver: _sender)
         case "answer":
-            _sender = _senderQueue.remove(at: 0)
+//            _sender = _senderQueue.remove(at: 0)
             sendSignalingMessage(data, type: type, receiver: _sender)
         default:
             sendSignalingMessage(data, type: type, receiver: _sender)
