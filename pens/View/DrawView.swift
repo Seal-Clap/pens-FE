@@ -21,8 +21,6 @@ class DrawingModel: ObservableObject {
     var canvasPressing = false
     var bufferedDrawingData: Data?
     var userId: Int
-    var contentOffset: CGPoint = .zero
-    @Published var userList: [String] = []
     
     init(fileId: Int, fileName: String, url: URL, groupId: Int, userId: Int) {
         self.fileId = fileId
@@ -30,15 +28,42 @@ class DrawingModel: ObservableObject {
         self.url = url
         self.groupId = groupId
         self.userId = userId
-        
-        // Configure the delegate with the new canvas reference
-        self.webSocketDelegate = DrawViewWebSocketDelegate(drawingModel: self)
-        self.webSocketDrawingClient.delegate = self.webSocketDelegate
+    }
+}
+
+class UserListModel: ObservableObject {
+    @Published var userList: [String] = []
+}
+
+struct UserListView: View {
+    @ObservedObject var userListModel: UserListModel
+    
+    var body: some View {
+        VStack {
+            HStack {
+                Spacer()
+                VStack {
+                    ForEach(userListModel.userList, id: \.self ) { userName in
+                        HStack {
+                            Image("menu").resizable().scaledToFit().frame(width:30, height:30).cornerRadius(10)
+                            Text("\(userName)")
+                        }
+                    }
+                }
+                .padding()
+                .background(Color.white.opacity(0.8))
+                .cornerRadius(10)
+                .shadow(radius: 10)
+            }
+            Spacer()
+        }
+        .padding()
     }
 }
 
 struct DrawView: View {
     @ObservedObject var drawingModel: DrawingModel
+    @ObservedObject var userListModel = UserListModel()
     @Environment(\.presentationMode) var presentationMode
     
     
@@ -47,27 +72,8 @@ struct DrawView: View {
             VStack {
                 Text("\(drawingModel.fileName)")
                 CanvasView(drawingModel: drawingModel)
-                    .frame(maxWidth: .infinity, maxHeight: .infinity)
                     .overlay(
-                        VStack {
-                            HStack {
-                                Spacer()
-                                VStack {
-                                    ForEach(drawingModel.userList, id: \.self ) { userName in
-                                        HStack {
-                                            Image("menu").resizable().scaledToFit().frame(width:30, height:30).cornerRadius(10)
-                                            Text("\(userName)")
-                                        }
-                                    }
-                                }
-                                .padding()
-                                .background(Color.white.opacity(0.8))
-                                .cornerRadius(10)
-                                .shadow(radius: 10)
-                            }
-                            Spacer()
-                        }
-                            .padding(),
+                        UserListView(userListModel: userListModel),
                         alignment: .topTrailing
                     )
             }
@@ -80,6 +86,9 @@ struct DrawView: View {
                 if let url = URL(string: self.drawingModel.drawingClient.roomURL(roomID: String(self.drawingModel.fileId), userId: String(self.drawingModel.userId))) {
                     self.drawingModel.webSocketDrawingClient.connect(url: url)
                 }
+                
+                self.drawingModel.webSocketDelegate = DrawViewWebSocketDelegate(drawingModel: self.drawingModel, userListModel: self.userListModel)
+                self.drawingModel.webSocketDrawingClient.delegate = self.drawingModel.webSocketDelegate
             }
             .onDisappear{
                 DrawFileManager.shared.saveDrawing(self.drawingModel.canvas, fileName: self.drawingModel.fileName, groupId: self.drawingModel.groupId)
@@ -100,9 +109,11 @@ struct DrawView: View {
 
 class DrawViewWebSocketDelegate: WebSocketDrawingClientDelegate {
     var drawingModel: DrawingModel
+    var userListModel: UserListModel
     
-    init(drawingModel: DrawingModel) {
+    init(drawingModel: DrawingModel, userListModel: UserListModel) {
         self.drawingModel = drawingModel
+        self.userListModel = userListModel
     }
     
     func webSocket(_ webSocket: WebSocketDrawingClient, didReceive data: Data) {
@@ -159,10 +170,10 @@ class DrawViewWebSocketDelegate: WebSocketDrawingClientDelegate {
     }
     
     func getUsersByUidListString(uidListString: String) {
-        self.drawingModel.userList.removeAll()
+        self.userListModel.userList.removeAll()
         uidListString.split(separator: " ").forEach{ userId in
             getUserNameByUserId(userId: Int(userId), completion: { name in
-                if let name { self.drawingModel.userList.append(name) }
+                if let name { self.userListModel.userList.append(name) }
             })
         }
     }
@@ -193,7 +204,6 @@ struct CanvasView: UIViewRepresentable {
         
         DispatchQueue.main.async {
             let canvasCenter = CGPoint(x: canvas.frame.midX - scrollView.bounds.midX, y: canvas.frame.midY - scrollView.bounds.midY)
-            drawingModel.contentOffset = canvasCenter
             scrollView.setContentOffset(canvasCenter, animated: false)
         }
         
@@ -202,7 +212,6 @@ struct CanvasView: UIViewRepresentable {
     
     func updateUIView(_ scrollView: UIScrollView, context: Context) {
         scrollView.frame = drawingModel.canvas.frame
-        scrollView.contentOffset = drawingModel.contentOffset
     }
 }
     
@@ -217,10 +226,6 @@ struct CanvasView: UIViewRepresentable {
         
         func viewForZooming(in scrollView: UIScrollView) -> UIView? {
             return parent.drawingModel.canvas
-        }
-        
-        func scrollViewDidScroll(_ scrollView: UIScrollView) {
-            parent.drawingModel.contentOffset = scrollView.contentOffset
         }
         
         func canvasViewDidBeginUsingTool(_ canvasView: PKCanvasView) {
@@ -261,6 +266,6 @@ struct CanvasView: UIViewRepresentable {
 
 struct DrawView_Previews: PreviewProvider {
     static var previews: some View {
-        DrawView(drawingModel: DrawingModel(fileId: 1, fileName: "", url: URL(string:"")!, groupId: 1, userId: 1))
+        DrawView(drawingModel: DrawingModel(fileId: 1, fileName: "", url: URL(string:"")!, groupId: 1, userId: 1), userListModel: UserListModel())
     }
 }
