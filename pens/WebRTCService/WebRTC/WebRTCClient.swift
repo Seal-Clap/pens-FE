@@ -112,7 +112,7 @@ class WebRTCClient: NSObject {
             }
 
             // Modify the SDP to change setup:active to setup:passive
-            let modifiedSDPString = sdp.sdp.replacingOccurrences(of: "a=setup:active", with: "a=setup:passive")
+            let modifiedSDPString = sdp.sdp.replacingOccurrences(of: "a=mid:0", with: "a=mid:audio")
             let modifiedSDP = RTCSessionDescription(type: sdp.type, sdp: modifiedSDPString)
 
             let sdpDescription = self.extractDesc(desc: modifiedSDP)
