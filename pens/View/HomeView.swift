@@ -44,7 +44,8 @@ struct HomeView: View {
                 HStack{
 //                    Image(systemName: "person.3.sequence").font(.system(size: 30, weight: .ultraLight))
 //                        .foregroundColor(Color.cyan)
-                    Image("menu").resizable().frame(width: 45, height:45)
+//                    Image("menu").resizable().frame(width: 45, height:45)
+                    Image("GroupSeal").resizable().frame(width: 80, height:60)
                     Text("그룹").font(.title2)
                         .fontWeight(.regular)
                 }
@@ -53,7 +54,7 @@ struct HomeView: View {
                         VStack(alignment: .leading){
                             HStack{
                                 Image(systemName: "fish.circle")
-                                    .font(.system(size: 10, weight: .ultraLight))
+                                    .font(.system(size: 15, weight: .ultraLight))
                                     .foregroundColor(index % 2 == 0 ? .cyan : .mint)
                                 Text("\(group.groupName)")
                             }
