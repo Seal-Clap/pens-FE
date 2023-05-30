@@ -64,7 +64,13 @@ class WebRTCClient: NSObject {
                     print("Failed to create offer: \(error?.localizedDescription ?? "")")
                     return
                 }
-                let sdpDescription = self.extractDesc(desc: sdp)
+            
+            let modifiedSDPString = sdp.sdp.replacingOccurrences(of: "a=mid:0", with: "a=mid:audio")
+            let modifiedSDP = RTCSessionDescription(type: sdp.type, sdp: modifiedSDPString)
+
+            let sdpDescription = self.extractDesc(desc: modifiedSDP)
+            
+//                let sdpDescription = self.extractDesc(desc: sdp)
 
                 self.peerConnection?.setLocalDescription(sdpDescription, completionHandler: { (error) in
                     if let error = error {
