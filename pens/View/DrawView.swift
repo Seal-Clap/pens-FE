@@ -21,6 +21,8 @@ class DrawingModel: ObservableObject {
     var canvasPressing = false
     var bufferedDrawingData: Data?
     var userId: Int
+    var contentOffset: CGPoint = .zero
+    @Published var userList: [String] = []
     
     init(fileId: Int, fileName: String, url: URL, groupId: Int, userId: Int) {
         self.fileId = fileId
@@ -46,6 +48,28 @@ struct DrawView: View {
                 Text("\(drawingModel.fileName)")
                 CanvasView(drawingModel: drawingModel)
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
+                    .overlay(
+                        VStack {
+                            HStack {
+                                Spacer()
+                                VStack {
+                                    ForEach(drawingModel.userList, id: \.self ) { userName in
+                                        HStack {
+                                            Image("menu").resizable().scaledToFit().frame(width:30, height:30).cornerRadius(10)
+                                            Text("\(userName)")
+                                        }
+                                    }
+                                }
+                                .padding()
+                                .background(Color.white.opacity(0.8))
+                                .cornerRadius(10)
+                                .shadow(radius: 10)
+                            }
+                            Spacer()
+                        }
+                            .padding(),
+                        alignment: .topTrailing
+                    )
             }
             .onAppear {
                 self.drawingModel.toolPicker.setVisible(true, forFirstResponder: self.drawingModel.canvas)
@@ -111,8 +135,9 @@ class DrawViewWebSocketDelegate: WebSocketDrawingClientDelegate {
         if let data = data.data(using: .utf8),
            let dict = try? JSONSerialization.jsonObject(with: data, options: []) as? [String: Any] {
             if dict.keys.contains("data"),
-               let listString = dict["data"] as? String {
-                print(listString)
+               let dataStr = dict["data"] as? String {
+                print(dataStr)
+                getUsersByUidListString(uidListString: dataStr)
             }
         }
                
@@ -131,6 +156,15 @@ class DrawViewWebSocketDelegate: WebSocketDrawingClientDelegate {
     
     func webSocketDidDisconnect(_ webSocket: WebSocketDrawingClient) {
         // Handle WebSocket disconnection event
+    }
+    
+    func getUsersByUidListString(uidListString: String) {
+        self.drawingModel.userList.removeAll()
+        uidListString.split(separator: " ").forEach{ userId in
+            getUserNameByUserId(userId: Int(userId), completion: { name in
+                if let name { self.drawingModel.userList.append(name) }
+            })
+        }
     }
 }
 
@@ -159,6 +193,7 @@ struct CanvasView: UIViewRepresentable {
         
         DispatchQueue.main.async {
             let canvasCenter = CGPoint(x: canvas.frame.midX - scrollView.bounds.midX, y: canvas.frame.midY - scrollView.bounds.midY)
+            drawingModel.contentOffset = canvasCenter
             scrollView.setContentOffset(canvasCenter, animated: false)
         }
         
@@ -167,6 +202,7 @@ struct CanvasView: UIViewRepresentable {
     
     func updateUIView(_ scrollView: UIScrollView, context: Context) {
         scrollView.frame = drawingModel.canvas.frame
+        scrollView.contentOffset = drawingModel.contentOffset
     }
 }
     
@@ -181,6 +217,10 @@ struct CanvasView: UIViewRepresentable {
         
         func viewForZooming(in scrollView: UIScrollView) -> UIView? {
             return parent.drawingModel.canvas
+        }
+        
+        func scrollViewDidScroll(_ scrollView: UIScrollView) {
+            parent.drawingModel.contentOffset = scrollView.contentOffset
         }
         
         func canvasViewDidBeginUsingTool(_ canvasView: PKCanvasView) {
