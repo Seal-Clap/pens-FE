@@ -12,10 +12,10 @@ struct WebSocketMessage: Decodable {
 
 }
 
-struct Offer {
-    let sender: String
-    let offer: RTCSessionDescription
-}
+//struct Offer {
+//    let sender: String
+//    let offer: RTCSessionDescription
+//}
 
 
 class AudioCallViewModel: ObservableObject {
@@ -31,7 +31,7 @@ class AudioCallViewModel: ObservableObject {
     var _webSocket: WebSocketClient?
     var _messageQueue = [String]()
 
-    var _offers: [Offer] = []
+//    var _offers: [Offer] = []
     var _processingOffer: Bool = false
 
     //MARK: WebRTC
@@ -71,19 +71,19 @@ extension AudioCallViewModel {
 
     func disconnect() -> Void {
         let roomID = _roomId
-//        guard let roomClient = _roomClient,
-        guard let webSocket = _webSocket,
+        guard let roomClient = _roomClient,
+            let webSocket = _webSocket,
             let webRTCClient = _webRTCClient else { return }
         self._roomId = ""
         self._senderQueue = []
-//        roomClient.disconnect(roomID: roomID) { [weak self] in
-//        }
+        roomClient.disconnect(roomID: roomID) { [weak self] in
+        }
 
-//        let message = ["type": "bye"]
-//
-//        if let data = message.JSONData {
-//            webSocket.send(data: data)
-//        }
+        let message = ["type": "bye"]
+
+        if let data = message.JSONData {
+            webSocket.send(data: data)
+        }
 
         webSocket.delegate = nil
         webRTCClient.disconnect()
@@ -118,41 +118,40 @@ extension AudioCallViewModel {
             webRTCClient.handleCandidateMessage(candidate)
             dLog("Receive candidate")
         case .answer(let answer):
-//            webRTCClient.handleRemoteDescription(answer)
             webRTCClient.handleRemoteDescription(answer)
-            _processingOffer = false // Finish processing the current offer
-            processNextOffer() // Process the next offer in the queue, if any
-            dLog("Receive Answer")
+//            webRTCClient.handleRemoteDescription(answer)
+//            _processingOffer = false // Finish processing the current offer
+//            processNextOffer() // Process the next offer in the queue, if any
             dLog("Recevie Answer")
         case .offer(let offer, let sender):
-//            self._senderQueue.append(sender)
-//            webRTCClient.handleRemoteDescription(offer)
-//            dLog("Recevie Offer")
-            self._offers.append(Offer(sender: sender, offer: offer))
-            if !_processingOffer {
-                processNextOffer() // If no offer is currently being processed, process the next offer
-            }
+            self._senderQueue.append(sender)
+            webRTCClient.handleRemoteDescription(offer)
+            dLog("Recevie Offer")
+//            self._offers.append(Offer(sender: sender, offer: offer))
+//            if !_processingOffer {
+//                processNextOffer() // If no offer is currently being processed, process the next offer
+//            }
             dLog("Receive Offer")
 
         case .bye:
             signalReceived = !signalReceived
             print("debug: signalReceived Toggled: \(signalReceived)")
-            //disconnect()
+            disconnect()
         default:
             break
         }
     }
 
-    private func processNextOffer() {
-            guard !_offers.isEmpty else {
-                return
-            }
-
-            let offer = _offers.removeFirst() // Remove the next offer from the queue
-            _sender = offer.sender
-            _webRTCClient?.handleRemoteDescription(offer.offer)
-            _processingOffer = true // Start processing the new offer
-        }
+//    private func processNextOffer() {
+//        guard !_offers.isEmpty else {
+//            return
+//        }
+//
+//        let offer = _offers.removeFirst() // Remove the next offer from the queue
+//        _sender = offer.sender
+//        _webRTCClient?.handleRemoteDescription(offer.offer)
+//        _processingOffer = true // Start processing the new offer
+//    }
 
 
     func sendSignalingMessage(_ message: Data, type: String, receiver: String) {
@@ -208,7 +207,7 @@ extension AudioCallViewModel: WebRTCClientDelegate {
         case "offer":
             sendSignalingMessage(data, type: type, receiver: _sender)
         case "answer":
-//            _sender = _senderQueue.remove(at: 0)
+            _sender = _senderQueue.remove(at: 0)
             sendSignalingMessage(data, type: type, receiver: _sender)
         default:
             sendSignalingMessage(data, type: type, receiver: _sender)
