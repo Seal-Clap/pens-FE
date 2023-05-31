@@ -74,9 +74,10 @@ extension AudioCallViewModel {
         guard let roomClient = _roomClient,
             let webSocket = _webSocket,
             let webRTCClient = _webRTCClient else { return }
-        self._roomId = ""
-        self._senderQueue = []
+        
         roomClient.disconnect(roomID: roomID) { [weak self] in
+            self?._roomId = ""
+            self?._senderQueue = []
         }
 
         let message = ["type": "bye"]
