@@ -41,8 +41,6 @@ struct VoiceChannelView: View {
     @Binding var showMenu: Bool
     @ObservedObject var viewModel: AudioCallViewModel
     
-    @State var selectedChannel: VoiceChannel
-    
     @ObservedObject var voiceChannelModel: VoiceChannelModel
     
     var body: some View {
@@ -107,26 +105,31 @@ struct VoiceChannelView: View {
                         }
                     }
                     .onTapGesture {
-                        //  leaveChannel(userId: userId, channelId: channel.channelId)
+                        //                    leaveChannel(userId: userId, channelId: channel.channelId)
                         // 전에 들어간 채널..? 나가기..?
+                        for channel in voiceChannelModel.voiceChannels {
+                            if (channel.users.contains(userName ?? "")) {
+                                return
+                            }
+                        }
+
+
                         self.viewModel.disconnect()
-                        leaveChannel(userId: userId, channelId:selectedChannel.channelId) {
-                            if(channel.users.contains(userName ?? "")) {
-                                leaveChannel(userId: userId, channelId: channel.channelId) {
-                                    getChannels(completion: { (channels) in
-                                        self.voiceChannelModel.voiceChannels = channels
-                                    }, selectedGroup.groupId)
-                                }
+
+                        if(channel.users.contains(userName ?? "")) {
+                            leaveChannel(userId: userId, channelId: channel.channelId) {
+                                getChannels(completion: { (channels) in
+                                    self.voiceChannelModel.voiceChannels = channels
+                                }, selectedGroup.groupId)
                             }
-                            else {
-                                self.viewModel.connectRoom(roomID: String(channel.channelId))
-                                enterChannel(userId: userId, channelId: channel.channelId) {
-                                    getChannels(completion: { (channels) in
-                                        self.voiceChannelModel.voiceChannels = channels
-                                    }, selectedGroup.groupId)
-                                }
+                        }
+                        else {
+                            self.viewModel.connectRoom(roomID: String(channel.channelId))
+                            enterChannel(userId: userId, channelId: channel.channelId) {
+                                getChannels(completion: { (channels) in
+                                    self.voiceChannelModel.voiceChannels = channels
+                                }, selectedGroup.groupId)
                             }
-                            selectedChannel = channel
                         }
                     }
                 }
