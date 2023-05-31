@@ -140,7 +140,7 @@ struct VoiceChannelView: View {
                     }, newGroupId)
                 }
             .onChange(of: viewModel.signalReceived) { flag in
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
                     getChannels(completion: { (channels) in
                         self.voiceChannelModel.voiceChannels = channels
                     }, selectedGroup.groupId)
