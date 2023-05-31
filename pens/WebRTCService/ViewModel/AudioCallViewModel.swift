@@ -19,6 +19,7 @@ struct Offer {
 
 
 class AudioCallViewModel: ObservableObject {
+    @Published var signalReceived = false
 
     var _roomClient: RoomClient?
 
@@ -111,6 +112,8 @@ extension AudioCallViewModel {
         case .`init`(let sender):
             _sender = sender
             webRTCClient.createOffer()
+            signalReceived = !signalReceived
+            print("debug: signalReceived Toggled: \(signalReceived)")
         case .ice(let candidate):
             webRTCClient.handleCandidateMessage(candidate)
             dLog("Receive candidate")
@@ -132,7 +135,9 @@ extension AudioCallViewModel {
             dLog("Receive Offer")
 
         case .bye:
-            disconnect()
+            signalReceived = !signalReceived
+            print("debug: signalReceived Toggled: \(signalReceived)")
+            //disconnect()
         default:
             break
         }

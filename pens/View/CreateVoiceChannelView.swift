@@ -8,6 +8,9 @@
 import SwiftUI
 
 struct CreateVoiceChannelView: View {
+    
+    @ObservedObject var voiceChannelModel: VoiceChannelModel
+    
     @Binding var isPresented: Bool
     var groupId : Int
     @State private var channelName: String = ""
@@ -34,6 +37,9 @@ struct CreateVoiceChannelView: View {
                             DispatchQueue.main.async {
                                 self.isPresented = false
                             }
+                            getChannels(completion: { (channels) in
+                                voiceChannelModel.voiceChannels = channels
+                            }, groupId)
                         }
                     }) {
                         Text("생성")
@@ -60,8 +66,8 @@ struct CreateVoiceChannelView: View {
     }
 }
 
-struct CreateVoiceChannelView_Previews: PreviewProvider {
-    static var previews: some View {
-        CreateVoiceChannelView(isPresented: .constant(false), groupId: 0)
-    }
-}
+//struct CreateVoiceChannelView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        CreateVoiceChannelView(voiceChannelModel: VoiceChannelModel(), isPresented: .constant(false), groupId: 0)
+//    }
+//}

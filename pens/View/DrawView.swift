@@ -28,15 +28,42 @@ class DrawingModel: ObservableObject {
         self.url = url
         self.groupId = groupId
         self.userId = userId
-        
-        // Configure the delegate with the new canvas reference
-        self.webSocketDelegate = DrawViewWebSocketDelegate(drawingModel: self)
-        self.webSocketDrawingClient.delegate = self.webSocketDelegate
+    }
+}
+
+class UserListModel: ObservableObject {
+    @Published var userList: [String] = []
+}
+
+struct UserListView: View {
+    @ObservedObject var userListModel: UserListModel
+    
+    var body: some View {
+        VStack {
+            HStack {
+                Spacer()
+                VStack {
+                    ForEach(userListModel.userList, id: \.self ) { userName in
+                        HStack {
+                            Image("menu").resizable().scaledToFit().frame(width:30, height:30).cornerRadius(10)
+                            Text("\(userName)")
+                        }
+                    }
+                }
+                .padding()
+                .background(Color.white.opacity(0.8))
+                .cornerRadius(10)
+                .shadow(radius: 10)
+            }
+            Spacer()
+        }
+        .padding()
     }
 }
 
 struct DrawView: View {
     @ObservedObject var drawingModel: DrawingModel
+    @ObservedObject var userListModel = UserListModel()
     @Environment(\.presentationMode) var presentationMode
     
     
@@ -45,7 +72,10 @@ struct DrawView: View {
             VStack {
                 Text("\(drawingModel.fileName)")
                 CanvasView(drawingModel: drawingModel)
-                    .frame(maxWidth: .infinity, maxHeight: .infinity)
+                    .overlay(
+                        UserListView(userListModel: userListModel),
+                        alignment: .topTrailing
+                    )
             }
             .onAppear {
                 self.drawingModel.toolPicker.setVisible(true, forFirstResponder: self.drawingModel.canvas)
@@ -56,6 +86,9 @@ struct DrawView: View {
                 if let url = URL(string: self.drawingModel.drawingClient.roomURL(roomID: String(self.drawingModel.fileId), userId: String(self.drawingModel.userId))) {
                     self.drawingModel.webSocketDrawingClient.connect(url: url)
                 }
+                
+                self.drawingModel.webSocketDelegate = DrawViewWebSocketDelegate(drawingModel: self.drawingModel, userListModel: self.userListModel)
+                self.drawingModel.webSocketDrawingClient.delegate = self.drawingModel.webSocketDelegate
             }
             .onDisappear{
                 DrawFileManager.shared.saveDrawing(self.drawingModel.canvas, fileName: self.drawingModel.fileName, groupId: self.drawingModel.groupId)
@@ -76,9 +109,11 @@ struct DrawView: View {
 
 class DrawViewWebSocketDelegate: WebSocketDrawingClientDelegate {
     var drawingModel: DrawingModel
+    var userListModel: UserListModel
     
-    init(drawingModel: DrawingModel) {
+    init(drawingModel: DrawingModel, userListModel: UserListModel) {
         self.drawingModel = drawingModel
+        self.userListModel = userListModel
     }
     
     func webSocket(_ webSocket: WebSocketDrawingClient, didReceive data: Data) {
@@ -111,8 +146,9 @@ class DrawViewWebSocketDelegate: WebSocketDrawingClientDelegate {
         if let data = data.data(using: .utf8),
            let dict = try? JSONSerialization.jsonObject(with: data, options: []) as? [String: Any] {
             if dict.keys.contains("data"),
-               let listString = dict["data"] as? String {
-                print(listString)
+               let dataStr = dict["data"] as? String {
+                print(dataStr)
+                getUsersByUidListString(uidListString: dataStr)
             }
         }
                
@@ -131,6 +167,15 @@ class DrawViewWebSocketDelegate: WebSocketDrawingClientDelegate {
     
     func webSocketDidDisconnect(_ webSocket: WebSocketDrawingClient) {
         // Handle WebSocket disconnection event
+    }
+    
+    func getUsersByUidListString(uidListString: String) {
+        self.userListModel.userList.removeAll()
+        uidListString.split(separator: " ").forEach{ userId in
+            getUserNameByUserId(userId: Int(userId), completion: { name in
+                if let name { self.userListModel.userList.append(name) }
+            })
+        }
     }
 }
 
@@ -221,6 +266,6 @@ struct CanvasView: UIViewRepresentable {
 
 struct DrawView_Previews: PreviewProvider {
     static var previews: some View {
-        DrawView(drawingModel: DrawingModel(fileId: 1, fileName: "", url: URL(string:"")!, groupId: 1, userId: 1))
+        DrawView(drawingModel: DrawingModel(fileId: 1, fileName: "", url: URL(string:"")!, groupId: 1, userId: 1), userListModel: UserListModel())
     }
 }

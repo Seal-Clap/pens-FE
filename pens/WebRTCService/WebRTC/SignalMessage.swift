@@ -45,6 +45,9 @@ enum SignalMessage {
                         let sender = dict["sender"] as? String
                         return .`init`(sender: sender!)
                     }
+                    if type == "logout" { // add for channel
+                        return .bye
+                    }
                 }
             }
         }
