@@ -87,6 +87,7 @@ extension AudioCallViewModel {
         }
 
         webSocket.delegate = nil
+        webSocket.disconnect()
         webRTCClient.disconnect()
 
         clear()
