@@ -1,5 +1,7 @@
-# pens'
-**필기와 온라인 회의 기능을 통합한 브레인스토밍 플랫폼**
+# pens' 
+### **필기와 온라인 회의 기능을 통합한 브레인스토밍 플랫폼**
+![launch](https://github.com/Seal-Clap/pens-client/assets/114977536/f56cbbf5-23bc-4032-98d2-adb3d88fd5ab)
+
 
 ## 특장점
 - 필기 공유를 통해 여러 사람이 함께 한 문서에서 작업할 수 있다.
@@ -32,7 +34,7 @@
 ### `현재 공유 문서를 사용하고 있는 사용자의 목록을 확인 할 수 있으며 동시 필기가 가능하다.`
 ![draw2](https://github.com/Seal-Clap/pens-client/assets/114977536/fb07b8b5-54db-4521-902f-43aedab0f429)
 
-## 팀원 소개
+## [물개박수] 팀원 소개
 <table>
   <tbody>
     <tr>
