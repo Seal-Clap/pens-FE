@@ -149,9 +149,10 @@ extension AudioCallViewModel {
         }
 
         let offer = _offers.removeFirst() // Remove the next offer from the queue
+        _processingOffer = true // Start processing the new offer
         _sender = offer.sender
         _webRTCClient?.handleRemoteDescription(offer.offer)
-        _processingOffer = true // Start processing the new offer
+        
     }
 
 

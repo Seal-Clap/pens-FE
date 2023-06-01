@@ -76,6 +76,7 @@ class WebRTCClient: NSObject {
                 self.delegate?.webRTCClient(self, sendData: jsonData, type: "offer")
             })
     }
+    
     func receivedOffer(_ remoteSdp: RTCSessionDescription) {
         let sdpDescription = self.extractDesc(desc: remoteSdp)
 
@@ -104,28 +105,6 @@ class WebRTCClient: NSObject {
                 self.delegate?.webRTCClient(self, sendData: jsonData, type: "answer")
             })
     }
-//    private func createAnswer() {
-//        self.peerConnection?.answer(for: RTCMediaConstraints(mandatoryConstraints: mediaConstraints, optionalConstraints: nil), completionHandler: { (sdp, error) in
-//            guard let sdp = sdp else {
-//                print("Failed to create answer: \(error?.localizedDescription ?? "")")
-//                return
-//            }
-//
-//            // Modify the SDP to change setup:active to setup:passive
-//            let modifiedSDPString = sdp.sdp.replacingOccurrences(of: "a=mid:0", with: "a=mid:audio")
-//            let modifiedSDP = RTCSessionDescription(type: sdp.type, sdp: modifiedSDPString)
-//
-//            let sdpDescription = self.extractDesc(desc: modifiedSDP)
-//
-//            self.peerConnection?.setLocalDescription(sdpDescription, completionHandler: { (error) in
-//                if let error = error {
-//                    debugPrint(error)
-//                }
-//            })
-//            guard let jsonData = sdpDescription.jsonData() else { return }
-//            self.delegate?.webRTCClient(self, sendData: jsonData, type: "answer")
-//        })
-//    }
 
     
     func receivedAnswer(_ remoteSdp: RTCSessionDescription) {
@@ -217,6 +196,7 @@ extension WebRTCClient {
         else if desc.type == .answer {
             self.receivedAnswer(sdp)
         }
+        hasReceivedSdp = false
     }
 
     func drainMessageQueue() {
