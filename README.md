@@ -24,7 +24,7 @@
 ### `그룹 선택시 해당 그룹의 음성채팅방 목록과 문서를 불러온다.`
 ![group-change](https://github.com/Seal-Clap/pens-client/assets/114977536/3b7ee711-ea01-44e7-b16d-0e86f570d29d)
 ### ✔️음성채팅
-### `현재 그룹 내 생성된 음성채팅 목록을 List로 확인 가능하며 채팅방 입/퇴장시 채팅방을 이용하는 사용자를 확인할 수 있다.`
+### `현재 그룹 내 생성된 음성채팅 목록을 확인 가능하며 채팅방 입/퇴장시 이용하고 있는 사용자를 확인할 수 있다.`
 ![voiceChannel](https://github.com/Seal-Clap/pens-client/assets/114977536/2f5b8f05-add5-4a8e-8e50-52fb4f205903)
 
 ### ✔️문서
