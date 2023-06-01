@@ -19,19 +19,18 @@
 
 ## 기능
 ### ✔️그룹
-`그룹 선택시 해당 그룹의 음성채팅방 목록과 문서를 불러온다.`
+### `그룹 선택시 해당 그룹의 음성채팅방 목록과 문서를 불러온다.`
 ![group-change](https://github.com/Seal-Clap/pens-client/assets/114977536/3b7ee711-ea01-44e7-b16d-0e86f570d29d)
 ### ✔️음성채팅
-
-`음성 채팅방에 입/퇴장시에 현재 참가하고 있는 사용자의 목록을 볼 수 있다.`
+### `현재 그룹 내 생성된 음성채팅 목록을 List로 확인 가능하며 채팅방 입/퇴장시 채팅방을 이용하는 사용자를 확인할 수 있다.`
 ![voiceChannel](https://github.com/Seal-Clap/pens-client/assets/114977536/2f5b8f05-add5-4a8e-8e50-52fb4f205903)
 
 ### ✔️문서
-`문서를 업로드 할 수 있다.`
+### `그룹에 원하는 문서를 업로드 할 수 있다.`
 ![file-upload](https://github.com/Seal-Clap/pens-client/assets/114977536/10d029c8-85f6-41ec-8ae8-86c5fd63c674)
 
-`여러 사용자가 한 문서에서 동시에 필기할 수 있다.`
-
+### `현재 공유 문서를 사용하고 있는 사용자의 목록을 확인 할 수 있으며 동시 필기가 가능하다.`
+![draw2](https://github.com/Seal-Clap/pens-client/assets/114977536/fb07b8b5-54db-4521-902f-43aedab0f429)
 
 ## 팀원 소개
 <table>
