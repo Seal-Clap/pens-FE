@@ -104,6 +104,7 @@ class WebRTCClient: NSObject {
                 guard let jsonData = sdpDescription.jsonData() else { return }
                 self.delegate?.webRTCClient(self, sendData: jsonData, type: "answer")
             })
+        
     }
 
     
@@ -196,7 +197,6 @@ extension WebRTCClient {
         else if desc.type == .answer {
             self.receivedAnswer(sdp)
         }
-        hasReceivedSdp = false
     }
 
     func drainMessageQueue() {
@@ -213,6 +213,7 @@ extension WebRTCClient {
         }
 
         candidateQueue.removeAll()
+        hasReceivedSdp = false
     }
 }
 
