@@ -18,3 +18,13 @@
 ![WebSocket](https://img.shields.io/badge/WebSocket-%2300ADD8.svg?style=for-the-badge&logo=WebSocket&logoColor=white)
 
 ## 팀원 소개
+<table>
+  <tbody>
+    <tr>
+      <td align="center"><a href=""><img src="https://avatars.githubusercontent.com/u/16723457?v=4"width="100px;" alt=""/><br /><sub><b> 팀장 : 이정우_BE </b></sub></a><br /></td>
+      <td align="center"><a href=""><img src="https://avatars.githubusercontent.com/u/82369632?v=4" width="100px;" alt=""/><br /><sub><b> 팀원  : 최진현_BE </b></sub></a><br /></td>
+      <td align="center"><a href=""><img src="https://avatars.githubusercontent.com/u/114977536?v=4" width="100px;" alt=""/><br /><sub><b> 팀원 : 박상준_FE </b></sub></a><br /></td>
+      <td align="center"><a href=""><img src="https://avatars.githubusercontent.com/u/93148114?v=4" width="100px;" alt=""/><br /><sub><b> 팀원 : 신지선_FE </b></sub></a><br /></td>
+      </tr>
+  </tbody>
+</table>
