@@ -1,4 +1,4 @@
-# <img src="https://github.com/Seal-Clap/pens-client/assets/82369632/ca11fb77-8c5b-462a-949d-20ccb034284d" width="35" height="35"> pens'
+# <img src="https://github.com/Seal-Clap/pens-client/assets/82369632/ca11fb77-8c5b-462a-949d-20ccb034284d" width="38" height="35"> pens'
 ### **필기와 온라인 회의 기능을 통합한 브레인스토밍 플랫폼**
 ![launch](https://github.com/Seal-Clap/pens-client/assets/114977536/f56cbbf5-23bc-4032-98d2-adb3d88fd5ab)
 
@@ -44,7 +44,7 @@
 - 우측 상단에 현재 캔버스 사용자의 목록을 보여줌
 - 필기 내용은 상시 동기화되며 실시간으로 서버에 저장
 
-## <img src="https://github.com/Seal-Clap/pens-client/assets/82369632/ca11fb77-8c5b-462a-949d-20ccb034284d" width="35" height="35"> [물개박수] 팀원 소개
+## <img src="https://github.com/Seal-Clap/pens-client/assets/82369632/ca11fb77-8c5b-462a-949d-20ccb034284d" width="38" height="35"> [물개박수] 팀원 소개
 <table>
   <tbody>
     <tr>
