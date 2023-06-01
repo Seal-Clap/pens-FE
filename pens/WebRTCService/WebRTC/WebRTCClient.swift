@@ -76,7 +76,6 @@ class WebRTCClient: NSObject {
                 self.delegate?.webRTCClient(self, sendData: jsonData, type: "offer")
             })
     }
-    
     func receivedOffer(_ remoteSdp: RTCSessionDescription) {
         let sdpDescription = self.extractDesc(desc: remoteSdp)
 
@@ -104,10 +103,8 @@ class WebRTCClient: NSObject {
                 guard let jsonData = sdpDescription.jsonData() else { return }
                 self.delegate?.webRTCClient(self, sendData: jsonData, type: "answer")
             })
-        
     }
 
-    
     func receivedAnswer(_ remoteSdp: RTCSessionDescription) {
         let sdp = self.extractDesc(desc: remoteSdp)
         self.peerConnection?.setRemoteDescription(sdp, completionHandler: { (error) in
@@ -213,7 +210,6 @@ extension WebRTCClient {
         }
 
         candidateQueue.removeAll()
-        hasReceivedSdp = false
     }
 }
 

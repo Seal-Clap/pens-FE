@@ -12,12 +12,6 @@ struct WebSocketMessage: Decodable {
 
 }
 
-struct Offer {
-    let sender: String
-    let offer: RTCSessionDescription
-}
-
-
 class AudioCallViewModel: ObservableObject {
     @Published var signalReceived = false
 
@@ -30,9 +24,6 @@ class AudioCallViewModel: ObservableObject {
     var _sender: String = ""
     var _webSocket: WebSocketClient?
     var _messageQueue = [String]()
-
-    var _offers: [Offer] = []
-    var _processingOffer: Bool = false
 
     //MARK: WebRTC
     var _webRTCClient: WebRTCClient?
@@ -59,9 +50,9 @@ class AudioCallViewModel: ObservableObject {
 
 extension AudioCallViewModel {
     func join(roomID: String) -> Void {
-//        guard let _roomClient = _roomClient else {
-//            return
-//        }
+        guard let _roomClient = _roomClient else {
+            return
+        }
         connectToWebSocket(roomId: roomID)
     }
 
@@ -74,7 +65,7 @@ extension AudioCallViewModel {
         guard let roomClient = _roomClient,
             let webSocket = _webSocket,
             let webRTCClient = _webRTCClient else { return }
-        
+
         roomClient.disconnect(roomID: roomID) { [weak self] in
             self?._roomId = ""
             self?._senderQueue = []
@@ -85,10 +76,9 @@ extension AudioCallViewModel {
         if let data = message.JSONData {
             webSocket.send(data: data)
         }
-
         webSocket.delegate = nil
-        webSocket.disconnect()
         webRTCClient.disconnect()
+        webSocket.disconnect()
 
         clear()
     }
@@ -120,41 +110,20 @@ extension AudioCallViewModel {
             webRTCClient.handleCandidateMessage(candidate)
             dLog("Receive candidate")
         case .answer(let answer):
-//            webRTCClient.handleRemoteDescription(answer)
             webRTCClient.handleRemoteDescription(answer)
-            _processingOffer = false // Finish processing the current offer
-            processNextOffer() // Process the next offer in the queue, if any
             dLog("Recevie Answer")
         case .offer(let offer, let sender):
-//            self._senderQueue.append(sender)
-//            webRTCClient.handleRemoteDescription(offer)
+            self._senderQueue.append(sender)
+            webRTCClient.handleRemoteDescription(offer)
             dLog("Recevie Offer")
-            self._offers.append(Offer(sender: sender, offer: offer))
-            if !_processingOffer {
-                processNextOffer() // If no offer is currently being processed, process the next offer
-            }
-
         case .bye:
             signalReceived = !signalReceived
             print("debug: signalReceived Toggled: \(signalReceived)")
-            //disconnect()
+//            disconnect()
         default:
             break
         }
     }
-
-    private func processNextOffer() {
-        guard !_offers.isEmpty else {
-            return
-        }
-
-        let offer = _offers.removeFirst() // Remove the next offer from the queue
-        _processingOffer = true // Start processing the new offer
-        _sender = offer.sender
-        _webRTCClient?.handleRemoteDescription(offer.offer)
-        
-    }
-
 
     func sendSignalingMessage(_ message: Data, type: String, receiver: String) {
         guard let roomClient = _roomClient,
@@ -209,12 +178,12 @@ extension AudioCallViewModel: WebRTCClientDelegate {
         case "offer":
             sendSignalingMessage(data, type: type, receiver: _sender)
         case "answer":
-//            _sender = _senderQueue.remove(at: 0)
+            _sender = _senderQueue.remove(at: 0)
             sendSignalingMessage(data, type: type, receiver: _sender)
         default:
             sendSignalingMessage(data, type: type, receiver: _sender)
         }
-
+        
     }
 
     func webRTCClient(_ client: WebRTCClient, didDiscoverLocalCandidate candidate: RTCIceCandidate) {
